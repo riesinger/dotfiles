@@ -1,0 +1,39 @@
+export ZSH=/home/pascal/.oh-my-zsh
+
+ZSH_THEME="agnoster"
+DEFAULT_USER="pascal"
+
+DISABLE_AUTO_TITLE="true"
+
+ENABLE_CORRECTION="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(git)
+
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl"
+
+source $ZSH/oh-my-zsh.sh
+
+export PATH="/home/pascal/.gem/ruby/2.2.0/bin":$PATH
+export LC_ALL=en_US.UTF-8
+export VISUAL="nvim"
+export BROWSER="chromium"
+export QT_STYLE_OVERRIDE=GTK+
+
+alias c="clear"
+alias cd..="cd .."
+alias ....="cd ../.."
+alias ..2="cd ../.."
+alias v="nvim"
+
+eval $(dircolors ~/.dircolors)
+
+autoload -U zmv
+alias mmv='noglob zmv -W'
+alias week='date +"%V"'
+eval $(thefuck --alias)
