@@ -42,10 +42,13 @@ if [ "$1" == "bootstrap" ]; then
     fi
     
     echo "Installing common packages"
-    sudo pacman -Syu --needed --noconfirm git neovim htop zsh lm_sensors \
-        ttf-hack thefuck termite
+    sudo yaourt -Syu --needed --noconfirm git neovim htop zsh lm_sensors \
+        ttf-hack thefuck termite nodejs npm
     echo "Installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    echo "Installing common npm modules"
+    sudo npm install -g grunt-cli coffee-script jade instant-markdown-d
+
 
     echo "Finished bootstrap"
 

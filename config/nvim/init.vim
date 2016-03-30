@@ -34,6 +34,7 @@ Plug 'tpope/vim-surround'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'suan/vim-instant-markdown'
 
 " Languages
 Plug 'kchmck/vim-coffee-script'
@@ -62,4 +63,7 @@ nnoremap Q <nop>
 
 "--- Neomake ---
 autocmd! BufWritePost * Neomake
+
+"--- Instant Markdown Preview---
+let g:instant_markdown_autostart = 0
 
