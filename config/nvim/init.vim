@@ -6,6 +6,7 @@ set wrap
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set so=4
 
 " Remember cursor position between vim sessions
   autocmd BufReadPost *
