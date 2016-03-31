@@ -6,6 +6,7 @@ set wrap
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set so=4
 
 " Remember cursor position between vim sessions
   autocmd BufReadPost *
@@ -34,6 +35,7 @@ Plug 'tpope/vim-surround'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'suan/vim-instant-markdown'
 
 " Languages
 Plug 'kchmck/vim-coffee-script'
@@ -62,4 +64,7 @@ nnoremap Q <nop>
 
 "--- Neomake ---
 autocmd! BufWritePost * Neomake
+
+"--- Instant Markdown Preview---
+let g:instant_markdown_autostart = 0
 

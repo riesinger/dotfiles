@@ -65,3 +65,5 @@ tramp
 # server auth directory
 /server/
 
+# NeoVim Plugins
+plugged/*
