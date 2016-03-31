@@ -7,7 +7,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set so=4
-
+set autoread
 " Remember cursor position between vim sessions
   autocmd BufReadPost *
               \ if line("'\"") > 0 && line ("'\"") <= line("$") |
