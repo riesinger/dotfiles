@@ -7,6 +7,9 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set so=4
+set autoread
+" Ingore node_modules folders
+set wildignore+=node_modules/**
 
 " Remember cursor position between vim sessions
   autocmd BufReadPost *
@@ -36,7 +39,7 @@ Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-markdown'
@@ -61,6 +64,11 @@ xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 map <C-n> :NERDTreeToggle<CR>
 nnoremap Q <nop>
+" FZF
+nnoremap <c-p> :FZF<cr>
+" Notes
+command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
+nnoremap <leader>[ :Ngrep 
 
 "--- Neomake ---
 autocmd! BufWritePost * Neomake
