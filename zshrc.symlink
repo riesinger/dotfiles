@@ -24,16 +24,17 @@ export LC_ALL=en_US.UTF-8
 export VISUAL="nvim"
 export BROWSER="chromium"
 export QT_STYLE_OVERRIDE=GTK+
+export SCHOOL_DIR="~/school"
 
 alias c="clear"
 alias cd..="cd .."
 alias ....="cd ../.."
 alias ..2="cd ../.."
 alias v="nvim"
+alias week='date +"%V"'
 
 eval $(dircolors ~/.dircolors)
-
 autoload -U zmv
-alias mmv='noglob zmv -W'
-alias week='date +"%V"'
 eval $(thefuck --alias)
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
