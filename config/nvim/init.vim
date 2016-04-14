@@ -58,6 +58,10 @@ let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
 
 "--- Keymaps ---
+let mapleader = ","
+"Tab navigation
+nmap <leader>< :tabp<cr>
+nmap <leader>> :tabn<cr>
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
