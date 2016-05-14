@@ -40,6 +40,7 @@ Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'jiangmiao/auto-pairs'
 " Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-markdown'
@@ -60,8 +61,8 @@ let g:airline_left_sep = ''
 "--- Keymaps ---
 let mapleader = ","
 "Tab navigation
-nmap <leader>< :tabp<cr>
-nmap <leader>> :tabn<cr>
+nmap <leader>h :tabp<cr>
+nmap <leader>l :tabn<cr>
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
@@ -73,9 +74,12 @@ nnoremap <c-p> :FZF<cr>
 " Notes
 command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
 nnoremap <leader>[ :Ngrep 
+"Clear search
+nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 
 "--- Neomake ---
 autocmd! BufWritePost * Neomake
+let g:neomake_coffee_enabled_makers = ['coffeelint']
 
 "--- Instant Markdown Preview---
 let g:instant_markdown_autostart = 0
