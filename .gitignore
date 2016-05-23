@@ -66,4 +66,4 @@ tramp
 /server/
 
 # NeoVim Plugins
-plugged/*
+**/plugged/**/*
