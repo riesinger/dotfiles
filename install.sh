@@ -13,31 +13,47 @@ if [ "$1" == "bootstrap" ]; then
 # BOOTSTRAP
     echo "Starting bootstrap..."
     echo "Checking for yaourt"
-    which yaourt > /dev/null
+    hash yaourt > /dev/null 2>&1
     
     if [ $? != "0" ]; then
 
-        echo "Downloading pq and yaourt"
+        echo "Downloading package-query and yaourt"
         
-        which wget > /dev/null
+        hash wget > /dev/null 2>&1
         if [ $? != "0" ]; then
-            sudo pacman -S wget
+            echo "wget is not installed, installing now"
+            sudo pacman -S wget --noconfirm
         fi
 
-        wget "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
-        wget "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
+        wget -q "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
+        wget -q "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
 
-        tar xvzf yaourt.tar.gz
-        tar xvzf package-query.tar.gz
+        tar xzf yaourt.tar.gz
+        tar xzf package-query.tar.gz
         
+        echo "Building package-query"
         cd package-query
         makepkg -si
+        
+        if [ $? != "0" ]; then
+            echo "There was an error while building package-query, do you have the base-devel group installed?"
+            exit 1
+        fi
+
+        echo "Building package-query"
         cd ../yaourt
         makepkg -si
+        
+        if [ $? != "0" ]; then
+            echo "There was an error while building yaourt, exiting..."
+            exit 1
+        fi
+
         cd ..
 
         echo "Cleaning up"
         rm -rf package-query yaourt 
+        rm package-query.tar.gz yaourt.tar.gz
    
     fi
     
@@ -47,7 +63,7 @@ if [ "$1" == "bootstrap" ]; then
     echo "Installing oh-my-zsh"
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     echo "Installing common npm modules"
-    sudo npm install -g grunt-cli coffee-script jade instant-markdown-d
+    sudo npm install -g grunt-cli coffee-script coffeelint pug instant-markdown-d
 
 
     echo "Finished bootstrap"
