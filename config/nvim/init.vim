@@ -80,6 +80,9 @@ nnoremap <c-p> :FZF<cr>
 " Notes
 command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
 nnoremap <leader>[ :Ngrep 
+" Project GREP (Coffeescript)
+command! -nargs=1 Pgrep lvimgrep "<args>" ./**/*.coffee
+nnoremap <leader>] :Pgrep
 "Clear search
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 "Exit out of terminal mode
