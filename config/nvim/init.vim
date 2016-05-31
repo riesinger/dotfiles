@@ -29,6 +29,10 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
+function! DoRemote(arg)
+    UpdateRemotePlugins
+endfunction
+
 "--- Plugins ---
 call plug#begin()
 
@@ -41,9 +45,11 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jiangmiao/auto-pairs'
+Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
 " Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-markdown'
+Plug 'digitaltoad/vim-pug'
 
 " Visuals
 Plug 'vim-airline/vim-airline'
@@ -86,3 +92,5 @@ let g:neomake_coffee_enabled_makers = ['coffeelint']
 "--- Instant Markdown Preview---
 let g:instant_markdown_autostart = 0
 
+" Deoplete
+let g:deoplete#enable_at_startup = 1
