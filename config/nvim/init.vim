@@ -35,12 +35,16 @@ call plug#begin()
 " Functionality
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jiangmiao/auto-pairs'
+Plug 'danro/rename.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 " Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-markdown'
@@ -81,11 +85,16 @@ nnoremap <leader>] :Pgrep
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 "Exit out of terminal mode
 tnoremap <Esc> <C-\><C-n>
+"Special chars
+nnoremap <leader>--> a➔<Esc>
+
 
 "--- Neomake ---
-autocmd! BufWritePost * Neomake
+autocmd! BufEnter,BufWritePost * Neomake
 let g:neomake_coffee_enabled_makers = ['coffeelint']
 
 "--- Instant Markdown Preview---
 let g:instant_markdown_autostart = 0
 
+"--- Vim-Session ---
+let g:session_autosave = 'no'

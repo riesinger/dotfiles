@@ -24,6 +24,8 @@ export VISUAL="nvim"
 export BROWSER="chromium"
 export QT_STYLE_OVERRIDE=GTK+
 export SCHOOL_DIR="$HOME/school"
+export FZF_DEFAULT_COMMAND='ag -g ""'
+
 
 alias c="clear"
 alias cd..="cd .."
