@@ -34,6 +34,7 @@ alias ..2="cd ../.."
 alias v="nvim"
 alias susp="systemctl suspend"
 alias week='date +"%V"'
+alias :q="exit"
 
 eval $(dircolors ~/.dircolors)
 eval $(thefuck --alias)

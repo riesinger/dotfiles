@@ -51,6 +51,8 @@ Plug 'tpope/vim-markdown'
 
 " Visuals
 Plug 'vim-airline/vim-airline'
+" Plug 'ryanoasis/vim-devicons'
+
 
 call plug#end()
 
