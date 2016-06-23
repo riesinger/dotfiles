@@ -24,6 +24,8 @@ export VISUAL="nvim"
 export BROWSER="chromium"
 export QT_STYLE_OVERRIDE=GTK+
 export SCHOOL_DIR="$HOME/school"
+export FZF_DEFAULT_COMMAND='ag -g ""'
+
 
 alias c="clear"
 alias cd..="cd .."
@@ -32,6 +34,7 @@ alias ..2="cd ../.."
 alias v="nvim"
 alias susp="systemctl suspend"
 alias week='date +"%V"'
+alias :q="exit"
 
 eval $(dircolors ~/.dircolors)
 eval $(thefuck --alias)

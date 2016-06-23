@@ -39,13 +39,17 @@ call plug#begin()
 " Functionality
 Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'jiangmiao/auto-pairs'
-Plug 'Shougo/deoplete.nvim', { 'do': function('DoRemote') }
+Plug 'danro/rename.vim'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
+
 " Languages
 Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-markdown'
@@ -53,6 +57,8 @@ Plug 'digitaltoad/vim-pug'
 
 " Visuals
 Plug 'vim-airline/vim-airline'
+" Plug 'ryanoasis/vim-devicons'
+
 
 call plug#end()
 
@@ -87,13 +93,21 @@ nnoremap <leader>] :Pgrep
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 "Exit out of terminal mode
 tnoremap <Esc> <C-\><C-n>
+"Special chars
+nnoremap <leader>--> a➔<Esc>
+
 
 "--- Neomake ---
-autocmd! BufWritePost * Neomake
+autocmd! BufEnter,BufWritePost * Neomake
 let g:neomake_coffee_enabled_makers = ['coffeelint']
 
 "--- Instant Markdown Preview---
 let g:instant_markdown_autostart = 0
 
+<<<<<<< HEAD
 " Deoplete
 let g:deoplete#enable_at_startup = 1
+=======
+"--- Vim-Session ---
+let g:session_autosave = 'no'
+>>>>>>> origin/laptop
