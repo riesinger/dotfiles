@@ -42,6 +42,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'benekastah/neomake'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdcommenter'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'suan/vim-instant-markdown'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -69,6 +70,8 @@ let g:airline_right_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
+let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
+
 
 "--- Keymaps ---
 let mapleader = ","
