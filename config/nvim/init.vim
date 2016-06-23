@@ -107,10 +107,8 @@ let g:neomake_coffee_enabled_makers = ['coffeelint']
 "--- Instant Markdown Preview---
 let g:instant_markdown_autostart = 0
 
-<<<<<<< HEAD
 " Deoplete
 let g:deoplete#enable_at_startup = 1
-=======
+
 "--- Vim-Session ---
 let g:session_autosave = 'no'
->>>>>>> origin/laptop
