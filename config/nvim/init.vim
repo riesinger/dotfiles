@@ -49,10 +49,14 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 " Visuals
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
-
+Plug 'junegunn/seoul256.vim' 
+Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 " }}}
+
+colorscheme solarized
+set background=dark
 
 " --- Custom commands ---
 " Notes grep
@@ -76,7 +80,7 @@ let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 " Neomake
-autocmd! BufEnter,BufWritePost * Neomake
+autocmd! BufWritePost * Neomake
 let g:neomake_coffee_enabled_makers = ['coffeelint']
 " Instant Markdown Preview
 let g:instant_markdown_autostart = 0
@@ -88,9 +92,13 @@ let g:session_autosave = 'no'
 let mapleader = ","
 nmap <leader>h :tabp<cr>
 nmap <leader>l :tabn<cr>
-nnoremap <leader>[ :Ngrep
-nnoremap <leader>] :Pgrep
+nnoremap <leader>[ :Ngrep 
+nnoremap <leader>] :Pgrep 
 nnoremap <leader>--> a➔<Esc>
+nnoremap <leader>n Neomake
+nnoremap <leader>tt :Tab/\|<cr>
+nnoremap <leader>t= :Tab/=<cr>
+nnoremap <leader>t: :Tab/:<cr>
 " Plugin Keymaps
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
