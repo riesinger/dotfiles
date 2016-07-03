@@ -23,6 +23,11 @@ set splitright
 " }}}
 
 "{{{ --- Plugins ---
+function! DoRemote(arg)
+    UpdateRemotePlugins
+endfunction
+
+"--- Plugins ---
 call plug#begin()
 
 " Functionality
@@ -45,33 +50,17 @@ Plug 'godlygeek/tabular'
 " Languages
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 
 " Visuals
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
-Plug 'junegunn/seoul256.vim' 
 Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 " }}}
 
-colorscheme solarized
-set background=dark
-
-" --- Custom commands ---
-" Notes grep
-command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
-" Project grep (Coffeescript)
-command! -nargs=1 Pgrep lvimgrep "<args>" ./**/*.coffee
-" Remember cursor position between vim sessions
-autocmd BufReadPost *
-              \ if line("'\"") > 0 && line ("'\"") <= line("$") |
-              \   exe "normal! g'\"" |
-              \ endif
-              " center buffer around cursor when opening files
-
-
-" --- Plugin config ---
+"{{{ --- Plugin config ---
 " Airline
 let g:airline_powerline_fonts = 1
 let g:airline_right_alt_sep = ''
@@ -86,8 +75,9 @@ let g:neomake_coffee_enabled_makers = ['coffeelint']
 let g:instant_markdown_autostart = 0
 " Vim-Session
 let g:session_autosave = 'no'
+" }}}
 
-" --- Keymaps ---
+" {{{ --- Keymaps ---
 "  Leaders
 let mapleader = ","
 nmap <leader>h :tabp<cr>
@@ -106,4 +96,25 @@ nnoremap <c-p> :FZF<cr>
 nnoremap Q <nop>
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 tnoremap <Esc> <C-\><C-n>
+" }}}
 
+" {{{ --- Misc config ---
+colorscheme solarized
+set background=dark
+
+" --- Custom commands ---
+" Notes grep
+command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
+" Project grep (Coffeescript)
+command! -nargs=1 Pgrep lvimgrep "<args>" ./**/*.coffee
+
+" Remember cursor position between vim sessions
+autocmd BufReadPost *
+              \ if line("'\"") > 0 && line ("'\"") <= line("$") |
+              \   exe "normal! g'\"" |
+              \ endif
+
+" Spell Checking
+au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
+
+" }}}
