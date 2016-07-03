@@ -72,6 +72,8 @@ let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 
+" Spell Checking
+au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
 
 "--- Keymaps ---
 let mapleader = ","
