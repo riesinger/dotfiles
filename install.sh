@@ -9,69 +9,25 @@
 # tools. Note that this is intended for Archlinux, so bootstraping does not 
 # work on other distros.
 
-if [ "$1" == "bootstrap" ]; then
-# BOOTSTRAP
-    echo "Starting bootstrap..."
-    echo "Checking for yaourt"
-    hash yaourt > /dev/null 2>&1
-    
-    if [ $? != "0" ]; then
 
-        echo "Downloading package-query and yaourt"
-        
-        hash wget > /dev/null 2>&1
-        if [ $? != "0" ]; then
-            echo "wget is not installed, installing now"
-            sudo pacman -S wget --noconfirm
-        fi
+# This function will look for the dotfiles and link them, if they do not exist
+# yet. Otherwise, the linking will be skipped.
 
-        wget -q "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
-        wget -q "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
+PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts thefuck termite nodejs npm"
+NODE_PACKAGE_LIST="grunt-cli coffee-script coffeelint pug gulp-cli typescript\
+    npm-check-updates tslint typings"
 
-        tar xzf yaourt.tar.gz
-        tar xzf package-query.tar.gz
-        
-        echo "Building package-query"
-        cd package-query
-        makepkg -si
-        
-        if [ $? != "0" ]; then
-            echo "There was an error while building package-query, do you have the base-devel group installed?"
-            exit 1
-        fi
-
-        echo "Building package-query"
-        cd ../yaourt
-        makepkg -si
-        
-        if [ $? != "0" ]; then
-            echo "There was an error while building yaourt, exiting..."
-            exit 1
-        fi
-
-        cd ..
-
-        echo "Cleaning up"
-        rm -rf package-query yaourt 
-        rm package-query.tar.gz yaourt.tar.gz
-   
+function package_is_needed() {
+    hash $1 > /dev/null 2>&1
+    if [ $? == "0" ]; then
+        return 1
+    else
+        return 0
     fi
-    
-    echo "Installing common packages"
-    sudo yaourt -Syu --needed --noconfirm git neovim htop zsh lm_sensors \
-        ttf-hack thefuck termite nodejs npm
-    echo "Installing oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    echo "Installing common npm modules"
-    sudo npm install -g grunt-cli coffee-script coffeelint pug instant-markdown-d
+}
 
-
-    echo "Finished bootstrap"
-
-else
-# INSTALL DOTFILES
+function link_dotfiles() {
     echo "Installing dotfiles"
-
 
     DOTFILES=$HOME/.dotfiles
 
@@ -88,7 +44,7 @@ else
         fi
     done
 
-    echo -e "\n\ninstalling to ~/.config"
+    echo -e "\n\nInstalling to ~/.config"
     echo "=============================="
     if [ ! -d $HOME/.config ]; then
         echo "Creating ~/.config"
@@ -104,4 +60,73 @@ else
         fi
     done         
 
+
+}
+
+# This will install the my commonly used packages, fonts etc.
+# Afterwards, it will start the link_dotfiles function.
+function bootstrap() {
+    echo "Starting bootstrap..."
+    echo "Checking for yaourt"
+
+
+    if package_is_needed "yaourt"; then
+
+        echo "Downloading package-query and yaourt"
+       
+        curl -Os "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz" 
+        curl -Os "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz" 
+
+        tar xzf yaourt.tar.gz
+        tar xzf package-query.tar.gz
+        
+        echo "Building package-query"
+        cd package-query
+        makepkg -si --noconfirm > /dev/null 2>&1
+        
+        if [ $? != "0" ]; then
+            echo "There was an error while building package-query, do you have the base-devel group installed?"
+            exit 1
+        fi
+
+        echo "Building yaourt"
+        cd ../yaourt
+        makepkg -si --noconfirm > /dev/null 2>&1
+        
+        if [ $? != "0" ]; then
+            echo "There was an error while building yaourt, exiting..."
+            exit 1
+        fi
+
+        cd ..
+
+        echo "Cleaning up"
+        rm -rf package-query yaourt 
+        rm package-query.tar.gz yaourt.tar.gz
+
+        echo "Removing .zshrc, so dotfiles will install correctly"
+        rm ~/.zshrc
+
+    fi
+    
+    echo "Installing common packages"
+    sudo yaourt -Syu --needed --noconfirm $PACKAGE_LIST > /dev/null 2>&1
+    echo "Installing oh-my-zsh"
+    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    echo "Installing common npm modules"
+    sudo npm install -g $NODE_PACKAGE_LIST > /dev/null 2>&1
+
+
+    echo "Finished bootstrap"
+    echo "Now symlinking the dotfiles"
+
+    link_dotfiles
+
+
+}
+
+if [ "$1" == "bootstrap" ]; then
+    bootstrap
+else
+    link_dotfiles
 fi
