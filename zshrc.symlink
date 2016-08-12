@@ -40,3 +40,5 @@ eval $(dircolors ~/.dircolors)
 eval $(thefuck --alias)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+synclient TapButton1=1 TapButton2=3 TapButton3=2
