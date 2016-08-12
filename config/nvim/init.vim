@@ -1,7 +1,7 @@
 " {{{ --- Base config ---
 
 syntax on
-set relativenumber number
+" set relativenumber number
 set wrap                        " Visually wrap long lines
 set tabstop=4
 set shiftwidth=4
@@ -20,6 +20,7 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
+
 " }}}
 
 "{{{ --- Plugins ---
@@ -31,31 +32,37 @@ endfunction
 call plug#begin()
 
 " Functionality
+Plug 'benekastah/neomake'
+Plug 'danro/rename.vim'
+Plug 'godlygeek/tabular'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/vim-emoji'
+Plug 'suan/vim-instant-markdown'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdcommenter'
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
-Plug 'benekastah/neomake'
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'scrooloose/nerdcommenter'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'suan/vim-instant-markdown'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'jiangmiao/auto-pairs'
-Plug 'danro/rename.vim'
+Plug 'tpope/vim-dispatch'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
-Plug 'godlygeek/tabular'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Languages
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
+Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+Plug 'Quramy/tsuquyomi'
 
 " Visuals
+Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
-Plug 'altercation/vim-colors-solarized'
+Plug 'kien/rainbow_parentheses.vim'
 
 call plug#end()
 " }}}
@@ -71,10 +78,31 @@ let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 " Neomake
 autocmd! BufWritePost * Neomake
 let g:neomake_coffee_enabled_makers = ['coffeelint']
+let g:neomake_typescript_enabled_makers = []
 " Instant Markdown Preview
 let g:instant_markdown_autostart = 0
 " Vim-Session
 let g:session_autosave = 'no'
+
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+
 " }}}
 
 " {{{ --- Keymaps ---
@@ -89,6 +117,7 @@ nnoremap <leader>n Neomake
 nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
+nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
 " Plugin Keymaps
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
@@ -101,6 +130,9 @@ tnoremap <Esc> <C-\><C-n>
 " {{{ --- Misc config ---
 colorscheme solarized
 set background=dark
+
+" Remove light border between splits
+hi VertSplit ctermbg=bg ctermfg=bg
 
 " --- Custom commands ---
 " Notes grep
