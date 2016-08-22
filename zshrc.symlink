@@ -41,4 +41,8 @@ eval $(thefuck --alias)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-synclient TapButton1=1 TapButton2=3 TapButton3=2 PalmDetect=1
+hash "synclient" > /dev/null 2>&1
+[[ $? == "0" ]] && synclient TapButton1=1 TapButton2=3 TapButton3=2 PalmDetect=1
+
+# To fix the problem with non-zero return value
+hash "zsh" > /dev/null 2>&1
