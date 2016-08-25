@@ -153,4 +153,14 @@ autocmd BufReadPost *
 " Spell Checking
 au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
 
+" Remove trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWitespaces()
+
 " }}}
