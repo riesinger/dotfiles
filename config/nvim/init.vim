@@ -121,6 +121,10 @@ nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><
 " Plugin Keymaps
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
+aug fzf_setup
+    au!
+    au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
+aug END
 " Misc Keymaps
 nnoremap Q <nop>
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
