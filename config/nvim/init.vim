@@ -110,8 +110,8 @@ let g:rbpt_colorpairs = [
 let mapleader = ","
 nmap <leader>h :tabp<cr>
 nmap <leader>l :tabn<cr>
-nnoremap <leader>[ :Ngrep 
-nnoremap <leader>] :Pgrep 
+nnoremap <leader>[ :Ngrep
+nnoremap <leader>] :Pgrep
 nnoremap <leader>--> a➔<Esc>
 nnoremap <leader>n Neomake
 nnoremap <leader>tt :Tab/\|<cr>
@@ -150,13 +150,13 @@ autocmd BufReadPost *
 au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
 
 " Remove trailing whitespace
-function! <SID>StripTrailingWhitespaces()
+function! StripTrailingWhitespaces()
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e
     call cursor(l, c)
 endfun
 
-autocmd BufWritePre * :call <SID>StripTrailingWitespaces()
+autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " }}}
