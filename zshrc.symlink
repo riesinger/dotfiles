@@ -3,7 +3,7 @@ export ZSH=/home/pascal/.oh-my-zsh
 ZSH_THEME="agnoster"
 DEFAULT_USER="pascal"
 
-DISABLE_AUTO_TITLE="true"
+DISABLE_AUTO_TITLE="false"
 
 ENABLE_CORRECTION="true"
 
@@ -35,6 +35,11 @@ alias v="nvim"
 alias susp="systemctl suspend"
 alias week='date +"%V"'
 alias :q="exit"
+
+alias ta='tmux attach'
+alias tls='tmux ls'
+alias tat='tmux attach -t'
+alias tns='tmux new-session -s'
 
 eval $(dircolors ~/.dircolors)
 eval $(thefuck --alias)

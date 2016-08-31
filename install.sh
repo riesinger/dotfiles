@@ -13,8 +13,8 @@
 # This function will look for the dotfiles and link them, if they do not exist
 # yet. Otherwise, the linking will be skipped.
 
-ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts thefuck termite nodejs npm"
-UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm"
+ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts thefuck termite tmux nodejs npm"
+UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm tmux"
 NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
 
 LINUX_DISTRO=$(cat /etc/*-release | grep "ID" | cut -c 4- )
@@ -124,6 +124,9 @@ function bootstrap() {
     sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     echo "Installing common npm modules"
     sudo npm install -g $NODE_PACKAGE_LIST > /dev/null 2>&1
+
+    echo "Installing tmux-resurrect"
+    git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux-resurrect
 
     echo "Finished bootstrap"
     echo "Now symlinking the dotfiles"

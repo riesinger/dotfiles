@@ -11,6 +11,8 @@ set autoread
 set foldmethod=marker
 set wildignore+=node_modules/** " Ingore node_modules folders
 set fillchars+=vert:\           " Remove | from split lines
+set nospell
+set timeoutlen=1000 ttimeoutlen=10
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -33,18 +35,18 @@ call plug#begin()
 
 " Functionality
 Plug 'benekastah/neomake'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
+Plug 'edkolev/tmuxline.vim'
 Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-dispatch'
 Plug 'xolox/vim-misc'
@@ -74,6 +76,7 @@ let g:airline_right_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
+let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 " Neomake
 autocmd! BufWritePost * Neomake
