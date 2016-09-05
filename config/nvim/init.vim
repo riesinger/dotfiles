@@ -18,7 +18,7 @@ set timeoutlen=1000 ttimeoutlen=10
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <bs> <C-W><C-H>
 set splitbelow
 set splitright
 
@@ -153,8 +153,7 @@ autocmd BufReadPost *
               \   exe "normal! g'\"" |
               \ endif
 
-" Spell Checking
-au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
+autocmd BufNewFile $SCHOOL_DIR/**/*.md set spell spelllang=de_de
 
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
@@ -163,6 +162,12 @@ function! StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
+
+function! SchoolTemplate()
+    r ~/.dotfiles/school-markdown-template.md
+endfunction
+
+command! SchoolTemplate :call SchoolTemplate()
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
 
