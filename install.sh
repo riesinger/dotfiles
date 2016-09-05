@@ -18,6 +18,10 @@ UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm tmux"
 NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
 
 LINUX_DISTRO=$(cat /etc/*-release | grep "ID" | cut -c 4- )
+if [ "$LINUX_DISTRO" == "" ]; then
+    printf "Could not detect distro, it was %s.\nNow assuming 'arch'." $LINUX_DISTRO
+    LINUX_DISTRO="arch"
+fi
 
 function package_is_needed() {
     hash $1 > /dev/null 2>&1
@@ -69,7 +73,7 @@ function link_dotfiles() {
 # Afterwards, it will start the link_dotfiles function.
 function bootstrap() {
     echo "Starting bootstrap..."
-    echo "Detected distro is $LINUX_DISTRO, starting installation process"
+    printf "Detected distro is %s, starting installation process\n" $LINUX_DISTRO
 
     if [ $LINUX_DISTRO == "arch" ]; then
         echo "Checking for yaourt"
@@ -113,8 +117,8 @@ function bootstrap() {
         fi
     fi
 
-    echo "Installing common packages"
-    if [ $LINXU_DISTRO == "arch" ]; then
+    printf "Installing common packages for %s.\n" $LINUX_DISTRO
+    if [ $LINUX_DISTRO == "arch" ]; then
         sudo yaourt -Syu --needed --noconfirm $ARCH_PACKAGE_LIST > /dev/null 2>&1
     elif [ $LINUX_DISTRO == "ubuntu" ]; then
         sudo apt install $UBUNTU_PACKAGE_LIST > /dev/null 2>&1
