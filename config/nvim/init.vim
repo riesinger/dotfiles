@@ -22,6 +22,7 @@ nnoremap <C-H> <C-W><C-H>
 set splitbelow
 set splitright
 
+set grepprg=ag
 
 " }}}
 
@@ -42,6 +43,7 @@ Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
+Plug 'mileszs/ack.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -106,6 +108,10 @@ let g:rbpt_colorpairs = [
     \ ['red',         'firebrick3'],
     \ ]
 
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
 " }}}
 
 " {{{ --- Keymaps ---
@@ -113,8 +119,8 @@ let g:rbpt_colorpairs = [
 let mapleader = ","
 nmap <leader>h :tabp<cr>
 nmap <leader>l :tabn<cr>
-nnoremap <leader>[ :Ngrep
-nnoremap <leader>] :Pgrep
+nnoremap <leader>[ :Ngrep<space>
+nnoremap <leader>] :Ack!<space>
 nnoremap <leader>--> a➔<Esc>
 nnoremap <leader>n Neomake
 nnoremap <leader>tt :Tab/\|<cr>
@@ -144,8 +150,6 @@ hi VertSplit ctermbg=bg ctermfg=bg
 " --- Custom commands ---
 " Notes grep
 command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
-" Project grep (Coffeescript)
-command! -nargs=1 Pgrep lvimgrep "<args>" ./**/*.coffee
 
 " Remember cursor position between vim sessions
 autocmd BufReadPost *
@@ -158,6 +162,9 @@ au BufNewFile,BufRead,BufEnter *.md setlocal spell spelllang=de_de
 
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
+    if &ft == "markdown"
+        return
+    endif
     let l = line(".")
     let c = col(".")
     %s/\s\+$//e

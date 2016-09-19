@@ -14,5 +14,5 @@ bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 set -s escape-time 0
 set-option -g allow-rename off
 
-source-file .tmux-airline
+source-file ~/.tmux-airline
 run-shell ~/.tmux-resurrect/resurrect.tmux

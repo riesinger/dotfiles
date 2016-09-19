@@ -51,3 +51,4 @@ hash "synclient" > /dev/null 2>&1
 
 # To fix the problem with non-zero return value
 hash "zsh" > /dev/null 2>&1
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
