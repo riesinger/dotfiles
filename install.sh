@@ -17,7 +17,7 @@ ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts termite tmux nodejs npm
 UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm tmux"
 NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
 
-LINUX_DISTRO=$(cat /etc/*-release | grep "ID" | cut -c 4- )
+LINUX_DISTRO=$(cat /etc/*-release | grep "^ID=" | cut -c 4- )
 if [ "$LINUX_DISTRO" == "" ]; then
     printf "Could not detect distro, it was %s.\nNow assuming 'arch'." $LINUX_DISTRO
     LINUX_DISTRO="arch"
