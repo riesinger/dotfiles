@@ -19,14 +19,14 @@ NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
 
 LINUX_DISTRO=$(cat /etc/*-release | grep "^ID=" | cut -c 4- )
 
-if [ "$LINUX_DISTRO" == "" ]; then
+if [ "$LINUX_DISTRO" '==' "" ]; then
     printf "Could not detect distro, it was %s.\nNow assuming 'arch'." $LINUX_DISTRO
     LINUX_DISTRO="arch"
 fi
 
 function package_is_needed() {
     hash $1 > /dev/null 2>&1
-    if [ $? == "0" ]; then
+    if [ $? '==' "0" ]; then
         return 1
     else
         return 0
@@ -76,7 +76,7 @@ function bootstrap() {
     echo "Starting bootstrap..."
     printf "Detected distro is %s, starting installation process\n" $LINUX_DISTRO
 
-    if [ $LINUX_DISTRO == "arch" ]; then
+    if [ $LINUX_DISTRO '==' "arch" ]; then
         echo "Checking for yaourt"
 
         if package_is_needed "yaourt"; then
@@ -119,9 +119,9 @@ function bootstrap() {
     fi
 
     printf "Installing common packages for %s.\n" $LINUX_DISTRO
-    if [ $LINUX_DISTRO == "arch" ]; then
+    if [ $LINUX_DISTRO '==' "arch" ]; then
         sudo yaourt -Syu --needed --noconfirm $ARCH_PACKAGE_LIST > /dev/null 2>&1
-    elif [ $LINUX_DISTRO == "ubuntu" ]; then
+    elif [ $LINUX_DISTRO '==' "ubuntu" ]; then
         sudo apt install $UBUNTU_PACKAGE_LIST > /dev/null 2>&1
     fi
 
@@ -137,7 +137,7 @@ function bootstrap() {
     link_dotfiles
 }
 
-if [ "$1" == "bootstrap" ]; then
+if [ "$1" '==' "bootstrap" ]; then
     bootstrap
 else
     link_dotfiles
