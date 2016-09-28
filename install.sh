@@ -13,7 +13,7 @@
 # This function will look for the dotfiles and link them, if they do not exist
 # yet. Otherwise, the linking will be skipped.
 
-ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts thefuck termite tmux nodejs npm"
+ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts termite tmux nodejs npm"
 UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm tmux"
 NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
 
@@ -124,8 +124,6 @@ function bootstrap() {
         sudo apt install $UBUNTU_PACKAGE_LIST > /dev/null 2>&1
     fi
 
-    echo "Installing oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
     echo "Installing common npm modules"
     sudo npm install -g $NODE_PACKAGE_LIST > /dev/null 2>&1
 

@@ -1,24 +1,21 @@
-export ZSH=/home/pascal/.oh-my-zsh
-
-ZSH_THEME="agnoster"
 DEFAULT_USER="pascal"
+DEFAULT_MACHINE="$HOST"
 
-DISABLE_AUTO_TITLE="false"
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.zsh_history
 
-ENABLE_CORRECTION="true"
+setopt EXTENDED_GLOB
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-plugins=(git)
-
+export TERM=xterm-256color
 export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin:/home/pascal/.gem/ruby/2.3.0/bin"
 
-source $ZSH/oh-my-zsh.sh
+# Source all config files
+local sourcefiles=($HOME/.config/zsh/*.zsh)
+for src ($sourcefiles); do
+    source $src
+done
 
-export PATH="/home/pascal/.gem/ruby/2.2.0/bin":$PATH
 export LC_ALL=en_US.UTF-8
 export VISUAL="nvim"
 export BROWSER="chromium"
@@ -26,23 +23,7 @@ export QT_STYLE_OVERRIDE=GTK+
 export SCHOOL_DIR="$HOME/school"
 export FZF_DEFAULT_COMMAND='ag -g "" '
 
-
-alias c="clear"
-alias cd..="cd .."
-alias ....="cd ../.."
-alias ..2="cd ../.."
-alias v="nvim"
-alias susp="systemctl suspend"
-alias week='date +"%V"'
-alias :q="exit"
-
-alias ta='tmux attach'
-alias tls='tmux ls'
-alias tat='tmux attach -t'
-alias tns='tmux new-session -s'
-
 eval $(dircolors ~/.dircolors)
-eval $(thefuck --alias)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -51,4 +32,3 @@ hash "synclient" > /dev/null 2>&1
 
 # To fix the problem with non-zero return value
 hash "zsh" > /dev/null 2>&1
-function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}

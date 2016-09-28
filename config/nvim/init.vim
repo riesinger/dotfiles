@@ -67,6 +67,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'kien/rainbow_parentheses.vim'
+Plug 'junegunn/seoul256.vim'
 
 call plug#end()
 " }}}
@@ -141,8 +142,10 @@ tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " {{{ --- Misc config ---
-colorscheme solarized
+let g:seoul256_background = 235
+colorscheme seoul256
 set background=dark
+set t_Co=256
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
