@@ -35,7 +35,7 @@ endfunction
 call plug#begin()
 
 " Functionality
-Plug 'benekastah/neomake'
+"Plug 'benekastah/neomake'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
 Plug 'edkolev/tmuxline.vim'
@@ -57,6 +57,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Languages
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
+Plug 'fatih/vim-go'
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
@@ -82,7 +83,7 @@ let g:airline_left_sep = ''
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 " Neomake
-autocmd! BufWritePost * Neomake
+"autocmd! BufWritePost * Neomake
 let g:neomake_coffee_enabled_makers = ['coffeelint']
 let g:neomake_typescript_enabled_makers = []
 " Instant Markdown Preview
