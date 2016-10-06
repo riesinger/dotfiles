@@ -128,8 +128,9 @@ function bootstrap() {
     echo "Installing common npm modules"
     sudo npm install -g $NODE_PACKAGE_LIST > /dev/null 2>&1
 
-    echo "Installing tmux-resurrect"
+    echo "Installing tmux plugins"
     git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux-resurrect
+    git clone https://github.com/tmux-plugins/tmux-continuum ~/.tmux-continuum
 
     echo "Finished bootstrap"
     echo "Now symlinking the dotfiles"
