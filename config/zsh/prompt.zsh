@@ -29,6 +29,7 @@ end_prompt() {
 build_prompt() {
     RETVAL=$?
     check_return_color
+    check_machine
     check_dir
     check_status
     end_prompt
