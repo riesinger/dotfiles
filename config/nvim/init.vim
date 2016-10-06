@@ -163,6 +163,10 @@ autocmd BufReadPost *
 
 autocmd BufNewFile $SCHOOL_DIR/**/*.md set spell spelllang=de_de
 
+" Hide the -- INSERT -- etc. line
+set noshowmode
+set noruler
+
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
     if &ft == "markdown"

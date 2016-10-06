@@ -11,7 +11,7 @@ check_return_color() {
 }
 
 check_machine() {
-    [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]] && print -n "$USER@%m:"
+    [[ "$SSH_TTY" == "" ]] || print -n "$USER@%m:"
 }
 
 check_dir() {
