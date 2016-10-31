@@ -47,6 +47,7 @@ Plug 'mileszs/ack.vim'
 Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
@@ -136,6 +137,7 @@ aug fzf_setup
     au!
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
+nnoremap <F5> :Make<cr>
 " Misc Keymaps
 nnoremap Q <nop>
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
