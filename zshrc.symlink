@@ -8,7 +8,7 @@ HISTFILE=~/.zsh_history
 setopt EXTENDED_GLOB
 
 export TERM=xterm-256color
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/usr/bin:/home/pascal/.gem/ruby/2.3.0/bin"
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:"
 
 # Source all config files
 local sourcefiles=($HOME/.config/zsh/*.zsh)
@@ -22,6 +22,8 @@ export BROWSER="chromium"
 export QT_STYLE_OVERRIDE=GTK+
 export SCHOOL_DIR="$HOME/school"
 export FZF_DEFAULT_COMMAND='ag -g "" '
+export GOPATH="$HOME/development/go"
+export PATH="$GOPATH/bin:$PATH"
 
 eval $(dircolors ~/.dircolors)
 

@@ -22,7 +22,9 @@ nnoremap <bs> <C-W><C-H>
 set splitbelow
 set splitright
 
-set grepprg=ag
+if executable('ag')
+    set grepprg="ag --vimgrep"
+endif
 
 " }}}
 
@@ -35,7 +37,7 @@ endfunction
 call plug#begin()
 
 " Functionality
-"Plug 'benekastah/neomake'
+Plug 'benekastah/neomake'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
 Plug 'edkolev/tmuxline.vim'
@@ -44,7 +46,6 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
-Plug 'suan/vim-instant-markdown'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim'
@@ -55,6 +56,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
@@ -62,13 +64,16 @@ Plug 'fatih/vim-go'
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-Plug 'Quramy/tsuquyomi'
+Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+Plug 'uarun/vim-protobuf'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+
 
 " Visuals
-Plug 'altercation/vim-colors-solarized'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'kien/rainbow_parentheses.vim'
 Plug 'junegunn/seoul256.vim'
 
 call plug#end()
@@ -82,6 +87,7 @@ let g:airline_right_sep = ''
 let g:airline_left_alt_sep= ''
 let g:airline_left_sep = ''
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
+let g:airline_section_y = ''
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
 " Neomake
 "autocmd! BufWritePost * Neomake
@@ -92,28 +98,16 @@ let g:instant_markdown_autostart = 0
 " Vim-Session
 let g:session_autosave = 'no'
 
-let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
-
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#go#gocode_binary = $HOME."/development/jooy/bin/gocode"
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#pointer = 1
+
+set completeopt+=noselect
 
 " }}}
 
@@ -124,7 +118,8 @@ nmap <leader>h :tabp<cr>
 nmap <leader>l :tabn<cr>
 nnoremap <leader>[ :Ngrep<space>
 nnoremap <leader>] :Ack!<space>
-nnoremap <leader>--> a➔<Esc>
+nnoremap <leader>--> a<space>➔<Esc>
+nnoremap <leader>-> a➔<Esc>
 nnoremap <leader>n Neomake
 nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
@@ -137,7 +132,8 @@ aug fzf_setup
     au!
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
-nnoremap <F5> :Make<cr>
+nnoremap <F5> :Dispatch go install gitlab.com/jooy/server/oceanic<cr>
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
 nnoremap Q <nop>
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
@@ -164,6 +160,10 @@ autocmd BufReadPost *
               \ endif
 
 autocmd BufNewFile $SCHOOL_DIR/**/*.md set spell spelllang=de_de
+
+" Hide the -- INSERT -- etc. line
+set noshowmode
+set noruler
 
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
