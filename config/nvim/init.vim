@@ -38,6 +38,7 @@ call plug#begin()
 
 " Functionality
 Plug 'benekastah/neomake'
+Plug 'chrisbra/unicode.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
 Plug 'edkolev/tmuxline.vim'

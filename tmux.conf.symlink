@@ -16,6 +16,10 @@ set -s escape-time 0
 set-option -g allow-rename off
 
 source-file ~/.tmux-airline
+
+set -g @continuum-restore 'on'
+set -g @continuum-boot 'on'
+
 run-shell ~/.tmux-resurrect/resurrect.tmux
 run-shell ~/.tmux-continuum/continuum.tmux
 

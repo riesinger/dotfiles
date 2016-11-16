@@ -16,6 +16,8 @@ for src ($sourcefiles); do
     source $src
 done
 
+source ~/.zsh-nvm/zsh-nvm.plugin.zsh
+
 export LC_ALL=en_US.UTF-8
 export VISUAL="nvim"
 export BROWSER="chromium"
