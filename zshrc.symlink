@@ -16,6 +16,7 @@ for src ($sourcefiles); do
     source $src
 done
 
+export NVM_LAZY_LOAD=true
 source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
 export LC_ALL=en_US.UTF-8
