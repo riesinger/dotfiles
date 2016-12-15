@@ -48,6 +48,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'SirVer/ultisnips'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
@@ -73,7 +74,7 @@ Plug 'mxw/vim-jsx'
 
 " Visuals
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'arial7/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/seoul256.vim'
 
@@ -90,14 +91,16 @@ let g:airline_left_sep = ''
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_y = ''
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
-" Neomake
-"autocmd! BufWritePost * Neomake
-let g:neomake_coffee_enabled_makers = ['coffeelint']
-let g:neomake_typescript_enabled_makers = []
-" Instant Markdown Preview
-let g:instant_markdown_autostart = 0
 " Vim-Session
 let g:session_autosave = 'no'
+" Ultisnips
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+let g:UltiSnipsExpandTrigger = "<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" JSX
+let g:jsx_ext_required = 0
+
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'

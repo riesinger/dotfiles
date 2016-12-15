@@ -1,0 +1,27 @@
+snippet definereact
+define([$1], function($2) {
+	class $3 extends React.Component {
+		constructor(props) {
+			super(props);
+		}
+	}
+
+	return ${3};
+})
+endsnippet
+
+snippet exportfun
+module.exports.${1} = $1;
+endsnippet
+
+snippet importfrom
+import { $1 } from "$2";$0
+endsnippet
+
+snippet importas
+import * as $1 from "$2";$0
+endsnippet
+
+snippet mui
+import $1 from "material-ui/${1}";$0
+endsnippet
