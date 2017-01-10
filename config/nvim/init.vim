@@ -61,6 +61,7 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 " Languages
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
@@ -127,6 +128,7 @@ nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
 nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
+
 " Plugin Keymaps
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
@@ -134,8 +136,11 @@ aug fzf_setup
     au!
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
-nnoremap <F5> :Dispatch go install gitlab.com/jooy/server/oceanic<cr>
-nnoremap <F6> :Dispatch go install gitlab.com/jooy/server/laguna<cr>
+
+" Building Keymaps
+autocmd FileType go nmap <F5> <Plug>(go-build)
+autocmd FileType go nmap <F6> <Plug>(go-install)
+
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
 nnoremap Q <nop>
