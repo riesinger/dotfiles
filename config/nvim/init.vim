@@ -46,6 +46,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'SirVer/ultisnips'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
@@ -66,12 +67,12 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
 
 " Visuals
 Plug 'vim-airline/vim-airline'
-Plug 'Arial7/vim-airline-themes'
+Plug 'arial7/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/seoul256.vim'
 
@@ -88,14 +89,16 @@ let g:airline_left_sep = ''
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_y = ''
 let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
-" Neomake
-"autocmd! BufWritePost * Neomake
-let g:neomake_coffee_enabled_makers = ['coffeelint']
-let g:neomake_typescript_enabled_makers = []
-" Instant Markdown Preview
-let g:instant_markdown_autostart = 0
 " Vim-Session
 let g:session_autosave = 'no'
+" Ultisnips
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+let g:UltiSnipsExpandTrigger = "<c-e>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" JSX
+let g:jsx_ext_required = 0
+
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
@@ -132,6 +135,7 @@ aug fzf_setup
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
 nnoremap <F5> :Dispatch go install gitlab.com/jooy/server/oceanic<cr>
+nnoremap <F6> :Dispatch go install gitlab.com/jooy/server/laguna<cr>
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
 nnoremap Q <nop>
@@ -196,5 +200,10 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 
 " }}}
