@@ -1,14 +1,13 @@
 DEFAULT_USER="pascal"
 DEFAULT_MACHINE="$HOST"
 
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=5000
+SAVEHIST=5000
 HISTFILE=~/.zsh_history
 
 setopt EXTENDED_GLOB
 
 export TERM=xterm-256color
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:"
 
 # Source all config files
 local sourcefiles=($HOME/.config/zsh/*.zsh)
@@ -21,19 +20,20 @@ source ~/.zsh-nvm/zsh-nvm.plugin.zsh
 
 export LC_ALL=en_US.UTF-8
 export VISUAL="nvim"
-export BROWSER="chromium"
+export BROWSER="google-chrome-stable"
 export QT_STYLE_OVERRIDE=GTK+
 export SCHOOL_DIR="$HOME/school"
 export FZF_DEFAULT_COMMAND='ag -g "" '
 export GOPATH="$HOME/development/go"
-export PATH="$GOPATH/bin:$PATH"
+export GOBIN="$GOPATH/bin"
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN"
 
 eval $(dircolors ~/.dircolors)
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-hash "synclient" > /dev/null 2>&1
-[[ $? == "0" ]] && synclient TapButton1=1 TapButton2=3 TapButton3=2 PalmDetect=1
+#hash "synclient" > /dev/null 2>&1
+#[[ $? == "0" ]] && synclient TapButton1=1 TapButton2=3 TapButton3=2 PalmDetect=1
 
 # To fix the problem with non-zero return value
-hash "zsh" > /dev/null 2>&1
+#hash "zsh" > /dev/null 2>&1
