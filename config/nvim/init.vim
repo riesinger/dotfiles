@@ -37,8 +37,6 @@ endfunction
 call plug#begin()
 
 " Functionality
-Plug 'benekastah/neomake'
-Plug 'chrisbra/unicode.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
 Plug 'edkolev/tmuxline.vim'
@@ -62,15 +60,15 @@ Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
-Plug 'uarun/vim-protobuf'
+Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
 
 " Visuals
@@ -130,6 +128,7 @@ nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
 nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
+
 " Plugin Keymaps
 map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
@@ -138,6 +137,7 @@ aug fzf_setup
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
 
+" Building Keymaps
 autocmd FileType go nmap <F5> <Plug>(go-build)
 autocmd FileType go nmap <F6> <Plug>(go-install)
 
@@ -190,6 +190,25 @@ endfunction
 
 command! SchoolTemplate :call SchoolTemplate()
 
+" Create parent dirs on save
+function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+endfunction
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+
 autocmd BufWritePre * :call StripTrailingWhitespaces()
+
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 
 " }}}
