@@ -3,9 +3,7 @@ font = Knack Nerd Font 11
 cursor_shape = underline
 dynamic_title = true
 
-
 [colors]
-
 # special
 foreground      = #d0d0d0
 foreground_bold = #d0d0d0
@@ -43,27 +41,3 @@ color14 = #87d7d7
 # white
 color7  = #d0d0d0
 color15 = #e4e4e4
-
-#[colors]
-#foreground = #839496
-#foreground_bold = #eee8d5
-#background = #002b36
-#cursor = #93a1a1
-
-# colors from color0 to color254 can be set
-#color0 = #073642
-#color1 = #dc322f
-#color2 = #859900
-#color3 = #b58900
-#color4 = #268bd2
-#color5 = #d33682
-#color6 = #2aa198
-#color7 = #eee8d5
-#color8 = #002b36
-#color9 = #cb4b16
-#color10 = #586e75
-#color11 = #657b83
-#color12 = #839496
-#color13 = #6c71c4
-#color14 = #93a1a1
-#color15 = #fdf6e3
