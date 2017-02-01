@@ -1,8 +1,6 @@
 # General
 alias c="clear"
-alias cd..="cd .."
 alias v="nvim"
-alias susp="systemctl suspend"
 alias week='date +"%V"'
 alias :q="exit"
 
