@@ -13,6 +13,7 @@ set wildignore+=node_modules/** " Ingore node_modules folders
 set fillchars+=vert:\           " Remove | from split lines
 set nospell
 set timeoutlen=1000 ttimeoutlen=10
+set completeopt=menu,noselect
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -52,6 +53,7 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
@@ -59,6 +61,8 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
+Plug 'carlitux/deoplete-ternjs'
+Plug 'cespare/vim-toml'
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
@@ -67,9 +71,8 @@ Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
-Plug 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-
 
 " Visuals
 Plug 'vim-airline/vim-airline'
@@ -109,6 +112,15 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = $HOME."/development/jooy/bin/gocode"
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
+
+let g:tern_show_signature_in_pum = 1
+let g:tern_request_timeout = 1
+let g:tern_map_keys = 0
+let g:tern#filetypes = [
+    \ 'jsx',
+    \ 'javascript.jsx',
+    \ 'vue'
+    \ ]
 
 set completeopt+=noselect
 
