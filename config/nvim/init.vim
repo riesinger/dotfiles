@@ -64,11 +64,12 @@ Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript'
+Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 
 
 " Visuals
