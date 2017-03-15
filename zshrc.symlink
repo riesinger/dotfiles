@@ -9,6 +9,11 @@ setopt EXTENDED_GLOB
 
 export TERM=xterm-256color
 
+# Key bindings ( HOME/ END/ DEL )
+bindkey "\e[1~" beginning-of-line
+bindkey "\e[4~" end-of-line
+bindkey "\e[3~" delete-char
+
 # Source all config files
 local sourcefiles=($HOME/.config/zsh/*.zsh)
 for src ($sourcefiles); do
@@ -27,6 +32,8 @@ export FZF_DEFAULT_COMMAND='ag -g "" '
 export GOPATH="$HOME/development/go"
 export GOBIN="$GOPATH/bin"
 export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN"
+
+export XDG_CONFIG_HOME="$HOME/.config"
 
 eval $(dircolors ~/.dircolors)
 eval "$(fasd --init auto)"

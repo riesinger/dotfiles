@@ -17,12 +17,9 @@ bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 set -s escape-time 0
 set-option -g allow-rename off
 
-set -g @continuum-restore 'on'
-set -g @continuum-boot 'on'
-
+# Visuals & Status
 set -g status-bg "colour0"
 set -g status "on"
-
 set -g message-command-bg "colour8"
 set -g message-command-fg "colour7"
 set -g message-fg "colour7"
@@ -38,6 +35,12 @@ set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @plugin 'tmux-plugins/tmux-battery'
+
+
+# Plugin config
+set -g @resurrect-strategy-nvim 'session'
+set -g @continuum-restore 'on'
+set -g @continuum-boot 'on'
 
 # Initialize TMUX plugin manager
 run '~/.tmux/plugins/tpm/tpm'

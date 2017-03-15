@@ -173,6 +173,8 @@ colorscheme base16-hopscotch
 "set background=dark
 "set t_Co=256
 
+autocmd FileType vue setl sw=2
+
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
 

@@ -41,8 +41,12 @@ function link_dotfiles() {
     echo -e "\nCreating symlinks"
     echo "=============================="
     linkables=$( find -H "$DOTFILES" -maxdepth 3 -name '*.symlink' )
+    printf "Files:\n"
     for file in $linkables ; do
-        target="$HOME/.$( basename $file ".symlink" )"
+        #printf "$file\t to \t"
+        target="$HOME/.$( basename $file '.symlink' )"
+        echo -e "$( basename $file '.symlink' )\t $file \n"
+        #printf "$target\n"
         if [ -e $target ]; then
             echo "~${target#$HOME} already exists... Skipping."
         else
