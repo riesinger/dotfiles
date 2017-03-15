@@ -17,11 +17,12 @@ set-option -g allow-rename off
 
 source-file ~/.tmux-airline
 
-set -g @continuum-restore 'on'
-set -g @continuum-boot 'on'
-
 run-shell ~/.tmux-resurrect/resurrect.tmux
 run-shell ~/.tmux-continuum/continuum.tmux
+run-shell ~/.tmux-battery/battery.tmux
 
+set -g @resurrect-strategy-nvim 'session'
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
+
+
