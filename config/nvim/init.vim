@@ -78,9 +78,9 @@ Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 
 " Visuals
+Plug 'arial7/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 "Plug 'ryanoasis/vim-devicons'
 "Plug 'junegunn/seoul256.vim'
 
@@ -89,14 +89,16 @@ call plug#end()
 
 "{{{ --- Plugin config ---
 " Airline
+let g:airline_theme="hopscotch_minimal"
 let g:airline_powerline_fonts = 1
-let g:airline_right_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_left_alt_sep= ''
-let g:airline_left_sep = ''
+let g:airline_right_alt_sep = ' · '
+let g:airline_right_sep = ' '
+let g:airline_left_alt_sep= ' · '
+let g:airline_left_sep = ' '
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_y = ''
-let g:airline_section_z = '%{g:airline_symbols.maxlinenr}%4l/%L:%3v'
+let g:airline_section_z = '%4l/%L:%3v'
+let g:airline_skip_empty_sections = 1
 " Vim-Session
 let g:session_autosave = 'no'
 " Ultisnips
@@ -113,7 +115,7 @@ if executable('ag')
 endif
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $HOME."/development/jooy/bin/gocode"
+let g:deoplete#sources#go#gocode_binary = $GOBIN.'/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
 
@@ -157,8 +159,8 @@ aug fzf_setup
 aug END
 
 " Building Keymaps
-autocmd FileType go nmap <F5> <Plug>(go-build)
-autocmd FileType go nmap <F6> <Plug>(go-install)
+autocmd FileType go nmap <leader>b <Plug>(go-build)
+autocmd FileType go nmap <leader>bb <Plug>(go-install)
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
