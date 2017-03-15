@@ -1,43 +1,54 @@
 [options]
-font = Knack Nerd Font 11
+font = Knack Nerd Font 10
 cursor_shape = underline
 dynamic_title = true
 
 [colors]
-# special
-foreground      = #d0d0d0
-foreground_bold = #d0d0d0
-cursor          = #d0d0d0
-background      = #252525
+# Base16 Hopscotch
+# Author: Jan T. Sott
 
-# black
-color0  = #4e4e4e
-color8  = #626262
+foreground      = #b9b5b8
+foreground_bold = #d5d3d5
+cursor          = #d5d3d5
+background      = #322931
 
-# red
-color1  = #d68787
-color9  = #d75f87
+# 16 color space
 
-# green
-color2  = #5f865f
-color10 = #87af87
+# Black, Gray, Silver, White
+color0  = #322931
+color8  = #797379
+color7  = #b9b5b8
+color15 = #ffffff
 
-# yellow
-color3  = #d8af5f
-color11 = #ffd787
+# Red
+color1  = #dd464c
+color9  = #dd464c
 
-# blue
-color4  = #85add4
-color12 = #add4fb
+# Green
+color2  = #8fc13e
+color10 = #8fc13e
 
-# magenta
-color5  = #d7afaf
-color13 = #ffafaf
+# Yellow
+color3  = #fdcc59
+color11 = #fdcc59
 
-# cyan
-color6  = #87afaf
-color14 = #87d7d7
+# Blue
+color4  = #1290bf
+color12 = #1290bf
 
-# white
-color7  = #d0d0d0
-color15 = #e4e4e4
+# Purple
+color5  = #c85e7c
+color13 = #c85e7c
+
+# Teal
+color6  = #149b93
+color14 = #149b93
+
+# Extra colors
+color15 = #ffffff
+color16 = #fd8b19
+color17 = #b33508
+color18 = #433b42
+color19 = #5c545b
+color20 = #989498
+color21 = #d5d3d5

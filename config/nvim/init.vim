@@ -40,12 +40,14 @@ call plug#begin()
 " Functionality
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
-Plug 'edkolev/tmuxline.vim'
+"Plug 'edkolev/tmuxline.vim'
 Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
+Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'mileszs/ack.vim'
+Plug 'reedes/vim-wordy', { 'for': 'markdown' }
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
@@ -76,10 +78,11 @@ Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 
 " Visuals
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-Plug 'arial7/vim-airline-themes'
-Plug 'ryanoasis/vim-devicons'
-Plug 'junegunn/seoul256.vim'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'ryanoasis/vim-devicons'
+"Plug 'junegunn/seoul256.vim'
 
 call plug#end()
 " }}}
@@ -125,6 +128,9 @@ let g:tern#filetypes = [
 
 set completeopt+=noselect
 
+
+let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
+
 " }}}
 
 " {{{ --- Keymaps ---
@@ -162,10 +168,10 @@ tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " {{{ --- Misc config ---
-let g:seoul256_background = 235
-colorscheme seoul256
-set background=dark
-set t_Co=256
+"let g:seoul256_background = 235
+colorscheme base16-hopscotch
+"set background=dark
+"set t_Co=256
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
@@ -180,7 +186,7 @@ autocmd BufReadPost *
               \   exe "normal! g'\"" |
               \ endif
 
-autocmd BufNewFile $SCHOOL_DIR/**/*.md set spell spelllang=de_de
+autocmd FileType text,markdown setlocal spell
 
 " Hide the -- INSERT -- etc. line
 set noshowmode

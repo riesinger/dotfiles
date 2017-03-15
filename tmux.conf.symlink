@@ -1,6 +1,8 @@
 set -g default-terminal 'screen-256color'
 set -g mouse
 
+bind R source-file ~/.tmux.conf
+
 # Smart pane switching with awareness of Vim splits.
 # See: https://github.com/christoomey/vim-tmux-navigator
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
@@ -15,13 +17,27 @@ bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 set -s escape-time 0
 set-option -g allow-rename off
 
-source-file ~/.tmux-airline
-
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 
-run-shell ~/.tmux-resurrect/resurrect.tmux
-run-shell ~/.tmux-continuum/continuum.tmux
+set -g status-bg "colour0"
+set -g status "on"
 
-set -g @continuum-restore 'on'
-set -g @continuum-boot 'on'
+set -g message-command-bg "colour8"
+set -g message-command-fg "colour7"
+set -g message-fg "colour7"
+set -g message-bg "colour8"
+set -g status-left "#[fg=colour7] #S: "
+set -g status-left-length "100"
+setw -g window-status-format "#[fg=colour7,bg=colour0] #I · #W  "
+setw -g window-status-current-format "#[fg=colour7,bg=colour0,bold] #I · #W  "
+set -g status-right "#[fg=colour7] Battery: #{battery_percentage} · %H:%M - %d %b · #h"
+
+# Plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @plugin 'tmux-plugins/tmux-battery'
+
+# Initialize TMUX plugin manager
+run '~/.tmux/plugins/tpm/tpm'

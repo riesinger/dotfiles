@@ -29,11 +29,6 @@ export GOBIN="$GOPATH/bin"
 export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN"
 
 eval $(dircolors ~/.dircolors)
+eval "$(fasd --init auto)"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-#hash "synclient" > /dev/null 2>&1
-#[[ $? == "0" ]] && synclient TapButton1=1 TapButton2=3 TapButton3=2 PalmDetect=1
-
-# To fix the problem with non-zero return value
-#hash "zsh" > /dev/null 2>&1
