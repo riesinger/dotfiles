@@ -66,4 +66,3 @@ tramp
 
 # NeoVim Plugins
 **/plugged/**
-!**/plugged/vim-airline-themes
