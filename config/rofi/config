@@ -1,0 +1,9 @@
+rofi.modi: run,window,ssh
+rofi.font: "Noto Sans 16"
+rofi.lines: 3
+rofi.eh: 2
+rofi.width: 100
+rofi.padding: 800
+rofi.opacity: 85
+rofi.bw: 0
+rofi.auto-select: true

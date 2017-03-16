@@ -38,4 +38,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 eval $(dircolors ~/.dircolors)
 eval "$(fasd --init auto)"
 
+alias yaourt="echo Use pacaur dumbass!"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
