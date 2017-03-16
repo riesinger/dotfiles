@@ -15,14 +15,16 @@
 
 ARCH_PACKAGE_LIST="neovim htop zsh lm_sensors noto-fonts termite tmux nodejs npm"
 UBUNTU_PACKAGE_LIST="htop zsh lm_sensors nodejs npm tmux"
-NODE_PACKAGE_LIST="gulp-cli typescript npm-check-updates tslint typings"
+NODE_PACKAGE_LIST="vue-cli yarn mocha npm-check-updates"
 
-LINUX_DISTRO=$(cat /etc/*-release | grep "^ID=" | cut -c 4- )
+LOGFILE="/tmp/bootstrap.log"
 
-if [ "$LINUX_DISTRO" '==' "" ]; then
-    printf "Could not detect distro, it was %s.\nNow assuming 'arch'." $LINUX_DISTRO
-    LINUX_DISTRO="arch"
-fi
+BOOTSTRAP_STATUS_COL="30"
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+source "$HOME/.dotfiles/scripts/detect_distro.sh"
 
 function package_is_needed() {
     hash $1 > /dev/null 2>&1
@@ -77,69 +79,81 @@ function link_dotfiles() {
 # This will install the my commonly used packages, fonts etc.
 # Afterwards, it will start the link_dotfiles function.
 function bootstrap() {
-    echo "Starting bootstrap..."
-    printf "Detected distro is %s, starting installation process\n" $LINUX_DISTRO
+    [[ $UID -eq 0 ]] || printf "To bootstrap, you need to run this script as root!\n"; exit 1
 
-    if [ $LINUX_DISTRO '==' "arch" ]; then
-        echo "Checking for yaourt"
+    case $CURRENT_DISTRIBUTION in
+        "arch") bootstrap_arch ;;
+        "ubuntu") bootstrap_ubuntu ;;
+        *)
+            printf "This script does not know how to bootsrap on %s\n" $CURRENT_DISTRIBUTION
+            exit 1
+            ;;
+    esac
 
-        if package_is_needed "yaourt"; then
-            echo "Downloading package-query and yaourt"
+    printf "If you had any errors, see the log at $LOGFILE\n"
+    echo "Now symlinking the dotfiles"
 
-            curl -Os "https://aur.archlinux.org/cgit/aur.git/snapshot/yaourt.tar.gz"
-            curl -Os "https://aur.archlinux.org/cgit/aur.git/snapshot/package-query.tar.gz"
 
-            tar xzf yaourt.tar.gz
-            tar xzf package-query.tar.gz
+    #link_dotfiles
+}
 
-            echo "Building package-query"
-            cd package-query
-            makepkg -si --noconfirm > /dev/null 2>&1
+function show_bootstrap_screen() {
+    tput cup 0 0
+    tput clear
+    printf "${bold}Bootstrapping...${normal}\n\n"
+}
 
-            if [ $? != "0" ]; then
-                echo "There was an error while building package-query, do you have the base-devel group installed?"
-                exit 1
-            fi
+function bootstrap_arch() {
+    show_bootstrap_screen
+    printf "Pacaur"
 
-            echo "Building yaourt"
-            cd ../yaourt
-            makepkg -si --noconfirm > /dev/null 2>&1
+    if package_is_needed "pacaur"; then
+        mkdir -p /tmp/pacaur_install
+        cd /tmp/pacaur_install
 
-            if [ $? != "0" ]; then
-                echo "There was an error while building yaourt, exiting..."
-                exit 1
-            fi
+        tput cup 1 $BOOTSTRAP_STATUS_COL
+        printf "Installing dependencies"
+        pacman -S binutils make gcc fakeroot expac yajl git --noconfirm --needed > $LOGFILE 2>&1
 
-            cd ..
+        tput cup 1 $BOOTSTRAP_STATUS_COL
+        printf "Installing cower"
 
-            echo "Cleaning up"
-            rm -rf package-query yaourt
-            rm package-query.tar.gz yaourt.tar.gz
+        if [ ! -n "$(pacman -Qs cower)" ]; then
+            curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cower > $LOGFILE 2>&1
+            makepkg PKGBUILD --skippgpcheck --install --needed > $LOGFILE 2>&1
+        fi
 
-            echo "Removing .zshrc, so dotfiles will install correctly"
-            rm ~/.zshrc
+        tput cup 1 $BOOTSTRAP_STATUS_COL
+        printf "Installing pacaur"
 
+        if [ ! -n "$(pacman -Qs pacaur)" ]; then
+            curl -o PKGBUILD https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=pacaur > /tmp/bootstrap.log 2>&1
+            makepkg PKGBUILD --install --needed > $LOGFILE 2>&1
         fi
     fi
 
-    printf "Installing common packages for %s.\n" $LINUX_DISTRO
-    if [ $LINUX_DISTRO '==' "arch" ]; then
-        sudo yaourt -Syu --needed --noconfirm $ARCH_PACKAGE_LIST > /dev/null 2>&1
-    elif [ $LINUX_DISTRO '==' "ubuntu" ]; then
-        sudo apt install $UBUNTU_PACKAGE_LIST > /dev/null 2>&1
-    fi
+    tput cup 1 $BOOTSTRAP_STATUS_COL
+    [[ $? -eq 0 ]] && printf "Done                     \n" || printf "${bold} ERROR ${normal}      \n"
 
-    echo "Installing common npm modules"
-    sudo npm install -g $NODE_PACKAGE_LIST > /dev/null 2>&1
+    printf "Common packages"
+    pacaur -Syu --needed --noconfirm $ARCH_PACKAGE_LIST > $LOGFILE 2>&1
 
-    echo "Installing tmux plugins"
-    git clone https://github.com/tmux-plugins/tmux-resurrect ~/.tmux-resurrect
-    git clone https://github.com/tmux-plugins/tmux-continuum ~/.tmux-continuum
+    tput cup 2 $BOOTSTRAP_STATUS_COL
+    [[ $? -eq 0 ]] && printf "Done                     \n" || printf "${bold} ERROR ${normal}      \n"
 
-    echo "Finished bootstrap"
-    echo "Now symlinking the dotfiles"
+    printf "NPM modules"
+    npm install -g $NODE_PACKAGE_LIST > $LOGFILE 2>&1
 
-    link_dotfiles
+    tput cup 3 $BOOTSTRAP_STATUS_COL
+    [[ $? -eq 0 ]] && printf "Done                     \n" || printf "${bold} ERROR ${normal}      \n"
+
+    printf "TPM"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm > $LOGFILE 2>&1
+    chown -R "$USER":"$USER" ~/.tmux/plugins/tpm
+
+    tput cup 4 $BOOTSTRAP_STATUS_COL
+    [[ $? -eq 0 ]] && printf "Done                     \n" || printf "${bold} ERROR ${normal}      \n"
+
 }
 
 if [ "$1" '==' "bootstrap" ]; then
