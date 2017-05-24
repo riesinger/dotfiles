@@ -1,19 +1,18 @@
 " {{{ --- Base config ---
 
 syntax on
-" set relativenumber number
 set wrap                        " Visually wrap long lines
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
-set so=4
+set scrolloff=4
 set autoread
 set foldmethod=marker
 set wildignore+=node_modules/** " Ingore node_modules folders
 set fillchars+=vert:\           " Remove | from split lines
 set nospell
 set timeoutlen=1000 ttimeoutlen=10
-set completeopt=menu,noselect
+set completeopt=menuone,noselect,longest
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -40,7 +39,6 @@ call plug#begin()
 " Functionality
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
-"Plug 'edkolev/tmuxline.vim'
 Plug 'godlygeek/tabular'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -57,8 +55,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'xolox/vim-misc'
-Plug 'xolox/vim-session'
+Plug 'tpope/vim-obsession'
+"Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-session'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
@@ -81,8 +80,6 @@ Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'arial7/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
-"Plug 'ryanoasis/vim-devicons'
-"Plug 'junegunn/seoul256.vim'
 
 call plug#end()
 " }}}
@@ -96,7 +93,7 @@ let g:airline_right_sep = ' '
 let g:airline_left_alt_sep= ' · '
 let g:airline_left_sep = ' '
 let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
-let g:airline_section_y = ''
+let g:airline_section_y = '%{ObsessionStatus("∞", "⧞")}'
 let g:airline_section_z = '%4l/%L:%3v'
 let g:airline_skip_empty_sections = 1
 " Vim-Session
@@ -119,6 +116,9 @@ let g:deoplete#sources#go#gocode_binary = $GOBIN.'/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
 
+let g:go_fmt_command="goimports"
+let g:go_addtags_transform="camelcase"
+
 let g:tern_show_signature_in_pum = 1
 let g:tern_request_timeout = 1
 let g:tern_map_keys = 0
@@ -127,9 +127,6 @@ let g:tern#filetypes = [
     \ 'javascript.jsx',
     \ 'vue'
     \ ]
-
-set completeopt+=noselect
-
 
 let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 
@@ -144,7 +141,6 @@ nnoremap <leader>[ :Ngrep<space>
 nnoremap <leader>] :Ack!<space>
 nnoremap <leader>--> a<space>➔<Esc>
 nnoremap <leader>-> a➔<Esc>
-nnoremap <leader>n Neomake
 nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
@@ -158,9 +154,11 @@ aug fzf_setup
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
 
-" Building Keymaps
+" Golang Keymaps
 autocmd FileType go nmap <leader>b <Plug>(go-build)
 autocmd FileType go nmap <leader>bb <Plug>(go-install)
+autocmd FileType go nmap <leader>d <Plug>(go-def)
+
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
@@ -170,12 +168,8 @@ tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " {{{ --- Misc config ---
-"let g:seoul256_background = 235
+let base16colorspace=256
 colorscheme base16-hopscotch
-"set background=dark
-"set t_Co=256
-
-autocmd FileType vue setl sw=2
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
@@ -207,14 +201,8 @@ function! StripTrailingWhitespaces()
     call cursor(l, c)
 endfun
 
-function! SchoolTemplate()
-    r ~/.dotfiles/school-markdown-template.md
-endfunction
-
-command! SchoolTemplate :call SchoolTemplate()
-
 " Create parent dirs on save
-function s:MkNonExDir(file, buf)
+function! s:MkNonExDir(file, buf)
     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
         let dir=fnamemodify(a:file, ':h')
         if !isdirectory(dir)
@@ -228,10 +216,5 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
-
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
 
 " }}}

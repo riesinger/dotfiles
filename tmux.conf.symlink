@@ -39,6 +39,7 @@ set -g @plugin 'tmux-plugins/tmux-battery'
 
 # Plugin config
 set -g @resurrect-strategy-nvim 'session'
+set -g @resurrect-strategy-vim 'session'
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 
