@@ -1,5 +1,5 @@
 [options]
-font = Knack Nerd Font 10
+font = Ubuntu Mono 12
 cursor_shape = underline
 dynamic_title = true
 
