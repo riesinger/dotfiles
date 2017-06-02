@@ -1,0 +1,12 @@
+rofi.color-enabled: true
+rofi.color-window: #433b42, #433b42, #433b42
+rofi.color-normal: #433b42, #d5d3d5, #433b42, #5c545b, #d5d3d5
+rofi.color-active: #433b42, #ffffff, #5c545b, #5c545b, #ffffff
+rofi.color-urgent: #433b42, #dd464c, #433b42, #dd464c, #d5d3d5
+rofi.width: 80
+rofi.padding: 250
+rofi.lines: 3
+rofi.opacity: 10
+
+
+Xcursor.size: 24

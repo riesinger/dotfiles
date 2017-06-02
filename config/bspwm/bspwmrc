@@ -2,6 +2,7 @@
 
 sxhkd &
 compton &
+xsetroot -cursor_name left_ptr
 
 bspc config border_width         1
 bspc config window_gap          12
@@ -10,6 +11,9 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 bspc config single_monocle       true
+bspc config focus_follows_pointer true
+
+bspc monitor -d Code Web Trello Game Stuff
 
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a Google-chrome desktop='^2'
