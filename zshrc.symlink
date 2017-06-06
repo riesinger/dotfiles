@@ -31,13 +31,12 @@ export SCHOOL_DIR="$HOME/school"
 export FZF_DEFAULT_COMMAND='ag -g "" '
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN"
+export DOTFILES="$HOME/.dotfiles"
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN:$DOTFILES/scripts"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
 eval $(dircolors ~/.dircolors)
 eval "$(fasd --init auto)"
-
-alias yaourt="echo Use pacaur dumbass!"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

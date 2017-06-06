@@ -1,0 +1,55 @@
+#!/bin/sh
+
+COMMAND=$1
+VOLUME=$2
+
+
+usage () {
+  echo "BAD USAGE" > /tmp/volume_log
+  cat << EOF
+usage: $0 <command> [volume]
+
+commands:
+  set       sets the volume to [volume], inc/dec possbile (5%+/5%-)
+  get       gets the current volume in percent
+  toggle    toggles the output
+  status    prints the current output status (on/off)
+EOF
+}
+
+set_volume () {
+  local change=$1
+  amixer -q sset Master $change
+}
+
+get_volume () {
+  printf "%s\n" $(amixer get Master | grep % | awk '{print $5}' | sed 's/[^0-9\%]//g' | head -n1)
+}
+
+toggle_audio () {
+  amixer -q sset Master toggle
+}
+
+get_audio_status () {
+  printf "%s\n" $(amixer get Master | grep % | awk '{print $6}' | head -n1 | sed 's/[^on|off]//g')
+}
+
+case $COMMAND in
+  "set" )
+    set_volume $VOLUME
+    ;;
+  "get" )
+    printf "%s\n" $(get_volume)
+    ;;
+  "toggle" )
+    toggle_audio
+    ;;
+  "status" )
+    printf "%s\n" $(get_audio_status)
+    ;;
+  * )
+    usage
+    exit 1
+    ;;
+esac
+

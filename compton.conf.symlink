@@ -3,4 +3,5 @@ fade-delta = 8;
 fade-in-step = 0.10;
 fade-out-step = 0.10;
 no-fading-openclose = false;
+inactive-dim = 0.1;
 

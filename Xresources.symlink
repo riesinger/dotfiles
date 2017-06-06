@@ -5,7 +5,7 @@ rofi.color-active: #433b42, #ffffff, #5c545b, #5c545b, #ffffff
 rofi.color-urgent: #433b42, #dd464c, #433b42, #dd464c, #d5d3d5
 rofi.width: 80
 rofi.padding: 250
-rofi.lines: 3
+rofi.lines: 5
 rofi.opacity: 10
 
 
