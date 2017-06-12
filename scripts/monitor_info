@@ -1,0 +1,16 @@
+#!/usr/bin/env zsh
+
+if [ ! -f '/tmp/xrandr_output' ]; then
+  xrandr > '/tmp/xrandr_output'
+fi
+
+xrandr_output=$(cat '/tmp/xrandr_output')
+
+monitor_x=$(echo "$xrandr_output" | grep "primary" | awk '{print $4}' | awk -F+ '{print $2}')
+monitor_y=$(echo "$xrandr_output" | grep "primary" | awk '{print $4}' | awk -F+ '{print $3}')
+monitor_width=$(echo "$xrandr_output" | grep "primary" | awk '{print $4}' | cut -d 'x' -f 1)
+monitor_height=$(echo "$xrandr_output" | grep "primary" | awk '{print $4}' | cut -d 'x' -f 2 | cut -d '+' -f 1)
+
+echo "$monitor_x;$monitor_y;$monitor_width;$monitor_height"
+
+printf "$monitor_x;$monitor_y;$monitor_width;$monitor_height" > '/tmp/monitor_info'

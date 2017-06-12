@@ -169,7 +169,7 @@ tnoremap <Esc> <C-\><C-n>
 
 " {{{ --- Misc config ---
 let base16colorspace=256
-colorscheme base16-hopscotch
+colorscheme base16-flat
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg

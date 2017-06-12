@@ -171,24 +171,6 @@
     # Context menu.
     context = ctrl+shift+period
 
-[urgency_low]
-    # IMPORTANT: colors have to be defined in quotation marks.
-    # Otherwise the "#" and following would be interpreted as a comment.
-    background = "#5c545b"
-    foreground = "#ffffff"
-    timeout = 10
-
-[urgency_normal]
-    background = "#5c545b"
-    foreground = "#ffffff"
-    timeout = 10
-
-[urgency_critical]
-    background = "#dd464c"
-    foreground = "#ffffff"
-    timeout = 0
-
-
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.
 # Messages can be matched by "appname", "summary", "body", "icon", "category",
@@ -242,3 +224,19 @@
 #    urgency = normal
 #
 # vim: ft=cfg
+# vim: filetype=yaml
+# dunst template
+# Base16 Flat Dark, by Chris Kempson (http://chriskempson.com)
+
+[urgency_low]
+    background = "#2C3E50"
+    foreground = "#ECF0F1"
+
+[urgency_normal]
+    background = "#2C3E50"
+    foreground = "#3498DB"
+
+[urgency_critical]
+    background = "#2C3E50"
+    foreground = "#E74C3C"
+
