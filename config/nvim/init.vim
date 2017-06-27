@@ -2,15 +2,16 @@
 
 syntax on
 set wrap                        " Visually wrap long lines
-set tabstop=2
+set textwidth=100               " Wrap lines after 100 chars
+set tabstop=2                   " Tabs 2 spaces wide, tabs are spaces
 set shiftwidth=2
 set expandtab
-set scrolloff=4
+set scrolloff=4                 " Move page when cursor has 4 lines of space
 set autoread
 set foldmethod=marker
-set wildignore+=node_modules/** " Ingore node_modules folders
+set wildignore+=.git/,node_modules/,.glide
 set fillchars+=vert:\           " Remove | from split lines
-set nospell
+set nospell                     " Disable spell checking
 set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
 
@@ -22,6 +23,7 @@ nnoremap <bs> <C-W><C-H>
 set splitbelow
 set splitright
 
+" Use ag insead of grep
 if executable('ag')
     set grepprg="ag --vimgrep"
 endif
@@ -39,16 +41,13 @@ call plug#begin()
 " Functionality
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'
-Plug 'godlygeek/tabular'
+Plug 'godlygeek/tabular'                    " For markdown table alignment
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-emoji'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'mileszs/ack.vim'
-Plug 'reedes/vim-wordy', { 'for': 'markdown' }
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'mileszs/ack.vim'                      " For using ag instead of grep
 Plug 'SirVer/ultisnips'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
@@ -56,9 +55,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-session'
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
@@ -68,12 +64,12 @@ Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-"Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+" Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+" Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
+" Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 
 " Visuals
@@ -85,6 +81,7 @@ call plug#end()
 " }}}
 
 "{{{ --- Plugin config ---
+
 " Airline
 let g:airline_theme="hopscotch_minimal"
 let g:airline_powerline_fonts = 1
@@ -96,20 +93,12 @@ let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_y = '%{ObsessionStatus("∞", "⧞")}'
 let g:airline_section_z = '%4l/%L:%3v'
 let g:airline_skip_empty_sections = 1
-" Vim-Session
-let g:session_autosave = 'no'
+
 " Ultisnips
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger = "<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-" JSX
-let g:jsx_ext_required = 0
-
-
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = $GOBIN.'/gocode'
@@ -135,8 +124,6 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 " {{{ --- Keymaps ---
 "  Leaders
 let mapleader = ","
-nmap <leader>h :tabp<cr>
-nmap <leader>l :tabn<cr>
 nnoremap <leader>[ :Ngrep<space>
 nnoremap <leader>] :Ack!<space>
 nnoremap <leader>--> a<space>➔<Esc>
@@ -147,7 +134,6 @@ nnoremap <leader>t: :Tab/:<cr>
 nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
 
 " Plugin Keymaps
-map <C-n> :NERDTreeToggle<CR>
 nnoremap <c-p> :FZF<cr>
 aug fzf_setup
     au!
@@ -155,10 +141,8 @@ aug fzf_setup
 aug END
 
 " Golang Keymaps
-autocmd FileType go nmap <leader>b <Plug>(go-build)
-autocmd FileType go nmap <leader>bb <Plug>(go-install)
+autocmd FileType go nmap <leader>b <Plug>(go-install)
 autocmd FileType go nmap <leader>d <Plug>(go-def)
-
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " Misc Keymaps
@@ -169,6 +153,7 @@ tnoremap <Esc> <C-\><C-n>
 
 " {{{ --- Misc config ---
 let base16colorspace=256
+let t_Co=256
 colorscheme base16-flat
 
 " Remove light border between splits
