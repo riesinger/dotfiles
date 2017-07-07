@@ -1,11 +1,11 @@
 #!/usr/bin/env zsh
 
 # setup PATH etc
-source $HOME/.zshrc
+source $HOME/.zshrc-light
 
 sxhkd &
 compton -b &
-notificator &
+init_notifications && lemon-notify &
 feh --bg-fill $HOME/.wallpaper.jpg &
 xsetroot -cursor_name left_ptr &
 
@@ -18,14 +18,14 @@ bspc config gapless_monocle      true
 bspc config single_monocle       true
 bspc config focus_follows_pointer true
 
-bspc monitor -d Code Web Trello Game Stuff
+bspc monitor -d ' Code' ' Web' '  Music' '  Trello' ' Slack' ' Game' ' Stuff'
 
-bspc rule -a Gimp desktop='^4' state=floating follow=on
 bspc rule -a Google-chrome desktop='^2'
-# ~/.bspwm/bspwmrc
-# bspwm config template
-# Base16 Flat by Chris Kempson (http://chriskempson.com)
-# template by Luke Jones @luke-nukem
+bspc rule -a \*:crx_ioljlgoncmlkbcepmminebblkddfjofl desktop='^3'
+bspc rule -a \*:crx_jijnmpkkfkjaihbhffejemnpbbglahim desktop='^4'
+bspc rule -a Slack desktop='^5'
+bspc rule -a Steam desktop='^6'
+bspc rule -a Gimp desktop='^7' state=floating follow=on
 
 bspc config active_border_color \#BDC3C7
 bspc config normal_border_color \#7F8C8D

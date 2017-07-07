@@ -1,13 +1,10 @@
-DEFAULT_USER="pascal"
-DEFAULT_MACHINE="$HOST"
+# ZSHRC-light is my base for use in bspwmrc e.g. where prompt config or completion is not needed
+# This file only extends it with the missing features
+source $HOME/.zshrc-light
 
 HISTSIZE=5000
 SAVEHIST=5000
 HISTFILE=~/.zsh_history
-
-setopt EXTENDED_GLOB
-
-export TERM=xterm-256color
 
 # Key bindings ( HOME/ END/ DEL )
 bindkey "\e[1~" beginning-of-line
@@ -19,22 +16,6 @@ local sourcefiles=($HOME/.config/zsh/*.zsh)
 for src ($sourcefiles); do
     source $src
 done
-
-export NVM_LAZY_LOAD=true
-source ~/.zsh-nvm/zsh-nvm.plugin.zsh
-
-export LC_ALL=en_US.UTF-8
-export VISUAL="nvim"
-export BROWSER="google-chrome-stable"
-export QT_STYLE_OVERRIDE=GTK+
-export SCHOOL_DIR="$HOME/school"
-export FZF_DEFAULT_COMMAND='ag -g "" '
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-export DOTFILES="$HOME/.dotfiles"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:$GOBIN:$DOTFILES/scripts"
-
-export XDG_CONFIG_HOME="$HOME/.config"
 
 eval $(dircolors ~/.dircolors)
 eval "$(fasd --init auto)"
