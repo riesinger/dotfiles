@@ -4,47 +4,48 @@ cursor_shape = underline
 dynamic_title = true
 
 [colors]
-foreground      = #e0e0e0
-foreground_bold = #f5f5f5
-cursor          = #f5f5f5
-background      = #2C3E50
 
-# 16 color space
+# special
+foreground      = #d3d0c8
+foreground_bold = #d3d0c8
+cursor          = #d3d0c8
+background      = #383838
 
-# Black, Gray, Silver, White
-color0  = #2C3E50
-color8  = #95A5A6
-color7  = #e0e0e0
-color15 = #ECF0F1
+# black
+color0  = #383838
+color8  = #747369
 
-# Red
-color1  = #E74C3C
-color9  = #E74C3C
+# red
+color1  = #f2777a
+color9  = #f2777a
 
-# Green
-color2  = #2ECC71
-color10 = #2ECC71
+# green
+color2  = #99cc99
+color10 = #99cc99
 
-# Yellow
-color3  = #F1C40F
-color11 = #F1C40F
+# yellow
+color3  = #ffcc66
+color11 = #ffcc66
 
-# Blue
-color4  = #3498DB
-color12 = #3498DB
+# blue
+color4  = #6699cc
+color12 = #6699cc
 
-# Purple
-color5  = #9B59B6
-color13 = #9B59B6
+# magenta
+color5  = #cc99cc
+color13 = #cc99cc
 
-# Teal
-color6  = #1ABC9C
-color14 = #1ABC9C
+# cyan
+color6  = #66cccc
+color14 = #66cccc
 
-# Extra colors
-color16 = #E67E22
-color17 = #be643c
-color18 = #34495E
-color19 = #7F8C8D
-color20 = #BDC3C7
-color21 = #f5f5f5
+# white
+color7  = #d3d0c8
+color15 = #f2f0ec
+
+color16 = #f2777a
+color17 = #f2f0ec
+color18 = #f2777a
+color19 = #99cc99
+color20 = #6699cc
+color21 = #66cccc
