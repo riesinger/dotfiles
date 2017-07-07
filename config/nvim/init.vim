@@ -55,6 +55,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
+Plug 'vimwiki/vimwiki'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
@@ -83,7 +84,7 @@ call plug#end()
 "{{{ --- Plugin config ---
 
 " Airline
-let g:airline_theme="hopscotch_minimal"
+let g:airline_theme="base16_eighties"
 let g:airline_powerline_fonts = 1
 let g:airline_right_alt_sep = ' · '
 let g:airline_right_sep = ' '
@@ -154,7 +155,7 @@ tnoremap <Esc> <C-\><C-n>
 " {{{ --- Misc config ---
 let base16colorspace=256
 let t_Co=256
-colorscheme base16-flat
+colorscheme base16-eighties
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
