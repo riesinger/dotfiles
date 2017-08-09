@@ -1,0 +1,4 @@
+#!/usr/bin/env zsh
+
+monitor_info
+mkfifo "/tmp/notification_fifo"

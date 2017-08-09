@@ -125,17 +125,27 @@ super + alt + shift + {h,j,k,l}
 super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
 
+#
+# Info hotkeys
+#
+
+ctrl + space
+	echo "$(bspc query -T -m -d | jshon -e name | sed 's/\"//g')   $(date +%H:%M:%S)   $(date +%d.%m.%y)" > /tmp/notification_fifo
 
 #
 # media keys
 #
 
 XF86AudioRaiseVolume
-	volume set 5%+; echo "$(volume get)" > /tmp/notify_fifo_northeast
+	volume set 5%+; echo "\uf028 $(volume get)ŋ2" > /tmp/notification_fifo
 
 XF86AudioLowerVolume
-	volume set 5%-; echo "$(volume get)" > /tmp/notify_fifo_northeast
+	volume set 5%-; echo "\uf028 $(volume get)ŋ2" > /tmp/notification_fifo
 
 XF86AudioMute
-	volume toggle; echo "$(volume status)" > /tmp/notify_fifo_northeast
+	volume toggle; echo "\uf028 $(volume status)ŋ2" > /tmp/notification_fifo
+
+Print
+	teiler
+
 # vim: set noexpandtab:
