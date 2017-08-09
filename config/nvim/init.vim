@@ -56,6 +56,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
 Plug 'vimwiki/vimwiki'
+Plug 'w0rp/ale'
 Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
@@ -75,7 +76,7 @@ Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 
 " Visuals
 Plug 'arial7/vim-airline-themes'
-Plug 'chriskempson/base16-vim'
+Plug 'arial7/base16-vim'
 Plug 'vim-airline/vim-airline'
 
 call plug#end()
@@ -94,6 +95,7 @@ let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
 let g:airline_section_y = '%{ObsessionStatus("∞", "⧞")}'
 let g:airline_section_z = '%4l/%L:%3v'
 let g:airline_skip_empty_sections = 1
+let g:airline#extensions#ale#enabled = 1
 
 " Ultisnips
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
@@ -101,14 +103,18 @@ let g:UltiSnipsExpandTrigger = "<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+" Deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#go#gocode_binary = $GOBIN.'/gocode'
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#pointer = 1
 
-let g:go_fmt_command="goimports"
-let g:go_addtags_transform="camelcase"
+" Go
+let g:go_fmt_command = "goimports"
+let g:go_addtags_transform = "camelcase"
+let g:go_auto_type_info = 1
 
+" Tern
 let g:tern_show_signature_in_pum = 1
 let g:tern_request_timeout = 1
 let g:tern_map_keys = 0
@@ -119,6 +125,9 @@ let g:tern#filetypes = [
     \ ]
 
 let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
+
+let g:ale_sign_error = "!"
+let g:ale_sign_warning = "~"
 
 " }}}
 
@@ -156,6 +165,8 @@ tnoremap <Esc> <C-\><C-n>
 let base16colorspace=256
 let t_Co=256
 colorscheme base16-eighties
+set cursorline
+set guicursor=n:hor100
 
 " Remove light border between splits
 hi VertSplit ctermbg=bg ctermfg=bg
