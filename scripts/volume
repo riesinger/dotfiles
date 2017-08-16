@@ -5,7 +5,6 @@ VOLUME=$2
 
 
 usage () {
-  echo "BAD USAGE" > /tmp/volume_log
   cat << EOF
 usage: $0 <command> [volume]
 

@@ -17,6 +17,12 @@ for src ($sourcefiles); do
     source $src
 done
 
+# Source the plugins
+local pluginbase=$HOME/.config/zsh-plugins
+
+source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 eval $(dircolors ~/.dircolors)
 eval "$(fasd --init auto)"
 
