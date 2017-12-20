@@ -25,7 +25,7 @@ set splitright
 
 " Use ag insead of grep
 if executable('ag')
-    set grepprg="ag --vimgrep"
+  set grepprg="ag --vimgrep"
 endif
 
 " }}}
@@ -40,24 +40,21 @@ call plug#begin()
 
 " Functionality
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'danro/rename.vim'
+Plug 'danro/rename.vim'                     " To rename files on the fly
 Plug 'godlygeek/tabular'                    " For markdown table alignment
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'mileszs/ack.vim'                      " For using ag instead of grep
 Plug 'SirVer/ultisnips'
 Plug 'Shougo/deoplete.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
-Plug 'vimwiki/vimwiki'
 Plug 'w0rp/ale'
-Plug 'zchee/deoplete-go', { 'do': 'make'}
 
 " Languages
 Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
@@ -65,37 +62,30 @@ Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
-Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
-" Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-" Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-" Plug 'Quramy/tsuquyomi', { 'for': 'typescript' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
+Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 
 " Visuals
-Plug 'arial7/vim-airline-themes'
-Plug 'arial7/base16-vim'
-Plug 'vim-airline/vim-airline'
+" Plug 'arial7/vim-airline-themes'
+" Plug 'arial7/base16-vim'
+" Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+Plug 'arcticicestudio/nord-vim'
+
+if !has('nvim')
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+
 
 call plug#end()
 " }}}
 
 "{{{ --- Plugin config ---
-
-" Airline
-let g:airline_theme="base16_eighties"
-let g:airline_powerline_fonts = 1
-let g:airline_right_alt_sep = ' · '
-let g:airline_right_sep = ' '
-let g:airline_left_alt_sep= ' · '
-let g:airline_left_sep = ' '
-let g:airline_section_a = '%{airline#util#wrap(airline#parts#mode(), 0)}'
-let g:airline_section_y = '%{ObsessionStatus("∞", "⧞")}'
-let g:airline_section_z = '%4l/%L:%3v'
-let g:airline_skip_empty_sections = 1
-let g:airline#extensions#ale#enabled = 1
 
 " Ultisnips
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
@@ -136,7 +126,6 @@ let g:ale_sign_warning = "~"
 " {{{ --- Keymaps ---
 "  Leaders
 let mapleader = ","
-nnoremap <leader>[ :Ngrep<space>
 nnoremap <leader>] :Ack!<space>
 nnoremap <leader>--> a<space>➔<Esc>
 nnoremap <leader>-> a➔<Esc>
@@ -147,35 +136,44 @@ nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><
 
 " Plugin Keymaps
 nnoremap <c-p> :FZF<cr>
+nnoremap <leader>k :Ag<space><c-r><c-w><cr>
+
+
+" Neovim keybindings
+if has('nvim')
+
+tnoremap <Esc> <C-\><C-n>
 aug fzf_setup
     au!
     au TermOpen term://*FZF tnoremap <silent> <buffer> <esc><esc> <c-c>
 aug END
 
+endif
+
 " Golang Keymaps
 autocmd FileType go nmap <leader>b <Plug>(go-install)
 autocmd FileType go nmap <leader>d <Plug>(go-def)
 
+" Autohide the completion popup
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" Misc Keymaps
+" Disable this
 nnoremap Q <nop>
+" To clear the highlighting from searches
 nnoremap <silent> <Esc><Esc> :let @/=""<CR>
-tnoremap <Esc> <C-\><C-n>
 " }}}
 
 " {{{ --- Misc config ---
 let base16colorspace=256
 let t_Co=256
-colorscheme base16-eighties
+let g:nord_italic_comments = 1
+colorscheme nord
 set cursorline
 set guicursor=n:hor100
 
 " Remove light border between splits
-hi VertSplit ctermbg=bg ctermfg=bg
+" hi VertSplit ctermbg=bg ctermfg=bg
 
 " --- Custom commands ---
-" Notes grep
-command! -nargs=1 Ngrep lvimgrep "<args>" $SCHOOL_DIR/**/*.md
 
 " Remember cursor position between vim sessions
 autocmd BufReadPost *
@@ -215,5 +213,19 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
+
+
+" Statusline configuration
+
+let g:statusline_seperator=' · '
+
+" Clear the statusline
+set statusline=%-2{toupper(mode())}
+set statusline+=%{g:statusline_seperator}
+set statusline+=%-.35f%m
+set statusline+=%=
+set statusline+=%y
+set statusline+=%{g:statusline_seperator}
+set statusline+=%4l/%-4L
 
 " }}}

@@ -1,6 +1,6 @@
 # General
 alias c="clear"
-alias v="nvim"
+alias v="$EDITOR"
 alias week='date +"%V"'
 alias :q="exit"
 
