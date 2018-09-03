@@ -19,7 +19,18 @@ check_dir() {
 }
 
 check_status() {
-    [[ $UID -eq 0 ]] && print -n "%{%F{yellow}%}⚡"|| print -n "›"
+	[[ $UID -eq 0 ]] && print -n "%{%F{yellow}%}⚡"|| ([[ $RETVAL -eq 0 ]] && print -n "%{%F{green}%}›" || print -n "%{%F{red}%}›")
+}
+
+check_branch() {
+    local branch="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
+    if [[ "$branch" == "master" ]]; then
+        print -n "%{%F{red}%}$branch"
+    elif [[ "$branch" == "develop" ]]; then
+        print -n "%{%F{yellow}%}$branch"
+    else
+	print -n "$branch"
+    fi
 }
 
 end_prompt() {
@@ -31,6 +42,7 @@ build_prompt() {
     check_return_color
     check_machine
     check_dir
+    check_branch
     check_status
     end_prompt
 }
