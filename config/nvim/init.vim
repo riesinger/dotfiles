@@ -75,6 +75,7 @@ Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 " Plug 'vim-airline/vim-airline'
 Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim'
+Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
   Plug 'roxma/nvim-yarp'
@@ -122,6 +123,13 @@ let g:ale_sign_column_always = 1
 let g:ale_sign_error = "!"
 let g:ale_sign_warning = "~"
 
+
+" Indent Line
+let g:indentLine_char = '│'
+let g:indentLine_first_char = '│'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+
 " }}}
 
 " {{{ --- Keymaps ---
@@ -163,9 +171,9 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 " }}}
 
 " {{{ --- Misc config ---
-let base16colorspace=256
-let t_Co=256
-let g:nord_italic_comments = 1
+set termguicolors
+"let base16colorspace=256
+"let t_Co=256
 let ayucolor="dark"
 colorscheme ayu
 set guicursor=n:hor100
