@@ -5,7 +5,6 @@ set wrap                        " Visually wrap long lines
 set textwidth=100               " Wrap lines after 100 chars
 set tabstop=2                   " Tabs 2 spaces wide, tabs are spaces
 set shiftwidth=2
-set expandtab
 set scrolloff=4                 " Move page when cursor has 4 lines of space
 set autoread
 set foldmethod=marker
@@ -75,6 +74,7 @@ Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'vim-airline/vim-airline'
 Plug 'arcticicestudio/nord-vim'
+Plug 'ayu-theme/ayu-vim'
 
 if !has('nvim')
   Plug 'roxma/nvim-yarp'
@@ -166,7 +166,8 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 let base16colorspace=256
 let t_Co=256
 let g:nord_italic_comments = 1
-colorscheme nord
+let ayucolor="dark"
+colorscheme ayu
 set guicursor=n:hor100
 
 " Remove light border between splits
