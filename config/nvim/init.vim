@@ -9,11 +9,12 @@ set expandtab
 set scrolloff=4                 " Move page when cursor has 4 lines of space
 set autoread
 set foldmethod=marker
-set wildignore+=.git/,node_modules/,.glide
+set wildignore+=.git/,node_modules/,.glide,vendor/
 set fillchars+=vert:\           " Remove | from split lines
 set nospell                     " Disable spell checking
 set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
+set relativenumber
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -151,8 +152,7 @@ aug END
 endif
 
 " Golang Keymaps
-autocmd FileType go nmap <leader>b <Plug>(go-install)
-autocmd FileType go nmap <leader>d <Plug>(go-def)
+autocmd FileType go nmap <F5> <Plug>(go-build)
 
 " Autohide the completion popup
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -167,7 +167,6 @@ let base16colorspace=256
 let t_Co=256
 let g:nord_italic_comments = 1
 colorscheme nord
-set cursorline
 set guicursor=n:hor100
 
 " Remove light border between splits
@@ -181,7 +180,7 @@ autocmd BufReadPost *
               \   exe "normal! g'\"" |
               \ endif
 
-autocmd FileType text,markdown setlocal spell
+autocmd BufEnter text,markdown,tex setlocal spell
 
 " Hide the -- INSERT -- etc. line
 set noshowmode
