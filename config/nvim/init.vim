@@ -224,12 +224,17 @@ augroup END
 autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 
-" Statusline configuration
+" }}}
+
+"{{{ Statusline
 
 " Colors
-" Normal mode, default
+highlight! StatusLine guibg=#20272C guifg=#FFFFFF
+highlight! StatusLineNC guibg=#20272C guifg=#BBBBBB
+" Mode indicator, end piece
 highlight! User1 guibg=#C2D94C guifg=#0F1419
-highlight! User2 guibg=#59C2FF guifg=#0F1419
+" Branch background, lighter grey
+highlight! User2 guibg=#363F46 guifg=#FFFFFF
 
 let g:statusline_seperator='  '
 
@@ -255,27 +260,43 @@ let g:currentmode={
       \ 't'    : ' TERMINAL '
       \}
 
+function! GitBranch()
+	let branch = fugitive#head()
+	if branch != ''
+		return '  ⎇ '.branch.' '
+	endif
+	return ''
+endfunction
+
+
 function! SetStatusline()
-	if (mode() ==# 'i')
+	let mode = mode()
+	if (mode ==# 'i')
 		highlight! User1 guibg=#59C2FF guifg=#0F1419
-	elseif (mode() ==# 'R')
-		highlight! User1 guibg=#FF3333 guifg=#0F1419
 	else
 		highlight! User1 guibg=#C2D94C guifg=#0F1419
 	endif
 	return ''
 endfunction
 
+function! GetObsessionStatus()
+	let status = ObsessionStatus('0.0', '-.-')
+	if status != ''
+		return '  '.status.' '
+	endif
+	return '  -.- '
+endfunction
+
 set statusline=
 set statusline+=%{SetStatusline()}
 set statusline+=%1*%8{g:currentmode[mode()]}%*
-set statusline+=%{g:statusline_seperator}
-set statusline+=⎇\ %{FugitiveHead()}
+set statusline+=%2*%{GitBranch()}%*
 set statusline+=%{g:statusline_seperator}
 set statusline+=%-.55f%m
 set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
+set statusline+=%2*%{GetObsessionStatus()}%*
 set statusline+=%1*%4l/%-4L%*
 
 
