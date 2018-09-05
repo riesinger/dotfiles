@@ -14,6 +14,7 @@ set nospell                     " Disable spell checking
 set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
 set relativenumber
+set mouse=a
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -72,8 +73,9 @@ Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 " Plug 'arial7/vim-airline-themes'
 " Plug 'arial7/base16-vim'
 " Plug 'vim-airline/vim-airline-themes'
+" Plug 'ayu-theme/ayu-vim-airline'
 " Plug 'vim-airline/vim-airline'
-Plug 'arcticicestudio/nord-vim'
+" Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'Yggdroot/indentLine'
 
@@ -122,7 +124,6 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = "!"
 let g:ale_sign_warning = "~"
-
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -225,15 +226,57 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " Statusline configuration
 
-let g:statusline_seperator=' · '
+" Colors
+" Normal mode, default
+highlight! User1 guibg=#C2D94C guifg=#0F1419
+highlight! User2 guibg=#59C2FF guifg=#0F1419
 
-" Clear the statusline
-set statusline=%-2{toupper(mode())}
+let g:statusline_seperator='  '
+
+let g:currentmode={
+      \ 'n'    : ' NORMAL ',
+      \ 'no'   : ' NORMAL_',
+      \ 'v'    : ' VISUAL ',
+      \ 'V'    : ' V·LINE ',
+      \ 'x22'  : ' V·BLOK ',
+      \ 's'    : ' SELECT ',
+      \ 'S'    : ' S·LINE ',
+      \ 'x19'  : ' S·BLOK ',
+      \ 'i'    : ' INSERT ',
+      \ 'R'    : ' REPLAC ',
+      \ 'Rv'   : ' V·RPLC ',
+      \ 'c'    : ' CMD   ',
+      \ 'cv'   : ' VIM EX ',
+      \ 'ce'   : ' EX    ',
+      \ 'r'    : ' PROMPT ',
+      \ 'rm'   : ' MORE  ',
+      \ 'r?'   : ' CNFRM ',
+      \ '!'    : ' SHELL ',
+      \ 't'    : ' TERMINAL '
+      \}
+
+function! SetStatusline()
+	if (mode() ==# 'i')
+		highlight! User1 guibg=#59C2FF guifg=#0F1419
+	elseif (mode() ==# 'R')
+		highlight! User1 guibg=#FF3333 guifg=#0F1419
+	else
+		highlight! User1 guibg=#C2D94C guifg=#0F1419
+	endif
+	return ''
+endfunction
+
+set statusline=
+set statusline+=%{SetStatusline()}
+set statusline+=%1*%8{g:currentmode[mode()]}%*
 set statusline+=%{g:statusline_seperator}
-set statusline+=%-.35f%m
+set statusline+=⎇\ %{FugitiveHead()}
+set statusline+=%{g:statusline_seperator}
+set statusline+=%-.55f%m
 set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
-set statusline+=%4l/%-4L
+set statusline+=%1*%4l/%-4L%*
+
 
 " }}}
