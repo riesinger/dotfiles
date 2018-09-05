@@ -1,6 +1,6 @@
 # General
 alias c="clear"
-alias v="$EDITOR"
+alias e="$EDITOR"
 alias week='date +"%V"'
 alias :q="exit"
 
