@@ -40,6 +40,9 @@ endfunction
 call plug#begin()
 
 " Functionality
+Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
+Plug 'Shougo/deoplete.nvim'
+Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'                     " To rename files on the fly
 Plug 'godlygeek/tabular'                    " For markdown table alignment
@@ -47,14 +50,12 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
-Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'SirVer/ultisnips'
-Plug 'Shougo/deoplete.nvim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
+Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 
 " Languages
@@ -70,8 +71,6 @@ Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 
 " Visuals
-" Plug 'arial7/vim-airline-themes'
-" Plug 'arial7/base16-vim'
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ayu-theme/ayu-vim-airline'
 " Plug 'vim-airline/vim-airline'
@@ -83,8 +82,6 @@ if !has('nvim')
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
-
 
 call plug#end()
 " }}}
@@ -130,6 +127,9 @@ let g:indentLine_char = '│'
 let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
+
+" Ack
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " }}}
 

@@ -3,6 +3,7 @@ alias c="clear"
 alias e="$EDITOR"
 alias week='date +"%V"'
 alias :q="exit"
+alias ag="ag --hidden --ignore .git"
 
 # Tmux
 alias tls="tmux ls"
