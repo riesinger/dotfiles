@@ -52,6 +52,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
@@ -69,6 +70,7 @@ Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
+Plug 'jodosha/vim-godebug', { 'for': 'go' }
 
 " Visuals
 " Plug 'vim-airline/vim-airline-themes'
@@ -130,6 +132,9 @@ let g:indentLine_setColors = 0
 
 " Ack
 let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" JSON
+let g:vim_json_syntax_conceal = 0
 
 " }}}
 
