@@ -40,6 +40,7 @@ endfunction
 call plug#begin()
 
 " Functionality
+Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
@@ -151,6 +152,7 @@ nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><
 
 " Plugin Keymaps
 nnoremap <c-p> :FZF<cr>
+nnoremap <c-s-o> :Tags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
 
 
@@ -231,7 +233,7 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " }}}
 
-"{{{ Statusline
+"{{{ --- Statusline
 
 " Colors
 highlight! StatusLine guibg=#20272C guifg=#FFFFFF
@@ -262,7 +264,7 @@ let g:currentmode={
       \ 'rm'   : ' MORE  ',
       \ 'r?'   : ' CNFRM ',
       \ '!'    : ' SHELL ',
-      \ 't'    : ' TERMINAL '
+      \ 't'    : ' TERM  '
       \}
 
 function! GitBranch()
@@ -302,7 +304,7 @@ set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
 set statusline+=%2*%{GetObsessionStatus()}%*
-set statusline+=%1*%4l/%-4L%*
+set statusline+=%1*\ %4l:%-3c\ │\ %-4L%*
 
 
 " }}}
