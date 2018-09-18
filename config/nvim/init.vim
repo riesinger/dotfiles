@@ -304,7 +304,6 @@ set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
 set statusline+=%2*%{GetObsessionStatus()}%*
-set statusline+=%1*\ %4l:%-3c\ │\ %-4L%*
-
+set statusline+=%1*\ %4l:%-3c\ \│\ %-4L%*
 
 " }}}
