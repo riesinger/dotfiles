@@ -15,6 +15,8 @@ set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
 set relativenumber
 set mouse=a
+" suppress completion messages
+set shortmess+=c
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -122,8 +124,9 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 
 " ALE
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = "!"
-let g:ale_sign_warning = "~"
+let g:ale_sign_error = "!!"
+let g:ale_sign_warning = ">>"
+let g:ale_completion_enabled = 1
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -132,10 +135,28 @@ let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 
 " Ack
-let g:ackprg = 'ag --nogroup --nocolor --column'
+let g:ackprg = 'ag --nogroup --nocolor --column --ignore vendor --ignore .git'
 
 " JSON
 let g:vim_json_syntax_conceal = 0
+
+" NCM2
+autocmd BufEnter  *  call ncm2#enable_for_buffer()
+
+" LSP
+set hidden
+
+let g:LanguageClient_serverCommands = {
+  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+	\ 'go': ['~/go/bin/go-langserver', '-gocodecompletion']
+  \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+" FZF
+let g:fzf_tags_command = 'ctags --exclude=vendor -R'
 
 " }}}
 
@@ -152,7 +173,8 @@ nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><
 
 " Plugin Keymaps
 nnoremap <c-p> :FZF<cr>
-nnoremap <c-s-o> :Tags<cr>
+nnoremap <F2> :Tags<cr>
+nnoremap <F3> :BTags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
 
 
@@ -171,7 +193,8 @@ endif
 autocmd FileType go nmap <F5> <Plug>(go-build)
 
 " Autohide the completion popup
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Disable this
 nnoremap Q <nop>
 " To clear the highlighting from searches
@@ -185,6 +208,7 @@ set termguicolors
 let ayucolor="dark"
 colorscheme ayu
 set guicursor=n:hor100
+set cursorline
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
@@ -250,10 +274,10 @@ let g:currentmode={
       \ 'no'   : ' NORMAL_',
       \ 'v'    : ' VISUAL ',
       \ 'V'    : ' V·LINE ',
-      \ 'x22'  : ' V·BLOK ',
+      \ ''  : ' V·BLOK ',
       \ 's'    : ' SELECT ',
       \ 'S'    : ' S·LINE ',
-      \ 'x19'  : ' S·BLOK ',
+      \ ''  : ' S·BLOK ',
       \ 'i'    : ' INSERT ',
       \ 'R'    : ' REPLAC ',
       \ 'Rv'   : ' V·RPLC ',
