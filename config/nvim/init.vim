@@ -140,21 +140,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column --ignore vendor --ignore .git'
 " JSON
 let g:vim_json_syntax_conceal = 0
 
-" NCM2
-autocmd BufEnter  *  call ncm2#enable_for_buffer()
-
-" LSP
-set hidden
-
-let g:LanguageClient_serverCommands = {
-  \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-	\ 'go': ['~/go/bin/go-langserver', '-gocodecompletion']
-  \ }
-
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
 " FZF
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
 
