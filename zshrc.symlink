@@ -40,11 +40,7 @@ export PATH="$PATH:$GOBIN:$DOTFILES/scripts:/usr/local/go/bin"
 [ -d "$HOME/.bin" ] && export PATH="$PATH:$HOME/.bin"
 
 # Use ag as search filter for FZF, if it is installed
-<<<<<<< HEAD
-[ -z "$(has_executable 'ag')" ] && export FZF_DEFAULT_COMMAND='ag -g "" '
-=======
 [ -z "$(has_executable 'ag')" ] && export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor -g "" '
->>>>>>> f0d87375057ef03eb1eacd89ffdd6a9f8e1948f6
 
 HISTSIZE=3000
 SAVEHIST=3000
@@ -55,6 +51,6 @@ bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
 bindkey "\e[3~" delete-char
 
-[ -f ~/.dircolors ] && eval $(dircolors ~/.dircolors)
-[ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.dircolors ] && eval $(dircolors ~/.dircolors) || :
+[ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "fzf is not installed"
