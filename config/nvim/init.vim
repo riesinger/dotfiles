@@ -15,6 +15,8 @@ set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
 set relativenumber
 set mouse=a
+" suppress completion messages
+set shortmess+=c
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -40,6 +42,10 @@ endfunction
 call plug#begin()
 
 " Functionality
+Plug 'Chiel92/vim-autoformat'
+Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
+Plug 'Shougo/deoplete.nvim'
+Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'                     " To rename files on the fly
 Plug 'godlygeek/tabular'                    " For markdown table alignment
@@ -47,14 +53,13 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
-Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'SirVer/ultisnips'
-Plug 'Shougo/deoplete.nvim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-repeat'
+Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
 Plug 'w0rp/ale'
 
 " Languages
@@ -68,10 +73,9 @@ Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
+Plug 'jodosha/vim-godebug', { 'for': 'go' }
 
 " Visuals
-" Plug 'arial7/vim-airline-themes'
-" Plug 'arial7/base16-vim'
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ayu-theme/ayu-vim-airline'
 " Plug 'vim-airline/vim-airline'
@@ -83,8 +87,6 @@ if !has('nvim')
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
-
-
 
 call plug#end()
 " }}}
@@ -122,8 +124,24 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 
 " ALE
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = "!"
-let g:ale_sign_warning = "~"
+let g:ale_sign_error = "!!"
+let g:ale_sign_warning = ">>"
+let g:ale_completion_enabled = 1
+
+" Indent Line
+let g:indentLine_char = '│'
+let g:indentLine_first_char = '│'
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+
+" Ack
+let g:ackprg = 'ag --nogroup --nocolor --column --ignore vendor --ignore .git'
+
+" JSON
+let g:vim_json_syntax_conceal = 0
+
+" FZF
+let g:fzf_tags_command = 'ctags --exclude=vendor -R'
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -146,6 +164,8 @@ nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><
 
 " Plugin Keymaps
 nnoremap <c-p> :FZF<cr>
+nnoremap <F2> :Tags<cr>
+nnoremap <F3> :BTags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
 
 
@@ -164,7 +184,8 @@ endif
 autocmd FileType go nmap <F5> <Plug>(go-build)
 
 " Autohide the completion popup
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Disable this
 nnoremap Q <nop>
 " To clear the highlighting from searches
@@ -178,6 +199,7 @@ set termguicolors
 let ayucolor="dark"
 colorscheme ayu
 set guicursor=n:hor100
+set cursorline
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
@@ -224,59 +246,80 @@ augroup END
 autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 
-" Statusline configuration
+" }}}
+
+
+"{{{ --- Statusline
 
 " Colors
-" Normal mode, default
+highlight! StatusLine guibg=#20272C guifg=#FFFFFF
+highlight! StatusLineNC guibg=#20272C guifg=#BBBBBB
+" Mode indicator, end piece
 highlight! User1 guibg=#C2D94C guifg=#0F1419
-highlight! User2 guibg=#59C2FF guifg=#0F1419
+" Branch background, lighter grey
+highlight! User2 guibg=#363F46 guifg=#FFFFFF
 
 let g:statusline_seperator='  '
 
 let g:currentmode={
-      \ 'n'    : ' NORMAL ',
-      \ 'no'   : ' NORMAL_',
-      \ 'v'    : ' VISUAL ',
-      \ 'V'    : ' V·LINE ',
-      \ 'x22'  : ' V·BLOK ',
-      \ 's'    : ' SELECT ',
-      \ 'S'    : ' S·LINE ',
-      \ 'x19'  : ' S·BLOK ',
-      \ 'i'    : ' INSERT ',
-      \ 'R'    : ' REPLAC ',
-      \ 'Rv'   : ' V·RPLC ',
-      \ 'c'    : ' CMD   ',
-      \ 'cv'   : ' VIM EX ',
-      \ 'ce'   : ' EX    ',
-      \ 'r'    : ' PROMPT ',
-      \ 'rm'   : ' MORE  ',
-      \ 'r?'   : ' CNFRM ',
-      \ '!'    : ' SHELL ',
-      \ 't'    : ' TERMINAL '
+      \ 'n'  : ' NORMAL ',
+      \ 'no' : ' NORMAL_',
+      \ 'v'  : ' VISUAL ',
+      \ 'V'  : ' V·LINE ',
+      \ '' : ' V·BLOK ',
+      \ 's'  : ' SELECT ',
+      \ 'S'  : ' S·LINE ',
+      \ '' : ' S·BLOK ',
+      \ 'i'  : ' INSERT ',
+      \ 'R'  : ' REPLAC ',
+      \ 'Rv' : ' V·RPLC ',
+      \ 'c'  : ' CMD   ',
+      \ 'cv' : ' VIM EX ',
+      \ 'ce' : ' EX    ',
+      \ 'r'  : ' PROMPT ',
+      \ 'rm' : ' MORE  ',
+      \ 'r?' : ' CNFRM ',
+      \ '!'  : ' SHELL ',
+      \ 't'  : ' TERM '
       \}
 
+function! GitBranch()
+	let branch = fugitive#head()
+	if branch != ''
+		return '  ⎇ '.branch.' '
+	endif
+	return ''
+endfunction
+
+
 function! SetStatusline()
-	if (mode() ==# 'i')
+	let mode = mode()
+	if (mode ==# 'i')
 		highlight! User1 guibg=#59C2FF guifg=#0F1419
-	elseif (mode() ==# 'R')
-		highlight! User1 guibg=#FF3333 guifg=#0F1419
 	else
 		highlight! User1 guibg=#C2D94C guifg=#0F1419
 	endif
 	return ''
 endfunction
 
+function! GetObsessionStatus()
+	let status = ObsessionStatus('0.0', '-.-')
+	if status != ''
+		return '  '.status.' '
+	endif
+	return '  -.- '
+endfunction
+
 set statusline=
 set statusline+=%{SetStatusline()}
 set statusline+=%1*%8{g:currentmode[mode()]}%*
-set statusline+=%{g:statusline_seperator}
-set statusline+=⎇\ %{FugitiveHead()}
+set statusline+=%2*%{GitBranch()}%*
 set statusline+=%{g:statusline_seperator}
 set statusline+=%-.55f%m
 set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
-set statusline+=%1*%4l/%-4L%*
-
+set statusline+=%2*%{GetObsessionStatus()}%*
+set statusline+=%1*\ %4l:%-3c\ \│\ %-4L%*
 
 " }}}

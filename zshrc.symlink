@@ -40,7 +40,11 @@ export PATH="$PATH:$GOBIN:$DOTFILES/scripts:/usr/local/go/bin"
 [ -d "$HOME/.bin" ] && export PATH="$PATH:$HOME/.bin"
 
 # Use ag as search filter for FZF, if it is installed
+<<<<<<< HEAD
 [ -z "$(has_executable 'ag')" ] && export FZF_DEFAULT_COMMAND='ag -g "" '
+=======
+[ -z "$(has_executable 'ag')" ] && export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor -g "" '
+>>>>>>> f0d87375057ef03eb1eacd89ffdd6a9f8e1948f6
 
 HISTSIZE=3000
 SAVEHIST=3000
