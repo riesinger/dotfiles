@@ -24,13 +24,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin"
 
 # Source all config files
-local sourcefiles=($DOTFILES/config/zsh/*.zsh)
+local sourcefiles=($DOTFILES/zsh/*.zsh)
 for src ($sourcefiles); do
     source $src
 done
 
 # Source the plugins
-local pluginbase=$DOTFILES/config/zsh-plugins
+local pluginbase=$DOTFILES/zsh-plugins
 
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
