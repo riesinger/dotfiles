@@ -248,7 +248,6 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 
 " }}}
 
-
 "{{{ --- Statusline
 
 " Colors
@@ -284,7 +283,10 @@ let g:currentmode={
       \}
 
 function! GitBranch()
-	let branch = fugitive#head()
+	let branch = ""
+	if exists("*fugitive#head")
+		let branch = fugitive#head()
+	endif
 	if branch != ''
 		return '  ⎇ '.branch.' '
 	endif
@@ -303,7 +305,10 @@ function! SetStatusline()
 endfunction
 
 function! GetObsessionStatus()
-	let status = ObsessionStatus('0.0', '-.-')
+	let status = ""
+	if exists("*ObsessionStatus")
+		let status = ObsessionStatus('0.0', '-.-')
+	endif
 	if status != ''
 		return '  '.status.' '
 	endif
