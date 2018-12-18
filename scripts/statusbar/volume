@@ -1,0 +1,25 @@
+#!/bin/sh
+
+case $BLOCK_BUTTON in
+	1) setsid "$TERMINAL" -e pulsemixer & ;;
+	2) pulsemixer --toggle-mute ;;
+	4) pulsemixer --change-volume +5 ;;
+	5) pulsemixer --change-volume -5 ;;
+	3) pgrep -x dunst >/dev/null && notify-send "<b>📢 Volume module:</b>
+- Shows volume 🔊, 🔇 if muted.
+- Middle click to mute.
+- Scroll to change."
+esac
+
+[ "$(pulsemixer --get-mute)" = "1" ] && printf "<span font_desc='FontAwesome'>\Uf6a9</span> Muted" && exit
+
+vol=$(pulsemixer --get-volume | awk '{print $1}')
+
+if [ "$vol" -gt "70" ]; then
+	printf "<span font_desc='FontAwesome'>\Uf028</span> %s%%" $vol
+elif [ "$vol" -lt "30" ]; then
+	printf "<span font_desc='FontAwesome'>\Uf026</span> %s%%" $vol
+else
+	printf "<span font_desc='FontAwesome'>\Uf027</span> %s%%" $vol
+fi
+

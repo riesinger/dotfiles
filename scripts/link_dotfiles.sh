@@ -13,12 +13,11 @@ function link_file {
 	if [ -f "$dest" ]; then
 		printf "> %s already exists, do you want to overwrite it? [Y,n] " $dest;\
 		read -k overwrite;\
-		echo ""
 	fi
 	if [ "$overwrite" = "n" ]; then
-		printf "Skipping %s\n" $fBase
+		printf " Skipped\n" $fBase
 	else
-		printf "Linking %s -> %s\n" $f $dest
+		printf "\nLinking %s -> %s\n" $f $dest
 		# cannot harm to delete the old file
 		rm $dest 2> /dev/null
 		ln -s "$f" "$dest"
@@ -27,7 +26,23 @@ function link_file {
 
 function link_dir {
 	d=$1
-	printf "Linking %s\n" $d
+	dBase=$(basename $d)
+	destName=".config/$dBase"
+	dest="$HOME/$destName"
+	overwrite="y"
+	if [ -d "$dest" ]; then
+		printf "> %s already exists, do you want to overwrite it? [Y,n] " $dest;\
+		read -k overwrite;\
+	fi
+	if [ "$overwrite" = "n" ]; then
+		printf " Skipped\n" $dBase
+	else
+		printf "\nLinking %s -> %s\n" $d $dest
+		# cannot harm to delete the old file
+		rm -r $dest 2> /dev/null
+		ln -s "$d" "$dest"
+	fi
+
 }
 
 # Collect all .symlink files, which will be directly linked to $HOME

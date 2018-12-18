@@ -6,44 +6,46 @@ rofi.color-urgent: #515151, #f2777a, #515151, #f2777a, #f2f0ec
 rofi.padding: 250
 rofi.lines: 5
 rofi.opacity: 10
-rofi.font: Ubuntu Mono 18
+rofi.font: Inconsolata 12
+
+Xft.dpi: 130
 
 Xcursor.size: 24
 
+
 ! special
-*.foreground:   #d3d0c8
-*.background:   #383838
-*.cursorColor:  #d3d0c8
+*.foreground:   #f2fbff
+*.background:   #313f46
+*.cursorColor:  #f2fbff
 
 ! black
-*.color0:       #383838
-*.color8:       #747369
+*.color0:       #313f46
+*.color8:       #4a585f
 
 ! red
-*.color1:       #f2777a
-*.color9:       #f2777a
+*.color1:       #c31633
+*.color9:       #ff5673
 
 ! green
-*.color2:       #99cc99
-*.color10:      #99cc99
+*.color2:       #4caf50
+*.color10:      #8cef90
 
 ! yellow
-*.color3:       #ffcc66
-*.color11:      #ffcc66
+*.color3:       #efaa04
+*.color11:      #ffea44
 
 ! blue
-*.color4:       #6699cc
-*.color12:      #6699cc
+*.color4:       #0961c4
+*.color12:      #49a1ff
 
 ! magenta
-*.color5:       #cc99cc
-*.color13:      #cc99cc
+*.color5:       #8a0c8f
+*.color13:      #ca4ccf
 
 ! cyan
-*.color6:       #66cccc
-*.color14:      #66cccc
+*.color6:       #067d8a
+*.color14:      #46bdca
 
 ! white
-*.color7:       #d3d0c8
-*.color15:      #f2f0ec
-
+*.color7:       #b0bec5
+*.color15:      #f2fbff

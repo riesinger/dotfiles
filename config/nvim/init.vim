@@ -81,7 +81,8 @@ Plug 'jodosha/vim-godebug', { 'for': 'go' }
 " Plug 'vim-airline/vim-airline'
 " Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim'
-Plug 'Yggdroot/indentLine'
+Plug 'jeffkreeftmeijer/vim-dim'
+" Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
   Plug 'roxma/nvim-yarp'
@@ -193,11 +194,10 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 " }}}
 
 " {{{ --- Misc config ---
-set termguicolors
 "let base16colorspace=256
 "let t_Co=256
 let ayucolor="dark"
-colorscheme ayu
+colorscheme dim
 set guicursor=n:hor100
 set cursorline
 

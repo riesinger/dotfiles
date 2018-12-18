@@ -1,50 +1,38 @@
 #!/bin/sh
 
 COMMAND=$1
-VOLUME=$2
 
+notify_i3blocks="pkill -RTMIN+10 i3blocks"
 
 usage () {
   cat << EOF
-usage: $0 <command> [volume]
+usage: $0 <command>
 
 commands:
-  set       sets the volume to [volume], inc/dec possbile (5%+/5%-)
-  get       gets the current volume in percent
-  toggle    toggles the output
-  status    prints the current output status (on/off)
+	down <num> decreases the volume by <num> (default 5)
+	up <num>   increase the volume by <num> (default 5)
+  mute   		 toggle the mute state
+
+All commands can be abbreviated, i.e. \'$0 d\' for \'$0 down 5\'.
+This script also tries to notify i3blocks to update the volume block (signal 10)
 EOF
 }
 
-set_volume () {
-  local change=$1
-  amixer -q sset Master $change
-}
-
-get_volume () {
-  printf "%s\n" $(amixer get Master | grep % | awk '{print $5}' | sed 's/[^0-9\%]//g' | head -n1)
-}
-
-toggle_audio () {
-  amixer -q sset Master toggle
-}
-
-get_audio_status () {
-  printf "%s\n" $(amixer get Master | grep % | awk '{print $6}' | head -n1 | sed 's/[^on|off]//g')
-}
 
 case $COMMAND in
-  "set" )
-    set_volume $VOLUME
+  u*)
+		[ -z "$2" ] && vol="5" || vol="$2";
+		pulsemixer --change-volume +"$vol";
+		$notify_i3blocks;
     ;;
-  "get" )
-    printf "%s\n" $(get_volume)
-    ;;
-  "toggle" )
-    toggle_audio
-    ;;
-  "status" )
-    printf "%s\n" $(get_audio_status)
+  d* )
+		[ -z "$2" ] && vol="5" || vol="$2";
+		pulsemixer --change-volume -"$vol";
+		$notify_i3blocks;
+		;;
+  m* )
+		pulsemixer --toggle-mute;
+		$notify_i3blocks;
     ;;
   * )
     usage

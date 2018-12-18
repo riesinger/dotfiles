@@ -52,8 +52,6 @@ HISTFILE=~/.zsh_history
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "fzf is not installed"
 
 # GPG-Agent setup
-if [ ! -f /run/user/$(id -u)/gpg-agent.env ]; then
-    killall gpg-agent > /dev/null 2>&1;
-    eval $(gpg-agent --daemon --enable-ssh-support > /run/user/$(id -u)/gpg-agent.env);
-fi
-. /run/user/$(id -u)/gpg-agent.env
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye > /dev/null

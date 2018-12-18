@@ -1,56 +1,43 @@
 [options]
-font = Hack 12
+font = Inconsolata 13
 cursor_shape = underline
-dynamic_title = true
-
-#[colors]
-#foreground = rgb(239, 240, 235)
-#foreground_bold = rgb(239, 240, 235)
-#background = rgb(40, 42, 56)
-#
-## If unset, will reverse foreground and background
-#highlight = #2f2f2f
-#
-## Colors from original hyper-snazzy theme
-#color0 = rgb(40,42,56)
-#color1 = rgb(255,92,87)
-#color2 = rgb(90,247,142)
-#color3 = rgb(243,249,157)
-#color4 = rgb(87,199,255)
-#color5 = rgb(255,106,193)
-#color6 = rgb(154,237,254)
-#color7 = rgb(241,241,240)
-#
-## Other default termite colors
-#color9 = #dca3a3
-#color10 = #c3bf9f
-#color11 = #f0dfaf
-#color12 = #94bff3
-#color13 = #ec93d3
-#color14 = #93e0e3
-#color15 = #ffffff
 
 [colors]
-foreground = #D8DEE9
-background = #2E3440
-foreground_bold = #D8DEE9
-cursor = #D8DEE9
-cursor_foreground = #2E3440
-highlight = #4C566A
 
-color0  = #3B4252
-color1  = #BF616A
-color2  = #A3BE8C
-color3  = #EBCB8B
-color4  = #81A1C1
-color5  = #B48EAD
-color6  = #88C0D0
-color7  = #E5E9F0
-color8  = #4C566A
-color9  = #BF616A
-color10 = #A3BE8C
-color11 = #EBCB8B
-color12 = #81A1C1
-color13 = #B48EAD
-color14 = #8FBCBB
-color15 = #ECEFF4
+# special
+foreground      = #ffffff
+foreground_bold = #ffffff
+cursor          = #ffffff
+background      = #292c36
+
+# black
+color0  = #292c36
+color8  = #434650
+
+# red
+color1  = #dc3c3c
+color9  = #ff7c7c
+
+# green
+color2  = #95c76f
+color10 = #d5ffaf
+
+# yellow
+color3  = #d28e5d
+color11 = #ffce9d
+
+# blue
+color4  = #8485ce
+color12 = #c4c5ff
+
+# magenta
+color5  = #b73999
+color13 = #f779d9
+
+# cyan
+color6  = #00aba5
+color14 = #40ebe5
+
+# white
+color7  = #a9acb6
+color15 = #ffffff

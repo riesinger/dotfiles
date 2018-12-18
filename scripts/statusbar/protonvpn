@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# This utility requires you to have protonvpn-cli installed and setup, as well as
+# protonvpn-cli added to the 'sudo-without-password' group
+
+case $BLOCK_BUTTON in
+	1) pgrep -x dunst >/dev/null && notify-send "Connecting to fastest VPN server"; sudo protonvpn-cli -f;;
+	2) pgrep -x dunst >/dev/null && notify-send "Disconnecting from VPN"; sudo protonvpn-cli -d;;
+	3) pgrep -x dunst >/dev/null && notify-send "<b>VPN module:</b>
+- Left click connects to the fastest VPN server
+- Right click disconnects from VPN";;
+esac
+
+vpn_status=$(sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-)
+printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN %s" "$vpn_status"
+
