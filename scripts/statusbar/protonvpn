@@ -8,9 +8,16 @@ case $BLOCK_BUTTON in
 	2) pgrep -x dunst >/dev/null && notify-send "Disconnecting from VPN"; sudo protonvpn-cli -d;;
 	3) pgrep -x dunst >/dev/null && notify-send "<b>VPN module:</b>
 - Left click connects to the fastest VPN server
-- Right click disconnects from VPN";;
+- Miggle click disconnects from VPN";;
 esac
 
 vpn_status=$(sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-)
-printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN %s" "$vpn_status"
+case "$vpn_status" in
+	"Not Running")
+		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN disconnected";;
+	"Running")
+		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN connected";;
+	* )
+		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN error";;
+esac
 
