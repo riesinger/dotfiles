@@ -8,8 +8,6 @@ rofi.lines: 5
 rofi.opacity: 10
 rofi.font: Inconsolata 12
 
-Xft.dpi: 130
-
 Xcursor.size: 24
 
 

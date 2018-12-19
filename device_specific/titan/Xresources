@@ -1,0 +1,3 @@
+! This file will get merged into the default Xresources via the Xinitrc
+! It should only contain configs specific to this machine
+Xft.dpi: 130

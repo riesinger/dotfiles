@@ -24,8 +24,9 @@ for_window [instance="dropdowncalc"] sticky enable
 
 # #---Starting External Scripts---# #
 exec --no-startup-id dunst
-exec --no-startup-id xrandr --dpi 130
 exec --no-startup-id compton
+exec --no-startup-id i3_setup.sh
+# Run the i3_setup script. This will intern call device-specific setup scripts
 exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
 
 
