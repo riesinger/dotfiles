@@ -1,7 +1,7 @@
 [global]
     monitor = 0
     follow = keyboard
-    geometry = "350x5-0+36"
+    geometry = "600-0+36"
     indicate_hidden = yes
     shrink = yes
     transparency = 0
@@ -38,7 +38,7 @@
     #   %n  progress value if set without any extra characters
     #   %%  Literal %
     # Markup is allowed
-    format = "%s\n%b"
+    format = "<b>%s - %a</b>\n\n%b"
 
     alignment = left
     show_age_threshold = 60

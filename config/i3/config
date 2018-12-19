@@ -28,6 +28,7 @@ exec --no-startup-id compton
 exec --no-startup-id i3_setup.sh
 # Run the i3_setup script. This will intern call device-specific setup scripts
 exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
+exec --no-startup-id betterlockscreen -w
 
 
 # #---Styling---# #
@@ -84,7 +85,7 @@ bindsym $mod+Shift+space 	floating toggle
 bindsym $mod+space		focus mode_toggle
 bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 bindsym $mod+Shift+BackSpace	exec --no-startup-id prompt "Reboot computer?" "$reboot"
-bindsym $mod+x			exec --no-startup-id lockscreen
+bindsym $mod+x			exec --no-startup-id betterlockscreen -l
 bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
 bindsym $mod+t			split toggle
 #bindsym $mod+Shift+u		exec --no-startup-id i3resize down
