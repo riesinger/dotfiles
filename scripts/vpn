@@ -1,0 +1,61 @@
+#!/bin/bash
+
+usage() {
+	cat << EOM
+usage: $(basename $0) [options]
+
+Where [options] are:
+	-f  connect to fastest server
+	-d  diconnect
+	-s  show connection status
+  -q 	don't output information (except for status)
+	-h  show this help text
+
+EOM
+}
+while getopts ":qhfds" o; do
+    case "${o}" in
+        q)
+					quiet=1
+					;;
+				h)
+					usage
+					exit 0
+					;;
+				f)
+					connect=1
+					fastest=1
+					;;
+				d)
+					disconnect=1
+					;;
+				s)
+					show_status=1
+					;;
+        *)
+					usage
+					exit 1
+					;;
+    esac
+done
+shift $((OPTIND-1))
+
+# Make sure _some_ command is run
+if [ -z "$connect" ] && [ -z "$disconnect" ] && [ -z "$show_status" ]; then
+	usage
+	exit 1
+fi
+if [ "$connect" == "1" ]; then
+	if [ "$fastest" == "1" ]; then
+		[ -z "$quiet" ] && sudo protonvpn-cli -f || sudo protonvpn-cli -f >/dev/null
+	fi
+fi
+
+if [ "$show_status" == "1" ]; then
+	sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-
+fi
+
+if [ "$disconnect" == "1" ]; then
+	[ -z "$quiet" ] && sudo protonvpn-cli -d || sudo protonvpn-cli -d >/dev/null
+fi
+

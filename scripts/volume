@@ -12,6 +12,7 @@ commands:
 	down <num> decreases the volume by <num> (default 5)
 	up <num>   increase the volume by <num> (default 5)
   mute   		 toggle the mute state
+	get        returns the current volume [0-100]
 
 All commands can be abbreviated, i.e. \'$0 d\' for \'$0 down 5\'.
 This script also tries to notify i3blocks to update the volume block (signal 10)
@@ -34,6 +35,8 @@ case $COMMAND in
 		pulsemixer --toggle-mute;
 		$notify_i3blocks;
     ;;
+	g*)
+		pulsemixer --get-volume | awk '{print $1}';;
   * )
     usage
     exit 1

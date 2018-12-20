@@ -5,21 +5,18 @@ case $BLOCK_BUTTON in
 	2) pulsemixer --toggle-mute ;;
 	4) pulsemixer --change-volume +5 ;;
 	5) pulsemixer --change-volume -5 ;;
-	3) pgrep -x dunst >/dev/null && notify-send "<b>📢 Volume module:</b>
-- Shows volume 🔊, 🔇 if muted.
-- Middle click to mute.
-- Scroll to change."
+	3) pgrep -x dunst >/dev/null && notify-send "Volume: $(volume get)%"
 esac
 
-[ "$(pulsemixer --get-mute)" = "1" ] && printf "<span font_desc='FontAwesome'>\Uf6a9</span> Muted" && exit
+[ "$(pulsemixer --get-mute)" = "1" ] && printf "<span font_desc='Material Icons'>\Ue04f</span>" && exit
 
-vol=$(pulsemixer --get-volume | awk '{print $1}')
+	vol=$(pulsemixer --get-volume | awk '{print $1}')
 
 if [ "$vol" -gt "70" ]; then
-	printf "<span font_desc='FontAwesome'>\Uf028</span> %s%%" $vol
-elif [ "$vol" -lt "30" ]; then
-	printf "<span font_desc='FontAwesome'>\Uf026</span> %s%%" $vol
+	printf "<span font_desc='Material Icons'>\Ue050</span>" # volume_up
+elif [ "$vol" -lt "20" ]; then
+	printf "<span font_desc='Material Icons'>\Ue04e</span>" # volume_mute
 else
-	printf "<span font_desc='FontAwesome'>\Uf027</span> %s%%" $vol
+	printf "<span font_desc='Material Icons'>\Ue04d</span>" # volume_down
 fi
 

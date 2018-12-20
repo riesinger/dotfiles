@@ -4,20 +4,20 @@
 # protonvpn-cli added to the 'sudo-without-password' group
 
 case $BLOCK_BUTTON in
-	1) pgrep -x dunst >/dev/null && notify-send "Connecting to fastest VPN server"; sudo protonvpn-cli -f;;
-	2) pgrep -x dunst >/dev/null && notify-send "Disconnecting from VPN"; sudo protonvpn-cli -d;;
+	1) pgrep -x dunst >/dev/null && (notify-send "Connecting to VPN"; vpn -f -q || notify-send "VPN connection failed"; pkill -RTMIN+11 i3blocks);;
+	2) pgrep -x dunst >/dev/null && (notify-send "Disconnecting from VPN"; vpn -d -q; pkill -RTMIN+11 i3blocks);;
 	3) pgrep -x dunst >/dev/null && notify-send "<b>VPN module:</b>
 - Left click connects to the fastest VPN server
 - Miggle click disconnects from VPN";;
 esac
 
-vpn_status=$(sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-)
+vpn_status=$(vpn -s)
 case "$vpn_status" in
 	"Not Running")
-		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN disconnected";;
+		printf "<span font_desc='Material Icons'>\Ue898</span>";; # lock_open
 	"Running")
-		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN connected";;
+		printf "<span font_desc='Material Icons'>\Ue897</span>";; # lock
 	* )
-		printf "<span font_desc='FontAwesome'>\Uf6ff</span> VPN error";;
+		printf "<span font_desc='Material Icons'>\Ue898</span> VPN error";;
 esac
 

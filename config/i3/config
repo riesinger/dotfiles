@@ -3,6 +3,7 @@
 
 set $term --no-startup-id termite
 set $mod Mod4
+set $shutdown systemctl poweroff
 
 # #---Dropdown Windows---# #
 
@@ -63,7 +64,7 @@ client.urgent             $darkred       $darkred    $black       $darkred      
 client.background         $black
 
 bar {
-	font pango:Inconsolata 12
+	font pango:SF Pro Display 12
 	colors {
 		background $background
 		statusline $darkwhite
@@ -86,7 +87,7 @@ bindsym $mod+space		focus mode_toggle
 bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 bindsym $mod+Shift+BackSpace	exec --no-startup-id prompt "Reboot computer?" "$reboot"
 bindsym $mod+x			exec --no-startup-id betterlockscreen -l
-bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
+bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "shutdow"
 bindsym $mod+t			split toggle
 #bindsym $mod+Shift+u		exec --no-startup-id i3resize down
 bindsym $mod+f			fullscreen toggle
@@ -144,13 +145,14 @@ bindsym $mod+q			[con_id="__focused__" instance="^(?!dropdowncalc|tmuxdd).*$"] k
 bindsym $mod+Shift+q		[con_id="__focused__" instance="^(?!dropdowncalc|tmuxdd).*$"] kill
 bindsym $mod+w			exec $term -e nmtui
 bindsym $mod+Shift+w		exec --no-startup-id $BROWSER
-bindsym $mod+e			exec $term -e neomutt && pkill -RTMIN+12 i3blocks
+bindsym $mod+e			exec $term -e ranger
 bindsym $mod+u			exec --no-startup-id ddspawn tmuxdd
 bindsym $mod+i 			exec $term -e htop
 bindsym $mod+a			exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
 bindsym $mod+Shift+a		exec $term -e pulsemixer
 
-bindsym $mod+d			exec --no-startup-id dmenu_run
+bindsym $mod+d			exec --no-startup-id rofi -show run
+bindsym $mod+period exec --no-startup-id rofimoji
 
 # #---Application window config---# #
 for_window [class="Pinentry"] sticky enable

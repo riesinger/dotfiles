@@ -4,9 +4,9 @@ rofi.color-normal: #515151, #a09f93, #515151, #515151, #f2f0ec
 rofi.color-active: #515151, #a09f93, #515151, #515151, #f2f0ec
 rofi.color-urgent: #515151, #f2777a, #515151, #f2777a, #f2f0ec
 rofi.padding: 250
-rofi.lines: 5
+rofi.lines: 6
 rofi.opacity: 10
-rofi.font: Inconsolata 12
+rofi.font: SF Pro Display 12
 
 Xcursor.size: 24
 

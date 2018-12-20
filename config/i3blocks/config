@@ -1,23 +1,20 @@
 markup=pango
 command=~/.dotfiles/scripts/statusbar/$BLOCK_NAME
-separator_block_width=15
+separator_block_width=40
 
 [spotify_track]
-label=
-interval=10
+interval=5
 
 [protonvpn]
-label=
-interval=30
+interval=once
+signal=11
 markup=pango
 
 [volume]
-label=
 interval=once
 signal=10
 markup=pango
 
 [clock]
-label=
 interval=20
 markup=pango
