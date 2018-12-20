@@ -12,13 +12,13 @@ Xcursor.size: 24
 
 
 ! special
-*.foreground:   #f2fbff
-*.background:   #313f46
-*.cursorColor:  #f2fbff
+*.foreground:   #fcfcfc
+*.background:   #1d2d44
+*.cursorColor:  #fcfcfc
 
 ! black
-*.color0:       #313f46
-*.color8:       #4a585f
+*.color0:       #1d2d44
+*.color8:       #1d314f
 
 ! red
 *.color1:       #c31633
@@ -45,5 +45,5 @@ Xcursor.size: 24
 *.color14:      #46bdca
 
 ! white
-*.color7:       #b0bec5
-*.color15:      #f2fbff
+*.color7:       #ccd5e3
+*.color15:      #fcfcfc

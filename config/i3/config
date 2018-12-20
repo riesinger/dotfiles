@@ -57,9 +57,9 @@ set                 $transparent                #00000000
 
 
 # NAME                    BORDER         BACKGROUND  TEXT         INDICATOR      CHILD_BORDER
-client.focused            $blue          $background $white       $darkmagenta   $darkblue
-client.unfocused          $transparent   $blue       $white       $darkblue      $darkblack
-client.focused_inactive   $transparent   $blue       $white       $darkblue      $darkblack
+client.focused            $black         $background $white       $blue          $black
+client.unfocused          $black         $blue       $white       $transparent   $black
+client.focused_inactive   $black         $blue       $white       $darkblack     $black
 client.urgent             $darkred       $darkred    $black       $darkred       $darkred
 client.background         $black
 
@@ -69,9 +69,9 @@ bar {
 		background $background
 		statusline $darkwhite
 		separator $background
-		focused_workspace  $blue $blue $white
-		active_workspace   $blue $blue $darkwhite
-		inactive_workspace $background $background $white
+		focused_workspace  $background $background $white
+		active_workspace   $background $background $white
+		inactive_workspace $background $background $darkwhite
 		urgent_workspace   $red $background $white
 	}
 	status_command i3blocks
