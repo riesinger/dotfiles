@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Get primary output dimensions
+monitor_dims=$(xrandr | grep "primary" | awk '{ print $4 }' | sed -r 's|^([0-9]+)x([0-9]+)\+.*|\1 \2|g')
+monitor_width=$(echo $monitor_dims | awk '{print $1}')
+monitor_height=$(echo $monitor_dims | awk '{print $2}')
+
+
 generate_img() {
 	# Check if files exist
 	if [ ! -f "$HOME/.wallpaper" ]; then
@@ -21,15 +27,11 @@ generate_img() {
 	face_width=$(echo $face_dims | awk '{ print $1 }')
 	face_height=$(echo $face_dims | awk '{ print $2 }')
 
-	# Get primary output dimensions
-	monitor_dims=$(xrandr | grep "primary" | awk '{ print $4 }' | sed -r 's|^([0-9]+)x([0-9]+)\+.*|\1 \2|g')
-	monitor_width=$(echo $monitor_dims | awk '{print $1}')
-	monitor_height=$(echo $monitor_dims | awk '{print $2}')
 
 
 	if [ "$face_width" != "$face_height" ]; then
-	echo "The face image needs to be square"
-	exit 2
+		echo "The face image needs to be square"
+		exit 2
 	fi
 
 	# Make the face rounded
@@ -49,10 +51,23 @@ generate_img() {
 		-gravity center -extent "${monitor_width}x${monitor_height}" -quality 100 "$HOME/.cache/lock_wallpaper.jpg"
 }
 
+set_wallpaper() {
+	feh --bg-fill $HOME/.wallpaper
+}
+
 lock() {
+	radius=120
+	font='SF Pro Display'
+	timecolor='ffffffff'
+
+
 	i3lock -i "$HOME/.cache/lock_wallpaper.jpg" -e --force-clock \
-		--ringcolor=ffffffff --insidecolor=00000000 --radius 170 \
-		--timepos="500:100"
+		--ringcolor=ffffffff --insidecolor=00000000 --radius $radius \
+		--timepos="$((monitor_width / 2)):$((monitor_height / 2 - radius * 2))" \
+		--time-font=$font --date-font=$font --layout-font=$font \
+		--timecolor=$timecolor --datecolor=$timecolor
+
+
 
 
 }
@@ -63,6 +78,9 @@ case "$1" in
 		;;
 	-l)
 		lock
+		;;
+	-w)
+		set_wallpaper
 		;;
 esac
 

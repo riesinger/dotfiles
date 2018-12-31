@@ -3,7 +3,7 @@
 
 set $term --no-startup-id termite
 set $mod Mod4
-set $shutdown systemctl poweroff
+set $shutdown 'systemctl poweroff'
 
 # #---Dropdown Windows---# #
 
@@ -29,7 +29,7 @@ exec --no-startup-id compton
 exec --no-startup-id i3_setup.sh
 # Run the i3_setup script. This will intern call device-specific setup scripts
 exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
-exec --no-startup-id betterlockscreen -w
+exec --no-startup-id locker.sh -w
 
 
 # #---Styling---# #
@@ -66,13 +66,13 @@ client.background         $black
 bar {
 	font pango:SF Pro Display 12
 	colors {
-		background $background
+		background $darkblack
 		statusline $darkwhite
 		separator $background
-		focused_workspace  $background $background $white
-		active_workspace   $background $background $white
-		inactive_workspace $background $background $darkwhite
-		urgent_workspace   $red $background $white
+		focused_workspace  $darkblack $darkblack $white
+		active_workspace   $darkblack $darkblack $white
+		inactive_workspace $darkblack $darkblack $darkwhite
+		urgent_workspace   $red $darkblack $white
 	}
 	status_command i3blocks
 	position top
@@ -86,7 +86,7 @@ bindsym $mod+Shift+space 	floating toggle
 bindsym $mod+space		focus mode_toggle
 bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
 bindsym $mod+Shift+BackSpace	exec --no-startup-id prompt "Reboot computer?" "$reboot"
-bindsym $mod+x			exec --no-startup-id betterlockscreen -l
+bindsym $mod+x			exec --no-startup-id locker.sh -l
 bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "shutdow"
 bindsym $mod+t			split toggle
 #bindsym $mod+Shift+u		exec --no-startup-id i3resize down
@@ -200,5 +200,5 @@ bindsym XF86AudioStop		exec --no-startup-id volume toggle
 bindsym XF86AudioRewind		exec --no-startup-id volume back 10
 bindsym XF86AudioForward	exec --no-startup-id volume forward 10
 bindsym XF86Suspend		exec --no-startup-id lockscreen
-#bindsym XF86MonBrightnessDown	exec --no-startup-id xbacklight -dec 15
-#bindsym XF86MonBrightnessUp	exec --no-startup-id xbacklight -inc 15
+bindsym XF86MonBrightnessDown	exec --no-startup-id brightness dec 50
+bindsym XF86MonBrightnessUp	exec --no-startup-id brightness inc 50

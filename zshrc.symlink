@@ -46,6 +46,8 @@ HISTSIZE=3000
 SAVEHIST=3000
 HISTFILE=~/.zsh_history
 
+alias todo="$EDITOR ~/todo.txt"
+
 # Plugins and keybindings
 [ -f ~/.dircolors ] && eval $(dircolors ~/.dircolors) || :
 [ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"

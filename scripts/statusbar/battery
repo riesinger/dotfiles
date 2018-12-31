@@ -1,0 +1,31 @@
+#!/bin/sh
+# Give a battery name (e.g. BAT0) as an argument.
+
+bat="BAT0"
+
+case $BLOCK_BUTTON in
+    3) pgrep -x dunst >/dev/null && notify-send "<b>🔋 Battery module:</b>" ;;
+esac
+
+# In case the given battery is not found, we exit from the script. This hides the battery module
+# on systems without a battery
+capacity=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
+status=$(cat /sys/class/power_supply/"$bat"/status)
+
+cap=$(echo "$capacity" | sed -e 's/$/%/')
+
+case $status in
+	'Charging' )
+		printf "<span font_desc='Material Icons'>battery_charging_full</span> %s" $cap
+		;;
+	'Discharging' )
+		printf "<span font_desc='Material Icons'>battery_full</span> %s" $cap
+		;;
+	'Unknown' )
+		printf "<span font_desc='Material Icons'>battery_unknown</span> %s" $cap
+		;;
+	'Full' )
+		printf "<span font_desc='Material Icons'>battery_full</span> %s" $cap
+		;;
+esac
+

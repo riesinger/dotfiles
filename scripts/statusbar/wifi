@@ -1,0 +1,19 @@
+#!/bin/sh
+
+conn_status=$(nmcli d | grep '^w' | awk '{ print $3 }')
+conn_name=$(nmcli d | grep '^w' | awk '{ print $4 }')
+
+# If we don't have a wireless adapter, exit without printing anything
+[ -z "$conn_status" ] && exit 0
+
+case $BLOCK_BUTTON in
+	1) [ conn_status == 'connected' ] && notify-send "Connected to: $(conn_name)" || notify-send 'Not connected to WiFi'
+		;;
+	2) "$TERMINAL" -e nmtui ;;
+	3) pgrep -x dunst >/dev/null && notify-send "<b>WiFi module:</b>
+- Left click to show current connection status
+- Middle click opens nmtui" ;;
+esac
+
+# Get the connection status
+[ $conn_status == 'connected' ] && printf "<span font_desc='Material Icons'>\Ue1d8</span>" || printf "<span font_desc='Material Icons'>\Ue1da</span>"

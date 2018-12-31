@@ -10,6 +10,15 @@ interval=once
 signal=11
 markup=pango
 
+[wifi]
+interval=10
+markup=pango
+
+[battery]
+interval=30
+instance=BAT0
+markup=pango
+
 [volume]
 interval=once
 signal=10

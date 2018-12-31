@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+# Script to increment/decrement backlight brightness
+# This script assumes that the current user can write to the according files in
+# /sys/class/backlight/*
+
+usage() {
+	cat << EOH
+brightness is a utility for modifying and querying the backlight brightness.
+usage: brightness <command>, where <command> is one of:
+
+increment [value]    increments the brightness by [value]
+decrement [value]    decrements the brightness by [value]
+get                  returns the current brightness in percent
+help                 print this help text
+
+Each command can be abbreviated to its shortest unique form.
+EOH
+}
+
+case $1 in
+	i*)
+		val=$2
+		curr=$(cat /sys/class/backlight/*/brightness | head -n1)
+		echo $((curr + val)) > /sys/class/backlight/*/brightness 2>/dev/null
+		;;
+	d*)
+		val=$2
+		curr=$(cat /sys/class/backlight/*/brightness | head -n1)
+		echo $((curr - val)) > /sys/class/backlight/*/brightness 2>/dev/null
+		;;
+	g*)
+		max=$(cat /sys/class/backlight/*/max_brightness)
+		curr=$(cat /sys/class/backlight/*/brightness)
+		bc <<< "scale=2; (100 / $max) * $curr" | cut -d '.' -f 1
+		;;
+	h*)
+		usage
+		exit 0
+		;;
+	--help)
+		usage
+		exit 0
+		;;
+	*)
+		usage
+		exit 1
+		;;
+esac
