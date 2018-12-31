@@ -66,3 +66,5 @@ tramp
 
 # NeoVim Plugins
 **/plugged/**
+
+__pycache__/*
