@@ -4,38 +4,42 @@ cursor_shape = underline
 
 [colors]
 
-foreground=   #fcfcfc
-background=   #131220
-cursor=  #fcfcfc
+# special
+foreground      = #abb2bf
+foreground_bold = #abb2bf
+cursor          =
+background      = #282c34
 
 # black
-color0=       #222222
-color8=       #1d314f
+color0  = #282c34
+color8  = #5c6370
 
 # red
-color1=       #c31633
-color9=       #ff5673
+color1  = #e06c75
+color9  = #be5046
 
 # green
-color2=       #4caf50
-color10=      #8cef90
+color2  = #98c379
+color10 = #7a9f60
 
 # yellow
-color3=       #efaa04
-color11=      #ffea44
+color3  = #e5c07b
+color11 = #d19a66
 
 # blue
-color4=       #0961c4
-color12=      #49a1ff
+color4  = #61afef
+color12 = #3b84c0
 
 # magenta
-color5=       #8a0c8f
-color13=      #ca4ccf
+color5  = #c678dd
+color13 = #9a52af
 
 # cyan
-color6=       #067d8a
-color14=      #46bdca
+color6  = #56b6c2
+color14 = #3c909b
 
 # white
-color7=       #ccd5e3
-color15=      #fcfcfc
+color7  = #abb2bf
+color15 = #828997
+
+vim: ft=dosini cms=#%s

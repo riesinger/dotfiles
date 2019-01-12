@@ -27,5 +27,6 @@ fi
 $HOSTNAME=$(cat /etc/hostname)
 
 # start some nice programs
+sudo powertop --auto-tune &
 xrdb -merge "$HOME/.dotfiles/device_specific/$HOSTNAME/Xresources" 2>/tmp/xinit
 i3
