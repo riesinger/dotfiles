@@ -1,11 +1,23 @@
 [colors]
 background = ${xrdb:color0:#222}
-background-alt = #444
 foreground = ${xrdb:color7:#222}
-foreground-alt = #555
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
+darkblack = ${xrdb:color0}
+black = ${xrdb:color8}
+
+red = ${xrdb:color1}
+darkred = ${xrdb:color9}
+green = ${xrdb:color2}
+darkgreen = ${xrdb:color10}
+yellow = ${xrdb:color3}
+darkyellow = ${xrdb:color11}
+blue = ${xrdb:color4}
+darkblue = ${xrdb:color12}
+magenta = ${xrdb:color5}
+darkmagenta = ${xrdb:color13}
+cyan = ${xrdb:color6}
+darkcyan = ${xrdb:color14}
+white = ${xrdb:color7}
+darkwhite = ${xrdb:color15}
 
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -30,8 +42,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = "SF Pro Display:size=10;1"
-font-1 = "Material Icons:size=10;0
+font-0 = "SF Pro Display:size=10;0"
+font-1 = "MaterialRounded:size=12;0"
 
 modules-left = i3
 modules-center =
@@ -55,10 +67,6 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[module/xwindow]
-type = internal/xwindow
-label = %title:0:30:...%
-
 [module/i3]
 type = internal/i3
 format = <label-state> <label-mode>
@@ -70,7 +78,7 @@ wrapping-scroll = false
 
 label-mode-padding = 2
 label-mode-foreground = #000
-label-mode-background = ${colors.primary}
+label-mode-background = ${colors.red}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
@@ -128,10 +136,10 @@ type = internal/network
 interface = wlp4s0
 interval = 3.0
 
-font = font-2
+#font = font-2
 
-format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
+format-connected = %{T2} <ramp-signal> %{T-} <label-connected>
+format-connected-underline = ${colors.darkmagenta}
 label-connected = %essid%
 
 format-disconnected =
@@ -140,12 +148,13 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
+#ramp-signal-font = 2
+ramp-signal-0 = 
+ramp-signal-1 = 
+ramp-signal-2 = 
+ramp-signal-3 = 
+ramp-signal-4 = 
+#ramp-signal-foreground = #fff
 
 [module/eth]
 type = internal/network
@@ -154,7 +163,6 @@ interval = 3.0
 
 format-connected-underline = #55aa55
 format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
 format-disconnected =
@@ -165,7 +173,7 @@ format-disconnected =
 
 [module/date]
 type = internal/date
-interval = 5
+interval = 10
 
 date = %a %d %b
 date-alt = " %Y-%m-%d"
@@ -173,8 +181,6 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-prefix = 
-format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
 label = %date% %time%
@@ -182,154 +188,96 @@ label = %date% %time%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
-label-volume-foreground = ${root.foreground}
+format-volume = %{T2}  %{T-} <label-volume> <bar-volume>
+label-volume = %percentage%%
+label-volume-foreground = ${colors.foreground}
 
-label-muted = 🔇 muted
-label-muted-foreground = #666
-
-bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
-
-[module/alsa]
-type = internal/alsa
-
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL
-label-volume-foreground = ${root.foreground}
-
-format-muted-prefix = " "
-format-muted-foreground = ${colors.foreground-alt}
-label-muted = sound muted
+label-muted = 
 
 bar-volume-width = 10
-bar-volume-foreground-0 = #55aa55
-bar-volume-foreground-1 = #55aa55
-bar-volume-foreground-2 = #55aa55
-bar-volume-foreground-3 = #55aa55
-bar-volume-foreground-4 = #55aa55
-bar-volume-foreground-5 = #f5a70a
-bar-volume-foreground-6 = #ff5555
+bar-volume-foreground-0 = ${colors.green}
+bar-volume-foreground-1 = ${colors.green}
+bar-volume-foreground-2 = ${colors.green}
+bar-volume-foreground-3 = ${colors.green}
+bar-volume-foreground-4 = ${colors.green}
+bar-volume-foreground-5 = ${colors.yellow}
+bar-volume-foreground-6 = ${colors.red}
 bar-volume-gradient = false
 bar-volume-indicator = |
-bar-volume-indicator-font = 2
+bar-volume-indicator-font = 1
 bar-volume-fill = ─
-bar-volume-fill-font = 2
+bar-volume-fill-font = 1
 bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.foreground-alt}
+bar-volume-empty-font = 1
+bar-volume-empty-foreground = ${colors.foreground}
 
 [module/battery]
 type = internal/battery
 battery = BAT0
 adapter = AC
 full-at = 98
+poll-interval = 10
 
-format-charging = <animation-charging> <label-charging>a
-format-charging-underline = #ffb52a
+format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
+format-charging-underline = ${colors.green}
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-discharging = %{T2} <ramp-capacity> %{T-} <label-discharging>
+format-discharging-underline = ${colors.yellow}
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
 
 [module/battery2]
 type = internal/battery
 battery = BAT1
 adapter = AC
 full-at = 98
+poll-interval = 10
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
+format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
+format-charging-underline = ${colors.green}
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-discharging = %{T2} <ramp-capacity> %{T-} <label-discharging>
+format-discharging-underline = ${colors.yellow}
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${self.format-charging-underline}
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
-ramp-capacity-foreground = ${colors.foreground-alt}
-
-animation-charging-0 = 
-animation-charging-1 = 
-animation-charging-2 = 
-animation-charging-foreground = ${colors.foreground-alt}
-animation-charging-framerate = 750
-
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-foreground = ${colors.foreground-alt}
-animation-discharging-framerate = 750
-
-
-
-[module/powermenu]
-type = custom/menu
-
-expand-right = true
-
-format-spacing = 1
-
-label-open = 
-label-open-foreground = ${colors.secondary}
-label-close =  cancel
-label-close-foreground = ${colors.secondary}
-label-separator = |
-label-separator-foreground = ${colors.foreground-alt}
-
-menu-0-0 = reboot
-menu-0-0-exec = menu-open-1
-menu-0-1 = power off
-menu-0-1-exec = menu-open-2
-
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
-
-menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+#[module/powermenu]
+#type = custom/menu
+#
+#expand-right = true
+#
+#format-spacing = 1
+#
+#label-open = 
+#label-open-foreground = ${colors.secondary}
+#label-close =  cancel
+#label-close-foreground = ${colors.secondary}
+#label-separator = |
+#label-separator-foreground = ${colors.foreground-alt}
+#
+#menu-0-0 = reboot
+#menu-0-0-exec = menu-open-1
+#menu-0-1 = power off
+#menu-0-1-exec = menu-open-2
+#
+#menu-1-0 = cancel
+#menu-1-0-exec = menu-open-0
+#menu-1-1 = reboot
+#menu-1-1-exec = sudo reboot
+#
+#menu-2-0 = power off
+#menu-2-0-exec = sudo poweroff
+#menu-2-1 = cancel
+#menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true

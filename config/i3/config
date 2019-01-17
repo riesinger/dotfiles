@@ -25,6 +25,7 @@ for_window [instance="dropdowncalc"] border pixel 2
 for_window [instance="dropdowncalc"] sticky enable
 
 # #---Starting External Scripts---# #
+exec --no-startup-id locker.sh -l # Since we are starting x with autologin
 exec --no-startup-id dunst
 exec --no-startup-id compton
 exec --no-startup-id i3_setup.sh
@@ -32,8 +33,8 @@ exec --no-startup-id i3_setup.sh
 # exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
 exec --no-startup-id locker.sh -w
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec --no-statup-id unclutter
-
+exec --no-startup-id unclutter
+exec --no-startup-id redshift
 
 # #---Styling---# #
 default_border pixel
@@ -167,16 +168,6 @@ for_window [window_role="GtkFileChooserDialog"] resize shrink height 10 px
 
 # #---Media Keys---# #
 
-# Volume keys
-bindsym $mod+plus		exec --no-startup-id volume up 5
-bindsym $mod+Shift+plus		exec --no-startup-id volume up 15
-bindsym $mod+minus 		exec --no-startup-id volume down 5
-bindsym $mod+Shift+minus	exec --no-startup-id volume down 15
-bindsym $mod+less 		exec --no-startup-id volume prev
-bindsym $mod+Shift+less		exec --no-startup-id volume replay
-bindsym $mod+greater		exec --no-startup-id volume next
-bindsym $mod+Shift+greater	exec --no-startup-id volume next
-
 # For screenshots and recording
 bindsym Print 			exec --no-startup-id scrot
 bindsym Shift+Print 		exec --no-startup-id scrot -u
@@ -194,17 +185,12 @@ bindsym XF86AudioRaiseVolume	exec --no-startup-id volume up 5
 bindsym Shift+XF86AudioRaiseVolume	exec --no-startup-id volume up 10
 bindsym Control+XF86AudioRaiseVolume	exec --no-startup-id volume up 1
 bindsym XF86PowerOff		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
-bindsym XF86Calculator		exec $term -e R -q --no-save
-bindsym XF86WWW			exec --no-startup-id $BROWSER
-bindsym XF86ScreenSaver		exec --no-startup-id lockscreen
-bindsym XF86Eject		exec --no-startup-id dmenuumount
 bindsym XF86AudioNext		exec --no-startup-id volume next
 bindsym XF86AudioPlay		exec --no-startup-id volume toggle
 bindsym XF86AudioPrev		exec --no-startup-id volume prev
 bindsym XF86AudioStop		exec --no-startup-id volume toggle
-##bindsym XF86AudioRecord
 bindsym XF86AudioRewind		exec --no-startup-id volume back 10
 bindsym XF86AudioForward	exec --no-startup-id volume forward 10
-bindsym XF86Suspend		exec --no-startup-id lockscreen
+bindsym XF86Suspend		exec --no-startup-id locker.sh -l
 bindsym XF86MonBrightnessDown	exec --no-startup-id brightness dec 50
 bindsym XF86MonBrightnessUp	exec --no-startup-id brightness inc 50
