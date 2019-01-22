@@ -56,20 +56,28 @@ set_wallpaper() {
 }
 
 lock() {
-	radius=120
+	radius=95
 	font='SF Pro Display'
 	timecolor='ffffffff'
 
 
 	i3lock -i "$HOME/.cache/lock_wallpaper.jpg" -e --force-clock \
 		--ringcolor=ffffffff --insidecolor=00000000 --radius $radius \
+		--insidevercolor=ffffff22 \
+		--insidewrongcolor="$(xgetres 'color1')22" \
+		--ringvercolor="$(xgetres 'color4')ff" \
+		--ringwrongcolor="$(xgetres 'color1')ff" \
+		--keyhlcolor="$(xgetres 'color2')ff" \
+		--bshlcolor="$(xgetres 'color1')ff" \
+		--separatorcolor=00000000 \
+		--linecolor=00000000 \
 		--timepos="$((monitor_width / 2)):$((monitor_height / 2 - radius * 2))" \
 		--time-font=$font --date-font=$font --layout-font=$font \
-		--timecolor=$timecolor --datecolor=$timecolor
-
-
-
-
+		--timecolor=$timecolor --datecolor=$timecolor \
+		--datestr='%a %d %b' \
+		--veriftext='...' \
+		--wrongtext='wrong' \
+		--noinputtext=''
 }
 
 case "$1" in

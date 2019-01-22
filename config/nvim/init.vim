@@ -15,8 +15,10 @@ set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
 set relativenumber
 set mouse=a
-" suppress completion messages
-set shortmess+=c
+set shortmess+=c " suppress completion messages
+set updatetime=1000 " For CursorHold and CursorHoldI
+set signcolumn=yes
+set cmdheight=2
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -42,9 +44,11 @@ endfunction
 call plug#begin()
 
 " Functionality
+
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'Shougo/deoplete.nvim'
 Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'                     " To rename files on the fly
@@ -54,27 +58,27 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'w0rp/ale'
-
 " Languages
+
 Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'herringtondarkholme/yats.vim'
+Plug 'jodosha/vim-godebug', { 'for': 'go' }
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
-Plug 'jodosha/vim-godebug', { 'for': 'go' }
-
 " Visuals
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ayu-theme/ayu-vim-airline'
@@ -184,9 +188,40 @@ endif
 " Golang Keymaps
 autocmd FileType go nmap <F5> <Plug>(go-build)
 
-" Autohide the completion popup
-inoremap <expr> <Tab>  pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" COC.nvim
+inoremap <silent><expr> <Tab>
+			\ pumvisible() ? "\<C-n>" :
+			\ <SID>check_back_space() ? "\<Tab>" :
+			\ coc#refresh()
+inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+function! s:show_documentation()
+  if &filetype == 'vim'
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+
 " Disable this
 nnoremap Q <nop>
 " To clear the highlighting from searches
