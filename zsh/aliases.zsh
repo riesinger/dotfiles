@@ -4,6 +4,7 @@ alias e="$EDITOR"
 alias week='date +"%V"'
 alias :q="exit"
 alias ag="ag --hidden --ignore .git"
+alias cat='bat'
 
 # Tmux
 alias tls="tmux ls"

@@ -1,0 +1,33 @@
+* {
+    main-color:       #61afef;
+    background:       #282c34;
+    background-alt:   #2d313a;
+    background-light: #353a44;
+    foreground:       #828997;
+    /* Base values for all */
+    background-color: @background;
+    text-color:       @foreground;
+		font: "MaterialRounded 30";
+}
+window {
+}
+/* Input window */
+inputbar {
+    children: [];
+}
+/* List of entries top right bottom left */
+element {
+    padding: 1.5em 1em 1.5em 0.65em;
+    margin: 10px;
+    border: 0px 0px 8px 0px;
+}
+element.normal {
+    background-color: @background-alt;
+    border-color: @background-alt;
+}
+element.selected {
+    background-color: @background-light;
+    text-color: @main-color;
+    border-color: @main-color;
+}
+

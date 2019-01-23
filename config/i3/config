@@ -3,7 +3,6 @@
 
 set $term --no-startup-id termite
 set $mod Mod4
-set $shutdown 'systemctl poweroff'
 set $browser 'firefox'
 
 # #---Dropdown Windows---# #
@@ -90,14 +89,12 @@ gaps inner 6
 bindsym $mod+Return 		exec $term
 bindsym $mod+Shift+space 	floating toggle
 bindsym $mod+space		focus mode_toggle
-bindsym $mod+Shift+Escape 	exec --no-startup-id prompt "Exit i3?" "i3-msg exit"
-bindsym $mod+Shift+BackSpace	exec --no-startup-id prompt "Reboot computer?" "$reboot"
 bindsym $mod+x			exec --no-startup-id locker.sh -l
-bindsym $mod+Shift+x		exec --no-startup-id prompt "Shutdown computer?" "shutdow"
 bindsym $mod+t			split toggle
 #bindsym $mod+Shift+u		exec --no-startup-id i3resize down
 bindsym $mod+f			fullscreen toggle
 bindsym $mod+Shift+r restart
+bindsym $mod+Escape exec --no-startup-id powermenu.sh
 
 # Movement
 bindsym $mod+h			focus left
@@ -158,7 +155,7 @@ bindsym $mod+a			exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
 bindsym $mod+Shift+a		exec $term -e pulsemixer
 bindsym $mod+b exec --no-startup-id $browser
 
-bindsym $mod+d			exec --no-startup-id rofi -show run
+bindsym $mod+d			exec --no-startup-id rofi -show drun -theme themes/drun
 bindsym $mod+period exec --no-startup-id rofimoji
 
 # #---Application window config---# #
@@ -184,7 +181,7 @@ bindsym Control+XF86AudioLowerVolume	exec --no-startup-id volume down 1
 bindsym XF86AudioRaiseVolume	exec --no-startup-id volume up 5
 bindsym Shift+XF86AudioRaiseVolume	exec --no-startup-id volume up 10
 bindsym Control+XF86AudioRaiseVolume	exec --no-startup-id volume up 1
-bindsym XF86PowerOff		exec --no-startup-id prompt "Shutdown computer?" "$shutdown"
+bindsym XF86PowerOff		exec --no-startup-id powermenu.sh
 bindsym XF86AudioNext		exec --no-startup-id volume next
 bindsym XF86AudioPlay		exec --no-startup-id volume toggle
 bindsym XF86AudioPrev		exec --no-startup-id volume prev

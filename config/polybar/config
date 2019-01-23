@@ -37,13 +37,13 @@ line-color = #f00
 border-size = 5
 border-color = #00000000
 padding-left = 0
-padding-right = 2
+padding-right = 0
 
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = "SF Pro Display:size=10;0"
-font-1 = "MaterialRounded:size=12;0"
+font-0 = "SF Pro Display:size=10;2"
+font-1 = "MaterialRounded:size=12;2"
 
 modules-left = i3
 modules-center =
@@ -82,7 +82,8 @@ label-mode-background = ${colors.red}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%
-label-focused-background = ${xrdb:color8:#222}
+label-focused-background = ${colors.blue}
+label-focused-foreground = ${colors.darkblack}
 ;label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = 2
 
@@ -139,10 +140,12 @@ interval = 3.0
 #font = font-2
 
 format-connected = %{T2} <ramp-signal> %{T-} <label-connected>
-format-connected-underline = ${colors.darkmagenta}
 label-connected = %essid%
 
-format-disconnected =
+format-disconnected = disconnected
+format-disconnected-background = ${colors.blue}
+format-disconnected-foreground = ${colors.darkblack}
+format-disconnected-padding = 3
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
@@ -181,7 +184,9 @@ date-alt = " %Y-%m-%d"
 time = %H:%M
 time-alt = %H:%M:%S
 
-format-underline = #0a6cf5
+format-background = ${colors.blue}
+format-foreground = ${colors.darkblack}
+format-padding = 3
 
 label = %date% %time%
 
@@ -219,10 +224,9 @@ full-at = 98
 poll-interval = 10
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
-format-charging-underline = ${colors.green}
+format-charging-background = ${colors.green}
 
 format-discharging = %{T2} <ramp-capacity> %{T-} <label-discharging>
-format-discharging-underline = ${colors.yellow}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
@@ -239,10 +243,9 @@ full-at = 98
 poll-interval = 10
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
-format-charging-underline = ${colors.green}
+format-charging-background = ${colors.green}
 
 format-discharging = %{T2} <ramp-capacity> %{T-} <label-discharging>
-format-discharging-underline = ${colors.yellow}
 
 ramp-capacity-0 = 
 ramp-capacity-1 = 
