@@ -1,8 +1,94 @@
 # This is my ZSH config
 
-# Needed for my prompt
-DEFAULT_USER="pascal"
-DEFAULT_MACHINE="$HOST"
+#
+# Variables and exports
+#
+
+local pluginbase=$DOTFILES/zsh-plugins
+export TERM=xterm-256color
+export LC_ALL=en_US.UTF-8
+export LC_TYPE=UTF-8
+export EDITOR="nvim"
+export VISUAL="$EDITOR"
+export BROWSER="firefox"
+export GOPATH="$HOME/go"
+export GOBIN="$GOPATH/bin"
+export DOTFILES="$HOME/.dotfiles"
+export XDG_CONFIG_HOME="$HOME/.config"
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin"
+
+HISTSIZE=3000
+SAVEHIST=3000
+HISTFILE=~/.zsh_history
+
+has_executable 'ag' && export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor -g "" '
+
+# GPG-Agent setup
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye > /dev/null
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
+
+#
+# Aliases
+#
+
+# General
+alias c="clear"
+alias e="$EDITOR"
+alias :q="exit"
+alias ag="ag --hidden --ignore .git"
+alias cat='bat'
+
+# ls
+alias l='ls -lah'
+alias ll='ls -lh'
+alias la='ls -lAh'
+
+# Tmux
+alias tls="tmux ls"
+alias tat="tmux attach -t"
+alias tns="tmux new-session -s"
+
+# Steam
+alias steam="LD_PRELOAD='/usr/$LIB/libstdc++.so.6 /usr/$LIB/libgcc_s.so.1 /usr/$LIB/libxcb.so.1 /usr/$LIB/libgpg-error.so' /usr/bin/steam &"
+
+alias todo="$EDITOR ~/todo.txt"
+
+#
+# Keyboard configuration
+#
+autoload zkbd
+function zkbd_file() {
+	[[ -f ~/.zkbd/${TERM}-${VENDOR}-${OSTYPE} ]] && printf '%s' ~/".zkbd/${TERM}-${VENDOR}-${OSTYPE}" && return 0
+	return 1
+}
+
+[[ ! -d ~/.zkbd ]] && mkdir -p ~/.zkbd
+keyfile=$(zkbd_file)
+ret=$?
+if [[ ${ret} -ne 0 ]]; then
+	zkbd
+	keyfile=$(zkbd_file)
+	ret=$?
+fi
+if [[ ${ret} -eq 0 ]] ; then
+	source "${keyfile}"
+else
+	printf 'Failed to setup keys using zkbd.\n'
+fi
+unfunction zkbd_file; unset keyfile ret
+
+[[ -n "$key[Home]" ]] && bindkey -- "$key[Home]" beginning-of-line
+[[ -n "$key[End]" ]] && bindkey -- "$key[End]" end-of-line
+[[ -n "$key[Delete]" ]] && bindkey -- "$key[Delete]" delete-char
+
+
+
+
+#
+# ZSH options
+#
 
 setopt EXTENDED_GLOB
 setopt EXTENDED_HISTORY
@@ -11,52 +97,80 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 
-export TERM=xterm-256color
-export LC_ALL=en_US.UTF-8
-export LC_TYPE=UTF-8
-export EDITOR="nvim"
-export VISUAL="$EDITOR"
-export BROWSER="firefox"
-export QT_STYLE_OVERRIDE=GTK+
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-export DOTFILES="$HOME/.dotfiles"
-export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin"
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushdminus # cd - produces a directory stack entry
+setopt auto_cd # Move with .. or simple dir names
 
-# Source all config files
-local sourcefiles=($DOTFILES/zsh/*.zsh)
-for src ($sourcefiles); do
-    source $src
-done
+autoload -Uz compinit && compinit
 
-# Source the plugins
-local pluginbase=$DOTFILES/zsh-plugins
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select=2 eval "$(dircolors -b)"
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' menu select=long
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
 
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
+[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
+
+
+#
+# Plugins
+#
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-# Expand PATH with additional directories
-export PATH="$PATH:$GOBIN:$DOTFILES/scripts:/usr/local/go/bin"
-[ -d "$HOME/.bin" ] && export PATH="$PATH:$HOME/.bin"
-
-# Use ag as search filter for FZF, if it is installed
-[ -z "$(has_executable 'ag')" ] && export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor -g "" '
-
-HISTSIZE=3000
-SAVEHIST=3000
-HISTFILE=~/.zsh_history
-
-alias todo="$EDITOR ~/todo.txt"
-
-# Plugins and keybindings
-[ -f ~/.dircolors ] && eval $(dircolors ~/.dircolors) || :
+[ -f ~/.dircolors ] && has_executable 'dircolors' && eval $(dircolors ~/.dircolors) || :
 [ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "fzf is not installed"
 
-# GPG-Agent setup
-export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye > /dev/null
-export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+#
+# Functions
+#
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+
+#
+# Prompt
+#
+
+autoload -Uz colors && colors
+autoload -Uz promptinit && promptinit
+
+function check_branch() {
+    local branch="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
+    if [[ "$branch" == "master" ]]; then
+        print -n "%{%F{red}%}$branch"
+    elif [[ "$branch" == "develop" ]]; then
+        print -n "%{%F{yellow}%}$branch"
+    else
+				print -n "$branch"
+    fi
+}
+
+build_prompt() {
+    RETVAL=$?
+		[[ $RETVAL -eq 0 ]] && print -n "%{%F{green}%}" || print -n "%{%F{red}%}" # base color
+    [[ "$SSH_TTY" == "" ]] || print -n "$USER@%m:" # show which machine we're on
+		print -n "%1~ " # and the directory (or ~)
+    check_branch
+		[[ $UID -eq 0 ]] && print -n "%{%F{yellow}%}⚡"|| \
+			([[ $RETVAL -eq 0 ]] && print -n "%{%F{green}%}›" || print -n "%{%F{red}%}›") # Show a flash when root, otherwise show the caret
+    print -n "%f" # Reset the colors
+}
+
+PROMPT='$(build_prompt) '
+
+setopt prompt_subst
+

@@ -13,6 +13,7 @@ set fillchars+=vert:\           " Remove | from split lines
 set nospell                     " Disable spell checking
 set timeoutlen=1000 ttimeoutlen=10
 set completeopt=menuone,noselect,longest
+set number
 set relativenumber
 set mouse=a
 set shortmess+=c " suppress completion messages
@@ -45,8 +46,6 @@ call plug#begin()
 
 " Functionality
 
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'w0rp/ale'
 Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips'
@@ -67,7 +66,6 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 " Languages
 
-Plug 'carlitux/deoplete-ternjs', { 'for': 'javascript' }
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -78,7 +76,6 @@ Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
-Plug 'zchee/deoplete-go', { 'do': 'make', 'for': 'go' }
 " Visuals
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ayu-theme/ayu-vim-airline'
@@ -103,12 +100,6 @@ let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger = "<c-e>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#go#gocode_binary = $GOBIN.'/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#pointer = 1
 
 " Go
 let g:go_fmt_command = "goimports"
