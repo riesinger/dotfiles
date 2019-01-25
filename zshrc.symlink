@@ -15,7 +15,7 @@ export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export DOTFILES="$HOME/.dotfiles"
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin"
+export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin:$DOTFILES/scripts"
 
 HISTSIZE=3000
 SAVEHIST=3000
