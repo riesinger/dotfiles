@@ -226,6 +226,7 @@ let ayucolor="dark"
 colorscheme dim
 set guicursor=n:hor100
 set cursorline
+highlight SignColumn ctermbg=0
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
