@@ -4,4 +4,5 @@ fade-in-step = 0.075;
 fade-out-step = 0.075;
 no-fading-openclose = false;
 inactive-dim = 0;
+shadow = false;
 

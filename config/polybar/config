@@ -35,6 +35,8 @@ line-size = 3
 line-color = #f00
 
 border-size = 5
+; i3-gaps already has a border there
+border-bottom-size = =
 border-color = #00000000
 padding-left = 0
 padding-right = 0
@@ -106,31 +108,31 @@ label-urgent-padding = ${self.label-focused-padding}
 ; label-separator = |
 
 
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+; [module/mpd]
+; type = internal/mpd
+; format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
 
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
+; icon-prev = 
+; icon-stop = 
+; icon-play = 
+; icon-pause = 
+; icon-next = 
 
-label-song-maxlen = 25
-label-song-ellipsis = true
+; label-song-maxlen = 25
+; label-song-ellipsis = true
 
-[module/xbacklight]
-type = internal/xbacklight
+; [module/xbacklight]
+; type = internal/xbacklight
 
-format = <label> <bar>
-label = BL
+; format = <label> <bar>
+; label = BL
 
-; Only applies if <ramp> is used
-ramp-0 = 🌕
-ramp-1 = 🌔
-ramp-2 = 🌓
-ramp-3 = 🌒
-ramp-4 = 🌑
+; ; Only applies if <ramp> is used
+; ramp-0 = 🌕
+; ramp-1 = 🌔
+; ramp-2 = 🌓
+; ramp-3 = 🌒
+; ramp-4 = 🌑
 
 [module/wlan]
 type = internal/network
@@ -176,7 +178,7 @@ format-disconnected =
 
 [module/date]
 type = internal/date
-interval = 10
+interval = 15
 
 date = %a %d %b
 date-alt = " %Y-%m-%d"
@@ -221,7 +223,7 @@ type = internal/battery
 battery = BAT0
 adapter = AC
 full-at = 98
-poll-interval = 10
+poll-interval = 15
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
 format-charging-background = ${colors.green}
@@ -242,7 +244,7 @@ type = internal/battery
 battery = BAT1
 adapter = AC
 full-at = 98
-poll-interval = 10
+poll-interval = 15
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
 format-charging-background = ${colors.green}
@@ -267,6 +269,6 @@ screenchange-reload = true
 
 [global/wm]
 margin-top = 5
-margin-bottom = 5
+margin-bottom = 0
 
 ; vim:ft=dosini
