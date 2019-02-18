@@ -226,7 +226,7 @@ full-at = 98
 poll-interval = 15
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
-format-charging-background = ${colors.green}
+format-charging-background = ${colors.blue}
 format-charging-foreground = ${colors.darkblack}
 format-charging-padding = 2
 
@@ -238,7 +238,6 @@ ramp-capacity-2 = 
 ramp-capacity-3 = 
 ramp-capacity-4 = 
 
-
 [module/battery2]
 type = internal/battery
 battery = BAT1
@@ -247,7 +246,7 @@ full-at = 98
 poll-interval = 15
 
 format-charging = %{T2} <ramp-capacity> %{T-} <label-charging>
-format-charging-background = ${colors.green}
+format-charging-background = ${colors.blue}
 format-charging-foreground = ${colors.darkblack}
 format-charging-padding = 2
 
