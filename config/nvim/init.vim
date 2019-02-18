@@ -45,13 +45,13 @@ endfunction
 call plug#begin()
 
 " Functionality
-
 Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'danro/rename.vim'                     " To rename files on the fly
 Plug 'godlygeek/tabular'                    " For markdown table alignment
+Plug 'janko/vim-test'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -64,8 +64,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-" Languages
 
+" Languages
 Plug 'cespare/vim-toml', { 'for': 'toml' }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
@@ -76,12 +76,13 @@ Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
+
 " Visuals
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ayu-theme/ayu-vim-airline'
 " Plug 'vim-airline/vim-airline'
 " Plug 'arcticicestudio/nord-vim'
-Plug 'ayu-theme/ayu-vim'
+" Plug 'ayu-theme/ayu-vim'
 Plug 'jeffkreeftmeijer/vim-dim'
 " Plug 'Yggdroot/indentLine'
 
@@ -106,35 +107,10 @@ let g:go_fmt_command = "goimports"
 let g:go_addtags_transform = "camelcase"
 let g:go_auto_type_info = 1
 
-" Tern
-let g:tern_show_signature_in_pum = 1
-let g:tern_request_timeout = 1
-let g:tern_map_keys = 0
-let g:tern#filetypes = [
-    \ 'jsx',
-    \ 'javascript.jsx',
-    \ 'vue'
-    \ ]
-
 let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
-
-" ALE
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = "!!"
-let g:ale_sign_warning = ">>"
-let g:ale_completion_enabled = 1
-
-" Indent Line
-let g:indentLine_char = '│'
-let g:indentLine_first_char = '│'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_setColors = 0
 
 " Ack
 let g:ackprg = 'ag --nogroup --nocolor --column --ignore vendor --ignore .git'
-
-" JSON
-let g:vim_json_syntax_conceal = 0
 
 " FZF
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
@@ -145,14 +121,15 @@ let g:indentLine_first_char = '│'
 let g:indentLine_showFirstIndentLevel = 1
 let g:indentLine_setColors = 0
 
+" Vim Test
+let test#strategy = "dispatch"
+
 " }}}
 
 " {{{ --- Keymaps ---
 "  Leaders
 let mapleader = ","
 nnoremap <leader>] :Ack!<space>
-nnoremap <leader>--> a<space>➔<Esc>
-nnoremap <leader>-> a➔<Esc>
 nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
@@ -163,7 +140,8 @@ nnoremap <c-p> :FZF<cr>
 nnoremap <F2> :Tags<cr>
 nnoremap <F3> :BTags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
-
+nnoremap <leader>t :TestFile<cr>
+nnoremap <leader>ts :TestSuite<cr>
 
 " Neovim keybindings
 if has('nvim')
@@ -220,13 +198,14 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 " }}}
 
 " {{{ --- Misc config ---
-"let base16colorspace=256
-"let t_Co=256
-let ayucolor="dark"
 colorscheme dim
 set guicursor=n:hor100
-set cursorline
-highlight SignColumn ctermbg=0
+highlight SignColumn ctermbg=8 ctermfg=0
+highlight LineNr ctermbg=8 ctermfg=0
+highlight CursorLineNr ctermbg=8 ctermfg=5
+highlight CocErrorSign ctermbg=8 ctermfg=1
+highlight CocInfoSign ctermbg=8 ctermfg=2
+highlight CocWarningSign ctermbg=8 ctermfg=3
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
@@ -278,12 +257,11 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 "{{{ --- Statusline
 
 " Colors
-highlight! StatusLine guibg=#20272C guifg=#FFFFFF
-highlight! StatusLineNC guibg=#20272C guifg=#BBBBBB
-" Mode indicator, end piece
-highlight! User1 guibg=#C2D94C guifg=#0F1419
-" Branch background, lighter grey
-highlight! User2 guibg=#363F46 guifg=#FFFFFF
+highlight StatusLine ctermbg=8 ctermfg=0 cterm=NONE
+highlight! StatusLineNC ctermbg=7 ctermfg=0
+au InsertEnter * hi User1 ctermbg=4 ctermfg=0
+au InsertLeave * hi User1 ctermbg=2 ctermfg=0
+highlight User1 ctermbg=2 ctermfg=0
 
 let g:statusline_seperator='  '
 
@@ -321,16 +299,6 @@ function! GitBranch()
 endfunction
 
 
-function! SetStatusline()
-	let mode = mode()
-	if (mode ==# 'i')
-		highlight! User1 guibg=#59C2FF guifg=#0F1419
-	else
-		highlight! User1 guibg=#C2D94C guifg=#0F1419
-	endif
-	return ''
-endfunction
-
 function! GetObsessionStatus()
 	let status = ""
 	if exists("*ObsessionStatus")
@@ -343,15 +311,14 @@ function! GetObsessionStatus()
 endfunction
 
 set statusline=
-set statusline+=%{SetStatusline()}
 set statusline+=%1*%8{g:currentmode[mode()]}%*
-set statusline+=%2*%{GitBranch()}%*
-set statusline+=%{g:statusline_seperator}
-set statusline+=%-.55f%m
+set statusline+=%{GitBranch()}
+set statusline+=·
+set statusline+=\ %-.55f%m
 set statusline+=%=
 set statusline+=%y
 set statusline+=%{g:statusline_seperator}
-set statusline+=%2*%{GetObsessionStatus()}%*
-set statusline+=%1*\ %4l:%-3c\ \│\ %-4L%*
+set statusline+=%{GetObsessionStatus()}
+set statusline+=%1*\ %P\ ·\ %4l:%-3c\%*
 
 " }}}

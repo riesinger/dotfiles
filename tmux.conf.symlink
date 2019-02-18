@@ -28,13 +28,12 @@ set -g status-left "#[fg=colour7] #S: "
 set -g status-left-length "100"
 setw -g window-status-format "#[fg=colour7,bg=colour0] #I · #W  "
 setw -g window-status-current-format "#[fg=colour7,bg=colour0,bold] #I · #W  "
-set -g status-right "#[fg=colour7] Battery: #{battery_percentage} · %H:%M - %d %b · #h"
+set -g status-right "#[fg=colour7] %H:%M - %d %b · #h"
 
 # Plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
-set -g @plugin 'tmux-plugins/tmux-battery'
 
 
 # Plugin config
