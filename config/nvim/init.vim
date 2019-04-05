@@ -64,6 +64,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'metakirby5/codi.vim'
 
 " Languages
 Plug 'cespare/vim-toml', { 'for': 'toml' }
@@ -71,6 +72,7 @@ Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'herringtondarkholme/yats.vim'
 Plug 'jodosha/vim-godebug', { 'for': 'go' }
+Plug 'lervag/vimtex'
 Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'posva/vim-vue', { 'for': 'vue'}
@@ -82,7 +84,7 @@ Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 " Plug 'ayu-theme/ayu-vim-airline'
 " Plug 'vim-airline/vim-airline'
 " Plug 'arcticicestudio/nord-vim'
-" Plug 'ayu-theme/ayu-vim'
+Plug 'ayu-theme/ayu-vim'
 Plug 'jeffkreeftmeijer/vim-dim'
 " Plug 'Yggdroot/indentLine'
 
@@ -198,14 +200,15 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 " }}}
 
 " {{{ --- Misc config ---
-colorscheme dim
+set termguicolors
+let ayucolor="dark"
+colorscheme ayu
 set guicursor=n:hor100
-highlight SignColumn ctermbg=8 ctermfg=0
-highlight LineNr ctermbg=8 ctermfg=0
-highlight CursorLineNr ctermbg=8 ctermfg=5
-highlight CocErrorSign ctermbg=8 ctermfg=1
-highlight CocInfoSign ctermbg=8 ctermfg=2
-highlight CocWarningSign ctermbg=8 ctermfg=3
+highlight SignColumn ctermbg=0 ctermfg=8
+highlight CursorLineNr ctermbg=0 ctermfg=5
+highlight CocErrorSign ctermbg=0 ctermfg=1
+highlight CocInfoSign ctermbg=0 ctermfg=2
+highlight CocWarningSign ctermbg=0 ctermfg=3
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
@@ -257,11 +260,13 @@ autocmd BufWritePre * :call StripTrailingWhitespaces()
 "{{{ --- Statusline
 
 " Colors
-highlight StatusLine ctermbg=8 ctermfg=0 cterm=NONE
-highlight! StatusLineNC ctermbg=7 ctermfg=0
+highlight StatusLineNC ctermbg=8 ctermfg=15 cterm=NONE
+highlight StatusLine ctermbg=7 ctermfg=0 cterm=NONE
+highlight User1 ctermbg=2 ctermfg=0
+
+" Make the left and right block blue in insert mode
 au InsertEnter * hi User1 ctermbg=4 ctermfg=0
 au InsertLeave * hi User1 ctermbg=2 ctermfg=0
-highlight User1 ctermbg=2 ctermfg=0
 
 let g:statusline_seperator='  '
 
@@ -293,7 +298,7 @@ function! GitBranch()
 		let branch = fugitive#head()
 	endif
 	if branch != ''
-		return '  ⎇ '.branch.' '
+		return '  ⎇  '.branch.' '
 	endif
 	return ''
 endfunction
@@ -313,7 +318,6 @@ endfunction
 set statusline=
 set statusline+=%1*%8{g:currentmode[mode()]}%*
 set statusline+=%{GitBranch()}
-set statusline+=·
 set statusline+=\ %-.55f%m
 set statusline+=%=
 set statusline+=%y

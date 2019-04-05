@@ -184,4 +184,4 @@ setopt prompt_subst
 [[ "$(uname)" == 'Darwin' ]] && source ~/.iterm2_shell_integration.zsh
 
 # added by travis gem
-[ -f /Users/d070402/.travis/travis.sh ] && source /Users/d070402/.travis/travis.sh
+[ -f /Users/d070402/.travis/travis.sh ] && source /Users/d070402/.travis/travis.sh || :
