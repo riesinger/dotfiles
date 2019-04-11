@@ -8,12 +8,12 @@ export LC_ALL=en_US.UTF-8
 export LC_TYPE=UTF-8
 export EDITOR="nvim"
 export VISUAL="$EDITOR"
-export BROWSER="firefox"
+export BROWSER="brave"
 export GOPATH="$HOME/go"
 export GOBIN="$GOPATH/bin"
 export DOTFILES="$HOME/.dotfiles"
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$PATH:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin:$DOTFILES/scripts:/Library/TeX/texbin"
+export PATH="/usr/local/lib/cocktail:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin:$DOTFILES/scripts:/Library/TeX/texbin:$PATH"
 export NODE_ENV=development # I want to always work in dev, unless explicitly set to prod
 local pluginbase=$DOTFILES/zsh-plugins
 
@@ -21,7 +21,7 @@ HISTSIZE=3000
 SAVEHIST=3000
 HISTFILE=~/.zsh_history
 
-has_executable 'ag' && export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore vendor -g "" '
+has_executable 'rg' && export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
 
 # GPG-Agent setup
 export GPG_TTY=$(tty)
