@@ -1,0 +1,42 @@
+#!/usr/bin/env zsh
+
+ACTION=$1
+
+logger -t DOCKING "Docking action is $ACTION"
+
+case $ACTION in
+	"add" )
+		DOCKED=1
+		logger -t DOCKING "We are now docked"
+		;;
+	"remove" )
+		DOCKED=0
+		logger -t DOCKING "We are now undocked"
+		;;
+	* )
+		logger -t DOCKING "Could not interpret this action"
+		exit 1
+		;;
+esac
+
+set_displays() {
+	export DISPLAY=":0"
+	if [[ $DOCKED == 1 ]]; then
+		# This monitor is 4k way too small by default
+		sleep 1
+		xrandr \
+			--output DP2-1 --auto --scale 0.75x0.75 --primary --pos 1920x0
+	else
+		xrandr \
+			--output DP2-1 --off
+	fi
+}
+
+# 1. Update the displays
+set_displays $ACTION
+logger -t DOCKING "Reconfigured monitors"
+# 2. Re-load BSPWM
+~/.config/bspwm/bspwmrc > /dev/null 2>&1
+logger -t DOCKING "Reloaded BSPWM"
+
+

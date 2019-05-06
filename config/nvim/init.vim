@@ -19,7 +19,7 @@ set mouse=a
 set shortmess+=c " suppress completion messages
 set updatetime=1000 " For CursorHold and CursorHoldI
 set signcolumn=yes
-set cmdheight=2
+set cmdheight=1
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -28,11 +28,6 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <bs> <C-W><C-H>
 set splitbelow
 set splitright
-
-" Use ag insead of grep
-if executable('ag')
-  set grepprg="ag --vimgrep"
-endif
 
 " }}}
 
@@ -101,8 +96,6 @@ call plug#end()
 " Ultisnips
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
 let g:UltiSnipsExpandTrigger = "<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " Go
 let g:go_fmt_command = "goimports"
@@ -112,7 +105,7 @@ let g:go_auto_type_info = 1
 let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 
 " Ack
-let g:ackprg = 'ag --nogroup --nocolor --column --ignore vendor --ignore .git'
+let g:ackprg = 'rg --vimgrep'
 
 " FZF
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
@@ -125,6 +118,11 @@ let g:indentLine_setColors = 0
 
 " Vim Test
 let test#strategy = "dispatch"
+
+" Vimtex
+
+" Don't open the quickfix window automatically
+let g:vimtex_quickfix_mode = 0
 
 " }}}
 
@@ -156,24 +154,23 @@ aug END
 
 endif
 
-" Golang Keymaps
-autocmd FileType go nmap <F5> <Plug>(go-build)
+" Compiling things
+autocmd FileType go nmap <leader>c <Plug>(go-build)
+autocmd FileType tex nmap <leader>c <Plug>(vimtex-compile)
 
 " COC.nvim
-inoremap <silent><expr> <Tab>
-			\ pumvisible() ? "\<C-n>" :
-			\ <SID>check_back_space() ? "\<Tab>" :
-			\ coc#refresh()
-inoremap <expr> <S-Tab>  pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ coc#expandableOrJumpable() ? coc#rpc#request('doKeymap', ['snippets-expand-jump','']) :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+let g:coc_snippet_next = '<tab>'
 
 " Remap keys for gotos
 nmap <silent> gd <Plug>(coc-definition)
@@ -254,6 +251,11 @@ augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
 
+
+" Type Umlaute via ae, oe, ue
+iabbrev ae ä
+iabbrev oe ö
+iabbrev ue ü
 
 " }}}
 

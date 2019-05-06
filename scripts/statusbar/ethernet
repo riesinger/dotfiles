@@ -1,0 +1,5 @@
+#!/bin/sh
+
+conn_status=$(nmcli d | grep '^en' | awk '{ print $3 }')
+
+[ "$conn_status" == "connected" ] && echo "connected" || "disconnected"

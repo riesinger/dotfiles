@@ -16,7 +16,6 @@ markup=pango
 
 [battery]
 interval=30
-instance=BAT0
 markup=pango
 
 [volume]

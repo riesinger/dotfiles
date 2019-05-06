@@ -3,7 +3,6 @@
 
 set $term --no-startup-id termite
 set $mod Mod4
-set $browser 'firefox'
 
 # #---Dropdown Windows---# #
 
@@ -31,7 +30,7 @@ exec --no-startup-id i3_setup.sh
 # Run the i3_setup script. This will intern call device-specific setup scripts
 # exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
 exec --no-startup-id locker.sh -w
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 exec --no-startup-id unclutter
 exec --no-startup-id redshift
 
@@ -68,22 +67,22 @@ client.background         $black
 
 gaps inner 6
 
-# bar {
-# 	font pango:SF Pro Display 12
-# 	colors {
-# 		background $darkblack
-# 		statusline $darkwhite
-# 		separator $background
-# 		focused_workspace  $darkblack $darkblack $white
-# 		active_workspace   $darkblack $darkblack $white
-# 		inactive_workspace $darkblack $darkblack $darkwhite
-# 		urgent_workspace   $red $darkblack $white
-# 	}
-# 	status_command i3blocks
-# 	position top
-# 	mode dock
-# 	modifier None
-# }
+bar {
+	font pango:FontAwesome 12
+	colors {
+		background $darkblack
+		statusline $darkwhite
+		separator $background
+		focused_workspace  $darkblack $darkyellow $darkblack
+		active_workspace   $darkblack $darkblack $white
+		inactive_workspace $darkblack $darkblack $darkwhite
+		urgent_workspace   $red $darkblack $white
+	}
+	status_command i3blocks
+	position top
+	mode dock
+	modifier None
+}
 
 # #---i3 Bindings---# #
 bindsym $mod+Return 		exec $term
@@ -153,7 +152,7 @@ bindsym $mod+u			exec --no-startup-id ddspawn tmuxdd
 bindsym $mod+i 			exec $term -e htop
 bindsym $mod+a			exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
 bindsym $mod+Shift+a		exec $term -e pulsemixer
-bindsym $mod+b exec --no-startup-id $browser
+bindsym $mod+b exec --no-startup-id $BROWSER
 
 bindsym $mod+d			exec --no-startup-id rofi -show drun -theme themes/drun
 bindsym $mod+period exec --no-startup-id rofimoji

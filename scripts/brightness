@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 # Script to increment/decrement backlight brightness
 # This script assumes that the current user can write to the according files in
@@ -22,12 +22,16 @@ case $1 in
 	i*)
 		val=$2
 		curr=$(cat /sys/class/backlight/*/brightness | head -n1)
-		echo $((curr + val)) > /sys/class/backlight/*/brightness 2>/dev/null
+		for f in /sys/class/backlight/*/brightness; do
+			echo $((curr + val)) > $f
+		done
 		;;
 	d*)
 		val=$2
 		curr=$(cat /sys/class/backlight/*/brightness | head -n1)
-		echo $((curr - val)) > /sys/class/backlight/*/brightness 2>/dev/null
+		for f in /sys/class/backlight/*/brightness; do
+			echo $((curr - val)) > $f
+		done
 		;;
 	g*)
 		max=$(cat /sys/class/backlight/*/max_brightness)

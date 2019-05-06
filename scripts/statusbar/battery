@@ -1,31 +1,51 @@
 #!/bin/sh
 # Give a battery name (e.g. BAT0) as an argument.
 
-bat="BAT0"
+bats=( "BAT0" "BAT1" )
+
+# If an argument  is passed, format the output with Pango
+pretty=$1
 
 case $BLOCK_BUTTON in
-    3) pgrep -x dunst >/dev/null && notify-send "<b>🔋 Battery module:</b>" ;;
+	3) pgrep -x dunst >/dev/null && notify-send "$(
+			for bat in ${bats[*]}; do
+
+				cap=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
+				status=$(cat /sys/class/power_supply/"$bat"/status)
+
+				total_cap=$(( total_cap + cap ))
+				echo "$bat: ${cap}% - $status"
+			done
+		)" ;;
 esac
 
 # In case the given battery is not found, we exit from the script. This hides the battery module
 # on systems without a battery
-capacity=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
-status=$(cat /sys/class/power_supply/"$bat"/status)
+total_cap=0
+charging=false
+for bat in ${bats[*]}; do
 
-cap=$(echo "$capacity" | sed -e 's/$/%/')
+	cap=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
+	status=$(cat /sys/class/power_supply/"$bat"/status)
 
-case $status in
-	'Charging' )
-		printf "<span font_desc='Material Icons'>battery_charging_full</span> %s" $cap
-		;;
-	'Discharging' )
-		printf "<span font_desc='Material Icons'>battery_full</span> %s" $cap
-		;;
-	'Unknown' )
-		printf "<span font_desc='Material Icons'>battery_unknown</span> %s" $cap
-		;;
-	'Full' )
-		printf "<span font_desc='Material Icons'>battery_full</span> %s" $cap
-		;;
-esac
+	total_cap=$(( total_cap + cap ))
 
+	# If any one of the batteries is charging, we want to indicate the charging status
+	[ $status == "Charging" ] && charging=true
+done
+
+num_bats=${#bats[*]}
+avg_cap=$(( total_cap / num_bats ))
+
+if [[ $pretty ]]; then
+	if [[ $charging == true ]]; then echo "<span bgcolor='#98c379' fgcolor='#282c34'>  </span> ${avg_cap}%"
+	else
+		if [ $avg_cap -lt 15 ]; then
+			echo "<span bgcolor='#e06c75' fgcolor='#282c34'>  </span> ${avg_cap}%"
+		else
+			echo "<span bgcolor='#c678dd' fgcolor='#282c34'>  </span> ${avg_cap}%"
+		fi
+	fi
+else
+	echo "${avg_cap}%"
+fi

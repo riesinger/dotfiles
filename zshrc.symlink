@@ -15,6 +15,7 @@ export DOTFILES="$HOME/.dotfiles"
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="/usr/local/lib/cocktail:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin:$DOTFILES/scripts:/Library/TeX/texbin:$PATH"
 export NODE_ENV=development # I want to always work in dev, unless explicitly set to prod
+export TERMINAL=termite
 local pluginbase=$DOTFILES/zsh-plugins
 
 HISTSIZE=3000

@@ -10,7 +10,6 @@ Where [options] are:
 	-s  show connection status
   -q 	don't output information (except for status)
 	-h  show this help text
-
 EOM
 }
 while getopts ":qhfds" o; do
@@ -52,7 +51,7 @@ if [ "$connect" == "1" ]; then
 fi
 
 if [ "$show_status" == "1" ]; then
-	sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-
+	echo $(sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-)
 fi
 
 if [ "$disconnect" == "1" ]; then

@@ -8,15 +8,9 @@ case $BLOCK_BUTTON in
 	3) pgrep -x dunst >/dev/null && notify-send "Volume: $(volume get)%"
 esac
 
-[ "$(pulsemixer --get-mute)" = "1" ] && printf "<span font_desc='Material Icons'>\Ue04f</span>" && exit
+# Print the speaker icon
+printf "<span bgcolor='#e06c75' fgcolor='#282c34'>  </span>"
+[ "$(pulsemixer --get-mute)" = "1" ] && printf " muted" && exit
 
-	vol=$(pulsemixer --get-volume | awk '{print $1}')
-
-if [ "$vol" -gt "70" ]; then
-	printf "<span font_desc='Material Icons'>\Ue050</span>" # volume_up
-elif [ "$vol" -lt "20" ]; then
-	printf "<span font_desc='Material Icons'>\Ue04e</span>" # volume_mute
-else
-	printf "<span font_desc='Material Icons'>\Ue04d</span>" # volume_down
-fi
-
+vol=$(pulsemixer --get-volume | awk '{print $1}')
+printf ' %s%%' $vol
