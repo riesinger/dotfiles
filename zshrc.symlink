@@ -137,10 +137,15 @@ autoload -Uz promptinit && promptinit
 function check_branch() {
     local branch="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
 		if [[ ! -z "$branch" ]]; then
-				if [[ "$(git status --porcelain --branch 2>/dev/null | sed -e '/^##/d')" == '' ]]; then
-						print -n "%{%F{green}%}$branch"
+				gitstatus=$(git status --porcelain --branch 2>/dev/null)
+				if [[ "$(echo $gitstatus | sed -e '/^.*ahead.*$/d')" == '' ]]; then
+					print -n "%{%F{yellow}%}$branch"
 				else
+					if [[ "$(echo $gitstatus | sed -e '/^##/d')" == '' ]]; then
+						print -n "%{%F{green}%}$branch"
+					else
 						print -n "%{%F{red}%}$branch"
+					fi
 				fi
 		fi
 }
