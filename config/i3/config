@@ -4,15 +4,16 @@
 set $term --no-startup-id termite
 set $mod Mod4
 
-# #---Starting External Scripts---# #
-# exec --no-startup-id locker.sh -l # Since we are starting x with autologin
+# {{{ --- Starting External Scripts
 exec --no-startup-id dunst
 exec --no-startup-id compton
 exec --no-startup-id locker.sh -w
 exec --no-startup-id xmodmap .Xmodmap
 exec --no-startup-id unclutter
-exec --no-startup-id redshift
+exec --no-startup-id redshift -l geoclue2
 exec --no-startup-id sudo powertop --auto-tune
+
+# }}}
 
 # {{{ --- Styling ---
 default_border pixel 3

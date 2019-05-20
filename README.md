@@ -1,70 +1,25 @@
-# Pascal's Dotfiles
+# Dotfiles
 
-These are my personal dotfiles (at least most of them). I would like you to look
-through them, get inspired and maybe even suggest some better practises 
-(especially in my Neovim config).
+These are the dotfiles for all my machines. 
+Many scripts are heavily inspired by [Luke Smith](https://lukesmith.xyz).
 
-I have to thank Nick Nisi for a lot of inspiration with the install script.
+I deploy my dotfiles on new machines using [PARIS](https://github.com/riesinger/paris), which will
+install all needed programs on Arch based computers (Arch derivatives such as Manjaro should also
+work).
 
-## What you'll find
+## Workflow
 
-- Neovim config
-- ZSH config (with oh-my-zsh)
-- tmux config (maybe in the futurre)
-- **An installl script**
+I only use Arch or Arch-based distros on my machines, since the AUR and rolling upgrades are
+_awesome_.
 
-## Installation
+i3 (i3-gaps) is my window manager of choice, paired with i3blocks as a status bar.
+I use neovim to do 99% percent of my editing (Java development is done in IntelliJ IDEA with the
+IdeaVim plugin).
 
-My dotfiles include a script called install.sh. It will create symlinks from
-the ~/.dotfiles directory to the appropriate locations. 
+For most projects, I keep tmux sessions running.
 
-The install script also has a 'bootstrapping' process, which will install 
-my most commonly used applications (I only use Archlinux on all of my
-machines - *Yes, even the servers*, so the package names and install commands
-are Arch specific. The bootstrap should still work on Arch derivatives such
-as Manjaro or similar). 
+## Installing
 
-Just call it with `./install.sh bootstrap`
-
-To install the dotfiles, just call `./install.sh`
-
-## Software
-
-This is a list of software I use on a regular basis:
-
-Type                | Program
----                 | ---
-distro              | arch
-package manager     | pacman+pacaur
-boot loader         | systemd-boot
-config mgmt         | git + zsh
-display manager     | lightdm (webkit2 greeter)
-desktop environment | none
-window manager      | bspwm
-hotkey daemon       | xshkd
-screen locker       | // TBD
-text editor         | (neo)vim
-shell               | zsh
-network manager     | NetworkManager
-terminal emulator   | termite+tmux
-launcher            | rofi
-wallpaper setter    | feh
-panel               | none, see [Panel](#panel)
-compositor          | compton
-notifications       | dunst
-file manager        | none, need to find a good one
-browser             | Google Chrome (I need Netflix)
-password manager    | LastPass (I know, no FOSS)
-image viewer        | feh, but in need of something better
-music player        | Google Play Music in Chrome, lately giving [jam](https://github.com/budkin/jam) a try
-video player        | vlc
-mail                | Google Inbox (I tried, but I can't live without it)
-pdf reader          | Mostly viewing PDFs online, so Chrome
-firewall            | ufw
-backup              | rsync to home nextcloud server
-fuzzy searching     | fzf (vim+terminal)
-screenshots         | scrot
-calendar            | Google Calendar on my phone (can't stand the look of the web interface)
-notes               | vimwiki/markdown
-fonts               | Noto Sans, Ubuntu Mono
+On clean installs, use [PARIS](https://github.com/riesinger/paris). Otherwise, run the
+`link_dotfiles` script in the `scripts` directory.
 
