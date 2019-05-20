@@ -2,8 +2,6 @@
 
 COMMAND=$1
 
-notify_i3blocks="pkill -RTMIN+10 i3blocks"
-
 usage () {
 	name=$(basename $0)
   cat << EOF
@@ -20,28 +18,28 @@ This script also tries to notify i3blocks to update the volume block (signal 10)
 EOF
 }
 
+notify_i3blocks() {
+	pkill -RTMIN+10 i3blocks
+}
+
 
 case $COMMAND in
-  u*)
+  u* )
 		[ -z "$2" ] && vol="5" || vol="$2";
 		pulsemixer --change-volume +"$vol";
-		$notify_i3blocks;
+		notify_i3blocks
     ;;
   d* )
 		[ -z "$2" ] && vol="5" || vol="$2";
 		pulsemixer --change-volume -"$vol";
-		$notify_i3blocks;
+		notify_i3blocks
 		;;
   m* )
 		pulsemixer --toggle-mute;
-		$notify_i3blocks;
+		notify_i3blocks
     ;;
 	g*)
-		if [[ "$(pulsemixer --get-mute)" == 1 ]]; then
-			echo 'muted'
-		else
-			pulsemixer --get-volume | awk '{print $1}'
-		fi
+		[ "0" -eq "$(pulsemixer --get-mute)" ] && echo "$(pulsemixer --get-volume | cut -d ' ' -f1)%" || echo 'muted'
 		;;
   * )
     usage

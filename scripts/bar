@@ -12,42 +12,91 @@ panel_height=30
 panel_fifo="/tmp/panel_fifo"
 panel_wmname="Panel"
 
-block_sep=" "
-
 block() {
-	fgc=$1
-	bgc=$2
-	icon=$3
-	cmd=$4
-	echo -n "%{F$fgc B$bgc}  $icon  %{F- B-}  $cmd    "
+	blockName=$1
+	fgc=$2
+	bgc=$3
+	icon=$4
+	cmd=$5
+	echo "${blockName}%{F$fgc B$bgc}  $icon  %{F- B-}  $cmd    "
 }
 
 status_infos() {
-	echo -n -e 'S'
-	workspaces
-	echo -n -e "%{r}" # right
-	block ${colors[0]} ${colors[1]}   "$(volume get)"
-	block ${colors[0]} ${colors[4]}   "$($HOME/.scripts/statusbar/wifi)"
-	block ${colors[0]} ${colors[2]}   "$($HOME/.scripts/statusbar/ethernet)"
-	block ${colors[0]} ${colors[5]}   "$($HOME/.scripts/statusbar/battery)"
-	block ${colors[0]} ${colors[3]}   "$(date +'%a %d %b')"
-	block ${colors[0]} ${colors[3]}   "$(date +'%H:%M')"
-
+	while true; do
+		block V ${colors[0]} ${colors[1]}   "$(volume get)"
+		block F ${colors[0]} ${colors[4]}   "$($HOME/.scripts/statusbar/wifi)"
+		block E ${colors[0]} ${colors[2]}   "$($HOME/.scripts/statusbar/ethernet)"
+		block B ${colors[0]} ${colors[5]}   "$($HOME/.scripts/statusbar/battery)"
+		block D ${colors[0]} ${colors[3]}   "$(date +'%a %d %b %H:%M')"
+		sleep .5s
+	done
 }
 
+# Start the status info loop
+
+# make sure to delete any existing named pipe
+if [ -e "$panel_fifo" ]; then
+	rm "$panel_fifo"
+fi
+
+# create a new named pipe
+mkfifo "$panel_fifo"
+
+# pipe the output of the modules to the fifo
+status_infos > "$panel_fifo" &
+
 statusbar() {
+	# All status commands bring their own coloring and icons, except for the BSPWM module.
+	while read -r line; do
+		case $line in
+			V* )
+				# Volume status
+				vol="${line#?}"
+				;;
+			F* )
+				# WiFi status
+				wifi=${line#?}
+				;;
+			E* )
+				# Ethernet status
+				eth=${line#?}
+				;;
+			B* )
+				# Battery status
+				bat=${line#?}
+				;;
+			D* )
+				# Date and Time
+				date=${line#?}
+				;;
+			W* )
+				# TODO: This is BSPWM's status info. We'll nee to parse this
+				wm=""
+				;;
+		esac
+
+		panel_layout() {
+			echo "%{l}$wm%{r}$vol $wifi $eth $bat $date"
+		}
+
+		# TODO: If a senconday monitor is attached, output to it too.
+
+		printf "%s\n" "%{Sf}$(panel_layout)"
+
+	done
+
 }
 
 statusbar < "$panel_fifo" | lemonbar -p \
 		-f 'Google Sans:size=11' -f 'FontAwesome:size=14' \
 		-B ${colors[0]} -F ${colors[7]} \
-		-g "x${panel_height}" -n "$panel_wmname" &
+		-g "x${panel_height}" -n "$panel_wmname"
 
 # Hide the panel when windows are in fullscreen mode.
 # This is stolen from https://gitlab.com/protesilaos/dotfiles/blob/master/bin/bin/melonpanel.
 # TODO: Play with the sleep value
-until bar_id=$(xdo id -a "$panel_wmname"); do
-	sleep 2s
-done
-
-xdo below -t $(xdo id -n root) $bar_id &
+# until bar_id=$(xdo id -a "$panel_wmname"); do
+# 	sleep 1s
+# done
+#
+# xdo below -t $(xdo id -n root) $bar_id &

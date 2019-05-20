@@ -3,23 +3,35 @@
 # This utility requires you to have protonvpn-cli installed and setup, as well as
 # protonvpn-cli added to the 'sudo-without-password' group
 
+notify_i3blocks() {
+	pkill -RTMIN+11 i3blocks
+}
+
 case $BLOCK_BUTTON in
-	1) pgrep -x dunst >/dev/null && (notify-send "Connecting to VPN"; vpn -f -q || notify-send "VPN connection failed"; pkill -RTMIN+11 i3blocks);;
-	2) pgrep -x dunst >/dev/null && (notify-send "Disconnecting from VPN"; vpn -d -q; pkill -RTMIN+11 i3blocks);;
-	3) pgrep -x dunst >/dev/null && (notify-send "$(vpn -s)");;
+	1) notifyd_running && (
+			notify-send "Connecting to VPN"; vpn -f -q && notify_i3blocks || notify-send "VPN connection failed"
+			)
+			;;
+	2) notifyd_running && notify-send -a 'VPN Module' \
+		"Left click to connect to the fastest available server,
+Right click to disconnect from the VPN";;
+	3) notifyd_running && (
+			notify-send "Disconnecting from VPN"; vpn -d -q && notify_i3blocks
+		)
+		;;
 esac
 
 # TODO: Use the 'vpn -s' command -- this was not working
 vpn_status="$(sudo protonvpn-cli --status | grep 'ProtonVPN Status' | cut -d ' ' -f 3-)"
 case "$vpn_status" in
 	"Not Running")
-		echo "<span bgcolor='#61afef' fgcolor='#282c34'>  </span> disconnected"
+		echo " "
 		;;
 	"Running")
-		echo "<span bgcolor='#61afef' fgcolor='#282c34'>  </span> connected"
+		echo " "
 		;;
 	* )
-		echo "<span bgcolor='#61afef' fgcolor='#282c34'>  </span> error"
+		echo "  error"
 		;;
 esac
 

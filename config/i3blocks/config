@@ -1,28 +1,26 @@
 markup=pango
 command=~/.dotfiles/scripts/statusbar/$BLOCK_NAME
-separator_block_width=20
-
-[spotify_track]
-interval=5
+separator_block_width=30
 
 [protonvpn]
 interval=once
 signal=11
-markup=pango
+
+[ethernet]
+interval=5
+
+[disk]
+interval=30
 
 [wifi]
-interval=10
-markup=pango
+interval=5
 
 [battery]
-interval=30
-markup=pango
+interval=10
 
 [volume]
 interval=once
 signal=10
-markup=pango
 
 [clock]
-interval=20
-markup=pango
+interval=10

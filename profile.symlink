@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Locations
+export DOTFILES="$HOME/.dotfiles"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# General
+export LC_ALL=en_US.UTF-8
+export LC_TYPE=UTF-8
+export NODE_ENV='development'
+
+# Programs
+export EDITOR='nvim'
+export VISUAL="$EDITOR"
+export BROWSER='brave'
+export TERMINAL='termite'
+export READER='zathura'
+export FILE='ranger'
+
+# Program config
+export LESS=-R
+
+export PATH="$HOME/.bin:$DOTFILES/scripts:/usr/local/sbin:/usr/local/bin:$PATH"

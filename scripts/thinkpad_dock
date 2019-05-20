@@ -1,4 +1,11 @@
 #!/usr/bin/env zsh
+#
+# This script is triggered by a udev rule when I dock my thinkpad with its docking station
+# udev will pass the action as the first parameter
+#
+# TODO: debouncing - for some reason, the script triggers twice when docking/undocking
+# TODO: read monitor config from device specific settings
+
 
 ACTION=$1
 
@@ -7,11 +14,9 @@ logger -t DOCKING "Docking action is $ACTION"
 case $ACTION in
 	"add" )
 		DOCKED=1
-		logger -t DOCKING "We are now docked"
 		;;
 	"remove" )
 		DOCKED=0
-		logger -t DOCKING "We are now undocked"
 		;;
 	* )
 		logger -t DOCKING "Could not interpret this action"
@@ -22,7 +27,6 @@ esac
 set_displays() {
 	export DISPLAY=":0"
 	if [[ $DOCKED == 1 ]]; then
-		# This monitor is 4k way too small by default
 		sleep 1
 		xrandr \
 			--output DP2-1 --auto --scale 0.75x0.75 --primary --pos 1920x0
@@ -30,13 +34,15 @@ set_displays() {
 		xrandr \
 			--output DP2-1 --off
 	fi
+	logger -t DOCKING "Reconfigured monitors"
 }
 
 # 1. Update the displays
-set_displays $ACTION
-logger -t DOCKING "Reconfigured monitors"
-# 2. Re-load BSPWM
-~/.config/bspwm/bspwmrc > /dev/null 2>&1
-logger -t DOCKING "Reloaded BSPWM"
+set_displays
+# 2. Re-apply the wallpaper
+locker.sh -w
+# 3. Refresh xmodmap - For some reason, the external keyboard sometimes doesn't have the capslock
+# disabled
+xmodmap ~/.Xmodmap
 
 

@@ -4,76 +4,58 @@
 set $term --no-startup-id termite
 set $mod Mod4
 
-# #---Dropdown Windows---# #
-
-# First I have a tmux window used for background scripts.
-# I'll later bind this to mod+u.
-for_window [instance="tmuxdd"] floating enable
-for_window [instance="tmuxdd"] resize set 625 450
-for_window [instance="tmuxdd"] move scratchpad
-for_window [instance="tmuxdd"] border pixel 3
-for_window [instance="tmuxdd"] sticky enable
-
-# Then I have a window running R I use for basic arithmetic
-# I'll later bind this to mod+a.
-for_window [instance="dropdowncalc"] floating enable
-for_window [instance="dropdowncalc"] resize set 800 300
-for_window [instance="dropdowncalc"] move scratchpad
-for_window [instance="dropdowncalc"] border pixel 2
-for_window [instance="dropdowncalc"] sticky enable
-
 # #---Starting External Scripts---# #
-exec --no-startup-id locker.sh -l # Since we are starting x with autologin
+# exec --no-startup-id locker.sh -l # Since we are starting x with autologin
 exec --no-startup-id dunst
 exec --no-startup-id compton
-exec --no-startup-id i3_setup.sh
-# Run the i3_setup script. This will intern call device-specific setup scripts
-# exec --no-startup-id setxkbmap -layout de -variant nodeadkeys
 exec --no-startup-id locker.sh -w
-# exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id xmodmap .Xmodmap
 exec --no-startup-id unclutter
 exec --no-startup-id redshift
+exec --no-startup-id sudo powertop --auto-tune
 
-# #---Styling---# #
-default_border pixel
+# {{{ --- Styling ---
+default_border pixel 3
+gaps inner 6
+smart_gaps on
+smart_borders on
+font pango:Google Sans 12
 
 # Set Xresources colors:
-set_from_resource   $background    background                   #000000
-set_from_resource   $darkblack     color0                   #000000
-set_from_resource   $black         color8                   #000000
-set_from_resource   $darkred       color1                   #000000
-set_from_resource   $red           color9                #000000
-set_from_resource   $darkgreen     color2                   #000000
-set_from_resource   $green         color10      #000000
-set_from_resource   $darkyellow    color3                   #000000
-set_from_resource   $yellow        color11      #000000
-set_from_resource   $darkblue      color4                   #000000
+set_from_resource   $background    background  #000000
+set_from_resource   $darkblack     color0      #000000
+set_from_resource   $black         color8      #000000
+set_from_resource   $darkred       color1      #000000
+set_from_resource   $red           color9      #000000
+set_from_resource   $darkgreen     color2      #000000
+set_from_resource   $green         color10     #000000
+set_from_resource   $darkyellow    color3      #000000
+set_from_resource   $yellow        color11     #000000
+set_from_resource   $darkblue      color4      #000000
 set_from_resource   $blue          color12     #000000
-set_from_resource   $darkmagenta   color5                   #000000
-set_from_resource   $magenta       color13      #000000
-set_from_resource   $darkcyan      color6                   #000000
+set_from_resource   $darkmagenta   color5      #000000
+set_from_resource   $magenta       color13     #000000
+set_from_resource   $darkcyan      color6      #000000
 set_from_resource   $cyan          color14     #000000
-set_from_resource   $darkwhite     color7                   #000000
-set_from_resource   $white         color15      #000000
-set                 $transparent                #00000000
-
+set_from_resource   $darkwhite     color7      #000000
+set_from_resource   $white         color15     #000000
+set                 $transparent               #00000000
 
 # NAME                    BORDER         BACKGROUND  TEXT         INDICATOR      CHILD_BORDER
-client.focused            $transparent   $background $white       $blue          $transparent
-client.unfocused          $transparent   $blue       $white       $transparent   $transparent
-client.focused_inactive   $transparent   $blue       $white       $darkblack     $transparent
+client.focused            $red           $red        $white       $blue          $red
+client.unfocused          $darkblack     $blue       $white       $transparent   $darkblack
+client.focused_inactive   $black         $blue       $white       $darkblack     $black
 client.urgent             $darkred       $darkred    $black       $darkred       $darkred
 client.background         $black
 
-gaps inner 6
-
 bar {
+	font pango:Google Sans 12
 	font pango:FontAwesome 12
 	colors {
 		background $darkblack
 		statusline $darkwhite
 		separator $background
-		focused_workspace  $darkblack $darkyellow $darkblack
+		focused_workspace  $darkblack $white $darkblack
 		active_workspace   $darkblack $darkblack $white
 		inactive_workspace $darkblack $darkblack $darkwhite
 		urgent_workspace   $red $darkblack $white
@@ -82,28 +64,10 @@ bar {
 	position top
 	mode dock
 	modifier None
+	height 30
 }
 
-# #---i3 Bindings---# #
-bindsym $mod+Return 		exec $term
-bindsym $mod+Shift+space 	floating toggle
-bindsym $mod+space		focus mode_toggle
-bindsym $mod+x			exec --no-startup-id locker.sh -l
-bindsym $mod+t			split toggle
-#bindsym $mod+Shift+u		exec --no-startup-id i3resize down
-bindsym $mod+f			fullscreen toggle
-bindsym $mod+Shift+r restart
-bindsym $mod+Escape exec --no-startup-id powermenu.sh
-
-# Movement
-bindsym $mod+h			focus left
-bindsym $mod+Shift+h		move left 30
-bindsym $mod+j			focus down
-bindsym $mod+Shift+j		move down 30
-bindsym $mod+k			focus up
-bindsym $mod+Shift+k		move up 30
-bindsym $mod+l			focus right
-bindsym $mod+Shift+l		move right 30
+# }}}
 
 # Workspaces
 set $ws1 "1"
@@ -116,6 +80,43 @@ set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
+
+# #---Application window config---# #
+for_window [class="Pinentry"] sticky enable
+for_window [window_role="GtkFileChooserDialog"] resize shrink height 10 px
+assign [class="Trello"] 8
+assign [class="Slack"] 9
+
+# {{{ --- Keybindings ---
+
+# internal
+bindsym $mod+Shift+space 	floating toggle
+bindsym $mod+t						split toggle
+bindsym $mod+f						fullscreen toggle
+bindsym $mod+Shift+r 			restart
+bindsym $mod+w            kill
+
+# actions
+bindsym $mod+Return 			exec $term
+bindsym $mod+x						exec --no-startup-id locker.sh -l
+bindsym $mod+Escape 			exec --no-startup-id powermenu.sh
+bindsym $mod+m 						exec --no-startup-id dmenumount
+
+# movement
+bindsym $mod+h			    focus left
+bindsym $mod+j			    focus down
+bindsym $mod+k			    focus up
+bindsym $mod+l			    focus right
+bindsym $mod+Shift+h		move left 30
+bindsym $mod+Shift+j		move down 30
+bindsym $mod+Shift+k		move up 30
+bindsym $mod+Shift+l		move right 30
+
+# resizing
+bindsym $mod+u          exec --no-startup-id i3resize left
+bindsym $mod+i          exec --no-startup-id i3resize down
+bindsym $mod+o          exec --no-startup-id i3resize up
+bindsym $mod+p          exec --no-startup-id i3resize right
 
 # switch to workspace
 bindsym $mod+1		workspace $ws1
@@ -141,52 +142,36 @@ bindsym $mod+Shift+8	move container to workspace $ws8
 bindsym $mod+Shift+9	move container to workspace $ws9
 bindsym $mod+Shift+0	move container to workspace $ws10
 
+# move workspaces between monitors
+bindsym $mod+Control+Shift+h move workspace to output left
+bindsym $mod+Control+Shift+l move workspace to output right
+
 
 # #---Application Key Bindings---# #
-bindsym $mod+q			[con_id="__focused__" instance="^(?!dropdowncalc|tmuxdd).*$"] kill
-bindsym $mod+Shift+q		[con_id="__focused__" instance="^(?!dropdowncalc|tmuxdd).*$"] kill
-bindsym $mod+w			exec $term -e nmtui
-bindsym $mod+Shift+w		exec --no-startup-id $BROWSER
-bindsym $mod+e			exec $term -e ranger
-bindsym $mod+u			exec --no-startup-id ddspawn tmuxdd
-bindsym $mod+i 			exec $term -e htop
-bindsym $mod+a			exec --no-startup-id ddspawn dropdowncalc -f mono:pixelsize=24
-bindsym $mod+Shift+a		exec $term -e pulsemixer
-bindsym $mod+b exec --no-startup-id $BROWSER
-
-bindsym $mod+d			exec --no-startup-id rofi -show drun -theme themes/drun
-bindsym $mod+period exec --no-startup-id rofimoji
-
-# #---Application window config---# #
-for_window [class="Pinentry"] sticky enable
-for_window [class="sent"] border pixel 0px
-for_window [window_role="GtkFileChooserDialog"] resize shrink height 10 px
+bindsym $mod+e			 exec $term -e $FILE
+bindsym $mod+Shift+a exec $term -e pulsemixer
+bindsym $mod+b       exec --no-startup-id $BROWSER
+bindsym $mod+space   exec --no-startup-id rofi -show drun -theme themes/drun
 
 # #---Media Keys---# #
 
 # For screenshots and recording
-bindsym Print 			exec --no-startup-id scrot
-bindsym Shift+Print 		exec --no-startup-id scrot -u
-bindsym $mod+Print		exec --no-startup-id dmenurecord
-bindsym $mod+Scroll_Lock	exec --no-startup-id "killall screenkey || screenkey"
-bindsym XF86Launch1		exec --no-startup-id xset dpms force off
+bindsym Print 			  exec --no-startup-id scrot
+bindsym Shift+Print   exec --no-startup-id scrot -u
+bindsym Control+Print exec --no-startup-id scrot -s
 
 # #---Extra XF86 Keys---# #
 # These are the extra media keys that some keyboards have.
 bindsym XF86AudioMute		exec --no-startup-id volume mute
 bindsym XF86AudioLowerVolume	exec --no-startup-id volume down 5
-bindsym Shift+XF86AudioLowerVolume	exec --no-startup-id volume down 10
-bindsym Control+XF86AudioLowerVolume	exec --no-startup-id volume down 1
 bindsym XF86AudioRaiseVolume	exec --no-startup-id volume up 5
+bindsym Shift+XF86AudioLowerVolume	exec --no-startup-id volume down 10
 bindsym Shift+XF86AudioRaiseVolume	exec --no-startup-id volume up 10
-bindsym Control+XF86AudioRaiseVolume	exec --no-startup-id volume up 1
-bindsym XF86PowerOff		exec --no-startup-id powermenu.sh
-bindsym XF86AudioNext		exec --no-startup-id volume next
-bindsym XF86AudioPlay		exec --no-startup-id volume toggle
-bindsym XF86AudioPrev		exec --no-startup-id volume prev
-bindsym XF86AudioStop		exec --no-startup-id volume toggle
-bindsym XF86AudioRewind		exec --no-startup-id volume back 10
-bindsym XF86AudioForward	exec --no-startup-id volume forward 10
-bindsym XF86Suspend		exec --no-startup-id locker.sh -l
 bindsym XF86MonBrightnessDown	exec --no-startup-id brightness dec 50
 bindsym XF86MonBrightnessUp	exec --no-startup-id brightness inc 50
+
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+# }}}

@@ -1,5 +1,7 @@
 #!/bin/sh
+# Simple script to show ethernet connection status in the statusbar
 
 conn_status=$(nmcli d | grep '^en' | awk '{ print $3 }')
 
-[ "$conn_status" == "connected" ] && echo "connected" || "disconnected"
+# In case we don't have a connection, don't show anything
+[ "$conn_status" == "connected" ] && echo " " || echo ''

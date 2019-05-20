@@ -1,0 +1,5 @@
+set window-title-home-tilde "true"
+set statusbar-home-tilde "true"
+set font "Fira Code 11"
+set default-bg "#12151a"
+set statusbar-bg "#12151a"

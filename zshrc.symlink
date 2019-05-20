@@ -3,19 +3,12 @@
 #
 # Variables and exports
 #
+
+# If the profile hasn't been sourced yet, do it. For some reason, this happens in TMUX sessions
+[ -z "$DOTFILES" ] && source $HOME/.profile
+
 export TERM=xterm-256color
-export LC_ALL=en_US.UTF-8
-export LC_TYPE=UTF-8
-export EDITOR="nvim"
-export VISUAL="$EDITOR"
-export BROWSER="brave"
-export GOPATH="$HOME/go"
-export GOBIN="$GOPATH/bin"
-export DOTFILES="$HOME/.dotfiles"
-export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="/usr/local/lib/cocktail:/usr/local/sbin:/usr/local/bin:/usr/bin:$GOBIN:$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/.bin:$DOTFILES/scripts:/Library/TeX/texbin:$PATH"
-export NODE_ENV=development # I want to always work in dev, unless explicitly set to prod
-export TERMINAL=termite
+export PATH="/usr/local/lib/cocktail:$PATH"
 local pluginbase=$DOTFILES/zsh-plugins
 
 HISTSIZE=3000
@@ -29,6 +22,7 @@ export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye > /dev/null
 export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 
+export SUDO_ASKPASS="$HOME/.scripts/dmenupass"
 
 #
 # Aliases
@@ -38,7 +32,6 @@ export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 alias c="clear"
 alias e="$EDITOR"
 alias :q="exit"
-alias ag="ag --hidden --ignore .git"
 alias cat='bat'
 
 # ls
@@ -50,11 +43,6 @@ alias la='ls -lAh'
 alias tls="tmux ls"
 alias tat="tmux attach -t"
 alias tns="tmux new-session -s"
-
-# Steam
-alias steam="LD_PRELOAD='/usr/$LIB/libstdc++.so.6 /usr/$LIB/libgcc_s.so.1 /usr/$LIB/libxcb.so.1 /usr/$LIB/libgpg-error.so' /usr/bin/steam &"
-
-alias todo="$EDITOR ~/todo.txt"
 
 #
 # Keyboard configuration
@@ -83,9 +71,8 @@ unfunction zkbd_file; unset keyfile ret
 [[ -n "$key[Home]" ]] && bindkey -- "$key[Home]" beginning-of-line
 [[ -n "$key[End]" ]] && bindkey -- "$key[End]" end-of-line
 [[ -n "$key[Delete]" ]] && bindkey -- "$key[Delete]" delete-char
-
-
-
+[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
+[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
 
 #
 # ZSH options
@@ -123,8 +110,6 @@ autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
 
 
 #
@@ -141,9 +126,6 @@ source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
 #
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
-function fin() {
-	notify-send "Task in $(tty) finished"
-}
 
 #
 # Prompt
@@ -182,7 +164,4 @@ RPROMPT=' $(build_rprompt)'
 
 setopt prompt_subst
 
-[[ "$(uname)" == 'Darwin' ]] && source ~/.iterm2_shell_integration.zsh
-
-# added by travis gem
 [ -f /Users/d070402/.travis/travis.sh ] && source /Users/d070402/.travis/travis.sh || :

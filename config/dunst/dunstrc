@@ -9,7 +9,7 @@
     separator_height = 2
     padding = 20
     horizontal_padding = 40
-    frame_width = 0
+    frame_width = 3
     frame_color = "#282c34"
 
     # Define a color for the separator.
@@ -108,6 +108,11 @@
 # to "".
 # NOTE: It might be helpful to run dunst -print in a terminal in order
 # to find fitting options for rules.
+
+[brightness]
+	appname = "Brightness"
+	set_stack_tag = "brightness"
+	format = "<b>%s</b>\n%b"
 
 #[espeak]
 #    summary = "*"

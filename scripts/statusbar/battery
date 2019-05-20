@@ -1,32 +1,37 @@
 #!/bin/sh
-# Give a battery name (e.g. BAT0) as an argument.
 
 bats=( "BAT0" "BAT1" )
 
+detailed_stats() {
+for bat in /sys/class/power_supply/BAT*; do
+	cap=$(cat "${bat}/capacity") || exit
+	status=$(cat "${bat}/status")
+
+	total_cap=$(( total_cap + cap ))
+	echo "$(basename $bat): ${cap}% - $status"
+done
+}
+
 # If an argument  is passed, format the output with Pango
-pretty=$1
-
 case $BLOCK_BUTTON in
-	3) pgrep -x dunst >/dev/null && notify-send "$(
-			for bat in ${bats[*]}; do
-
-				cap=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
-				status=$(cat /sys/class/power_supply/"$bat"/status)
-
-				total_cap=$(( total_cap + cap ))
-				echo "$bat: ${cap}% - $status"
-			done
-		)" ;;
+	1) notifyd_running && notify-send "$(detailed_stats)" ;;
+	3) notifyd_running && notify-send -a 'Battery module' \
+		"Left click to show detailed battery status"
+		;;
 esac
 
-# In case the given battery is not found, we exit from the script. This hides the battery module
-# on systems without a battery
+num_bats=$(ls /sys/class/power_supply | grep 'BAT' | wc -l)
+# if we don't have batteries, we don't display anything
+if $(( num_bats == 0 )); then
+	exit 0
+fi
+
 total_cap=0
 charging=false
-for bat in ${bats[*]}; do
+for bat in /sys/class/power_supply/BAT*; do
 
-	cap=$(cat /sys/class/power_supply/"$bat"/capacity) || exit
-	status=$(cat /sys/class/power_supply/"$bat"/status)
+	cap=$(cat "${bat}/capacity") || exit
+	status=$(cat "${bat}/status")
 
 	total_cap=$(( total_cap + cap ))
 
@@ -34,18 +39,11 @@ for bat in ${bats[*]}; do
 	[ $status == "Charging" ] && charging=true
 done
 
-num_bats=${#bats[*]}
 avg_cap=$(( total_cap / num_bats ))
 
-if [[ $pretty ]]; then
-	if [[ $charging == true ]]; then echo "<span bgcolor='#98c379' fgcolor='#282c34'>  </span> ${avg_cap}%"
-	else
-		if [ $avg_cap -lt 15 ]; then
-			echo "<span bgcolor='#e06c75' fgcolor='#282c34'>  </span> ${avg_cap}%"
-		else
-			echo "<span bgcolor='#c678dd' fgcolor='#282c34'>  </span> ${avg_cap}%"
-		fi
-	fi
+
+if [[ $charging == true ]]; then
+	echo "   ${avg_cap}%  "
 else
-	echo "${avg_cap}%"
+	echo "   ${avg_cap}%"
 fi

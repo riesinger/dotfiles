@@ -20,6 +20,9 @@ set shortmess+=c " suppress completion messages
 set updatetime=1000 " For CursorHold and CursorHoldI
 set signcolumn=yes
 set cmdheight=1
+set ignorecase
+set smartcase
+set incsearch
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
