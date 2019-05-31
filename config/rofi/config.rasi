@@ -1,6 +1,6 @@
 configuration {
 	show-icons: true;
-	icon-theme: "Papirus";
+	drun-icon-theme: "Papirus";
 	modi: "drun";
 	// font: "SF Pro Display 13";
 	cycle: true;

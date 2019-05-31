@@ -1,5 +1,4 @@
 #!/bin/sh
-
+# Simple script to give you the connected monitors
 # Note the space before connected!
-xrandr -q | grep ' connected'
-
+echo "$(xrandr -q | grep ' connected')"

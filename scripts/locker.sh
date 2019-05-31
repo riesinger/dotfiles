@@ -1,70 +1,90 @@
-#!/bin/sh
+#!/bin/bash
 
-set -x
-
-# Get primary output dimensions
-monitor_dims=$(xrandr | grep "primary" | awk '{ print $4 }' | sed -r 's|^([0-9]+)x([0-9]+)\+.*|\1 \2|g')
-monitor_width=$(echo $monitor_dims | awk '{print $1}')
-monitor_height=$(echo $monitor_dims | awk '{print $2}')
-
-
-generate_img() {
-	# Check if files exist
-	if [ ! -f "$HOME/.wallpaper" ]; then
-	echo "No wallpaper found at $HOME/.wallpaper"
-	exit 1
-	fi
-
-	if [ ! -f "$HOME/.face" ]; then
-	echo "No picture found at $HOME/.face"
-	exit 1
-	fi
-
-	# Read picture dimensions
-	wall_dims=$(convert "$HOME/.wallpaper" -ping -format "%w %h" info:)
-	face_dims=$(convert "$HOME/.face" -ping -format "%w %h" info:)
-
-	wall_width=$(echo $wall_dims | awk '{ print $1 }')
-	wall_height=$(echo $wall_dims | awk '{ print $2 }')
-	face_width=$(echo $face_dims | awk '{ print $1 }')
-	face_height=$(echo $face_dims | awk '{ print $2 }')
-
-
-
-	if [ "$face_width" != "$face_height" ]; then
-		echo "The face image needs to be square"
-		exit 2
-	fi
-
-	# Make the face rounded
-	half_face_width=$((face_width / 2))
-	convert "$HOME/.face" \
-	\( +clone -threshold -1 -negate -fill white -draw "circle $half_face_width,$half_face_width $half_face_width,0" \) \
-	-alpha off -compose copy_opacity -composite /tmp/face_circle.png
-
-	# Add face to wallpaper
-	convert -size "${wall_width}x${wall_height}" \
-	-page +0+0 "$HOME/.wallpaper" \
-	-page "+$((wall_width / 2 - half_face_width))+$((wall_height / 2 - half_face_width))" /tmp/face_circle.png \
-	-layers flatten "$HOME/.cache/lock_wallpaper.jpg"
-
-	# Scale wallpaper to monitor size
-	convert "$HOME/.cache/lock_wallpaper.jpg" -resize "${monitor_width}x${monitor_height}"^ \
-		-gravity center -extent "${monitor_width}x${monitor_height}" -quality 100 "$HOME/.cache/lock_wallpaper.jpg"
-}
 
 set_wallpaper() {
 	feh --bg-fill $HOME/.wallpaper
 }
 
 lock() {
-	radius=95
 	font='Google Sans'
-	timecolor='ffffffff'
+
+	#Constants
+	DISPLAY_RE="([0-9]+)x([0-9]+)\\+([0-9]+)\\+([0-9]+)" # Regex to find display dimensions
+	CACHE_FOLDER="$HOME/.cache/lock"
+	if ! [ -e $CACHE_FOLDER ]; then
+			mkdir -p $CACHE_FOLDER
+	fi
+
+	BKG_IMG="$HOME/.wallpaper"
+
+	if ! [ -e "$BKG_IMG" ]; then
+			echo '$HOME/.wallpaper does not exist'
+			exit 2
+	fi
+
+	MD5_BKG_IMG=$(md5sum $BKG_IMG | cut -c 1-10)
+	MD5_SCREEN_CONFIG=$(xrandr | md5sum - | cut -c 1-32) # Hash of xrandr output
+	OUTPUT_IMG="$CACHE_FOLDER""$MD5_SCREEN_CONFIG"."$MD5_BKG_IMG".png # Path of final image
+	OUTPUT_IMG_WIDTH=0 # Decide size to cover all screens
+	OUTPUT_IMG_HEIGHT=0 # Decide size to cover all screens
+
+	#i3lock command
+	LOCK_CMD="i3lock -i $OUTPUT_IMG --radius=20 -t -e \
+		--ringcolor=ffffffff --insidecolor=373445ff --line-uses-inside \
+		--keyhlcolor=ff3333ff --bshlcolor=ff3333ff --separatorcolor=00000000 \
+		--insidevercolor=e6b450ff --insidewrongcolor=ff3333ff \
+		--ringvercolor=ffffffff --ringwrongcolor=ffffffff \
+		--indpos=x+50:y+1030 \
+		--timecolor=ffffffff --timestr=%H:%M --timepos=ix+50:iy+10 --force-clock --time-align=1 \
+		--datestr="" \
+		--veriftext="" --wrongtext="" --noinputtext="" --locktext="" --lockfailedtext="" \
+		--screen=2"
+
+	if [ -e $OUTPUT_IMG ]
+	then
+			# Lock screen since image already exists
+			$LOCK_CMD
+			exit 0
+	fi
+
+	#Execute xrandr to get information about the monitors:
+	while read LINE
+	do
+		#If we are reading the line that contains the position information:
+		if [[ $LINE =~ $DISPLAY_RE ]]; then
+			#Extract information and append some parameters to the ones that will be given to ImageMagick:
+			SCREEN_WIDTH=${BASH_REMATCH[1]}
+			SCREEN_HEIGHT=${BASH_REMATCH[2]}
+			SCREEN_X=${BASH_REMATCH[3]}
+			SCREEN_Y=${BASH_REMATCH[4]}
+
+			CACHE_IMG="$CACHE_FOLDER""$SCREEN_WIDTH"x"$SCREEN_HEIGHT"."$MD5_BKG_IMG".png
+			## if cache for that screensize doesnt exist
+			if ! [ -e $CACHE_IMG ]
+			then
+		# Create image for that screensize
+					eval convert '$BKG_IMG' '-resize' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}^' '-gravity' 'Center' '-crop' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}+0+0' '+repage' '$CACHE_IMG'
+			fi
+
+			# Decide size of output image
+			if (( $OUTPUT_IMG_WIDTH < $SCREEN_WIDTH+$SCREEN_X )); then OUTPUT_IMG_WIDTH=$(($SCREEN_WIDTH+$SCREEN_X)); fi;
+			if (( $OUTPUT_IMG_HEIGHT < $SCREEN_HEIGHT+$SCREEN_Y )); then OUTPUT_IMG_HEIGHT=$(( $SCREEN_HEIGHT+$SCREEN_Y )); fi;
+
+			PARAMS="$PARAMS $CACHE_IMG -geometry +$SCREEN_X+$SCREEN_Y -composite "
+		fi
+	done <<<"`xrandr`"
+
+	#Execute ImageMagick:
+	eval convert -size ${OUTPUT_IMG_WIDTH}x${OUTPUT_IMG_HEIGHT} 'xc:black' $OUTPUT_IMG
+	eval convert $OUTPUT_IMG $PARAMS $OUTPUT_IMG
+
+	#Lock the screen:
+	$LOCK_CMD
 
 
-	i3lock -i "$HOME/.cache/lock_wallpaper.jpg" # -e --force-clock \
-		# --ringcolor=ffffffff --insidecolor=00000000 --radius $radius \
+	# i3lock -i "$CACHEDIR/${monitor_name}.jpg" -e \
+		# --radius $radius
+		# --ringcolor=ffffffff --insidecolor=00000000 \
 		# --insidevercolor=ffffff22 \
 		# --insidewrongcolor="$(xgetres 'color1')22" \
 		# --ringvercolor="$(xgetres 'color4')ff" \
@@ -77,15 +97,12 @@ lock() {
 		# --time-font=$font --date-font=$font --layout-font=$font \
 		# --timecolor=$timecolor --datecolor=$timecolor \
 		# --datestr='%a %d %b' \
-		# --veriftext='...' \
+		# --verifytext='...' \
 		# --wrongtext='wrong' \
 		# --noinputtext=''
 }
 
 case "$1" in
-	-u)
-		generate_img
-		;;
 	-l)
 		lock
 		;;

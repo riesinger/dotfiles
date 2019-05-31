@@ -5,6 +5,9 @@ set $term --no-startup-id termite
 set $mod Mod4
 
 # {{{ --- Starting External Scripts
+
+# Since we autologin on a TTY, we'll want to lock the screen when starting i3
+exec --no-startup-id locker.sh -l
 exec --no-startup-id dunst
 exec --no-startup-id compton
 exec --no-startup-id locker.sh -w
@@ -101,7 +104,8 @@ bindsym $mod+w            kill
 bindsym $mod+Return 			exec $term
 bindsym $mod+x						exec --no-startup-id locker.sh -l
 bindsym $mod+Escape 			exec --no-startup-id powermenu.sh
-bindsym $mod+m 						exec --no-startup-id dmenumount
+bindsym $mod+m 						exec --no-startup-id rofimount
+bindsym $mod+Shift+m 			exec --no-startup-id rofiumount
 
 # movement
 bindsym $mod+h			    focus left

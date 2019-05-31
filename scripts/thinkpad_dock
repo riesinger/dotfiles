@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 #
 # This script is triggered by a udev rule when I dock my thinkpad with its docking station
 # udev will pass the action as the first parameter
@@ -9,17 +9,20 @@
 
 ACTION=$1
 
-logger -t DOCKING "Docking action is $ACTION"
-
 case $ACTION in
-	"add" )
+	add )
 		DOCKED=1
 		;;
-	"remove" )
+	remove )
 		DOCKED=0
 		;;
+	auto|thaw|resume )
+		# Detect whether we're docked or not. This is used when waking up from sleep
+		# 17ef:100f is the USB device ID of my thinkpad dock. Yours might have another ID.
+		[ -z "$(lsusb | grep '17ef:100f')" ] && DOCKED=0 || DOCKED=1
+		;;
 	* )
-		logger -t DOCKING "Could not interpret this action"
+		logger -t DOCKING "Could not interpret action '$ACTION'"
 		exit 1
 		;;
 esac
@@ -36,6 +39,8 @@ set_displays() {
 	fi
 	logger -t DOCKING "Reconfigured monitors"
 }
+
+[ $DOCKED -eq 1 ] && logger -t DOCKING "We're docked" || logger -t DOCKING "We're undocked"
 
 # 1. Update the displays
 set_displays

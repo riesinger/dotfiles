@@ -41,7 +41,6 @@ done
 
 avg_cap=$(( total_cap / num_bats ))
 
-
 if [[ $charging == true ]]; then
 	echo "   ${avg_cap}%  "
 else

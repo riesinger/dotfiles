@@ -2,6 +2,7 @@
 
 # Locations
 export DOTFILES="$HOME/.dotfiles"
+export SCRIPTS="$HOME/.scripts"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # General
@@ -17,7 +18,9 @@ export TERMINAL='termite'
 export READER='zathura'
 export FILE='ranger'
 
+export SUDO_ASKPASS="$SCRIPTS/rofipass"
+
 # Program config
 export LESS=-R
 
-export PATH="$HOME/.bin:$DOTFILES/scripts:/usr/local/sbin:/usr/local/bin:$PATH"
+export PATH="$HOME/.bin:$SCRIPTS:/usr/local/sbin:/usr/local/bin:$PATH"
