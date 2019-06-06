@@ -19,6 +19,7 @@ case $ACTION in
 	auto|thaw|resume )
 		# Detect whether we're docked or not. This is used when waking up from sleep
 		# 17ef:100f is the USB device ID of my thinkpad dock. Yours might have another ID.
+		logger -t DOCKING "Auto-Detecting docking status"
 		[ -z "$(lsusb | grep '17ef:100f')" ] && DOCKED=0 || DOCKED=1
 		;;
 	* )
