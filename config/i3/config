@@ -14,8 +14,6 @@ exec --no-startup-id locker.sh -w
 exec --no-startup-id xmodmap .Xmodmap
 exec --no-startup-id unclutter
 exec --no-startup-id redshift -l geoclue2
-exec --no-startup-id sudo powertop --auto-tune
-
 # }}}
 
 # {{{ --- Styling ---
