@@ -63,7 +63,8 @@ lock() {
 			if ! [ -e $CACHE_IMG ]
 			then
 		# Create image for that screensize
-					eval convert '$BKG_IMG' '-resize' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}^' '-gravity' 'Center' '-crop' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}+0+0' '+repage' '$CACHE_IMG'
+					eval convert '$BKG_IMG' '-resize' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}^' '-gravity' 'Center' \
+						'-crop' '${SCREEN_WIDTH}X${SCREEN_HEIGHT}+0+0' '-blur' '0x5' '+repage' '$CACHE_IMG'
 			fi
 
 			# Decide size of output image
