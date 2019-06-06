@@ -1,5 +1,5 @@
 fading = true;
-fade-delta = 8;
+fade-delta = 10;
 fade-in-step = 0.075;
 fade-out-step = 0.075;
 no-fading-openclose = false;
