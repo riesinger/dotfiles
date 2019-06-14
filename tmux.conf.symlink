@@ -28,7 +28,7 @@ set -g status-left "#[fg=colour7] #S: "
 set -g status-left-length "80"
 setw -g window-status-format "#[fg=colour7,bg=colour0] #I · #W  "
 setw -g window-status-current-format "#[fg=colour7,bg=colour0,bold] #I · #W  "
-set -g status-right "#[fg=colour7] %H:%M - %d %b · #h"
+set -g status-right "#[fg=colour7] contiuum: #{continuum_status} · %a %d %b %H:%M · #h"
 
 # Plugins
 set -g @plugin 'tmux-plugins/tpm'
@@ -39,6 +39,7 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 # Plugin config
 set -g @resurrect-strategy-nvim 'session'
 set -g @resurrect-strategy-vim 'session'
+set -g @continuum-save-interval '5'
 set -g @continuum-restore 'on'
 set -g @continuum-boot 'on'
 
