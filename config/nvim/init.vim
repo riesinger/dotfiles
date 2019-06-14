@@ -87,6 +87,7 @@ Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 " Plug 'arcticicestudio/nord-vim'
 Plug 'ayu-theme/ayu-vim'
 Plug 'jeffkreeftmeijer/vim-dim'
+Plug 'morhetz/gruvbox'
 " Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
@@ -210,7 +211,7 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 " {{{ --- Misc config ---
 set termguicolors
 let ayucolor="dark"
-colorscheme ayu
+colorscheme gruvbox
 set guicursor=n:hor100
 highlight SignColumn ctermbg=0 ctermfg=8
 highlight CursorLineNr ctermbg=0 ctermfg=5

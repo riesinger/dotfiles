@@ -3,43 +3,42 @@ font = Inconsolata 13
 cursor_shape = underline
 
 [colors]
+# hard contrast: background = #1d2021
+background = #282828
+# soft contrast: background = #32302f
+foreground = #ebdbb2
+foreground_bold = #ebdbb2
 
-# special
-foreground      = #ffffff
-foreground_bold = #ffffff
-cursor          = #ef5aea
-background      = #12151a
+# dark0 + gray
+color0 = #282828
+color8 = #928374
 
-# black
-color0  = #12151a
-color8  = #1f212e
+# neutral_red + bright_red
+color1 = #cc241d
+color9 = #fb4934
 
-# red
-color1  = #f0185a
-color9  = #ff4551
+# neutral_green + bright_green
+color2 = #98971a
+color10 = #b8bb26
 
-# green
-color2  = #12e689
-color10 = #3aff93
+# neutral_yellow + bright_yellow
+color3 = #d79921
+color11 = #fabd2f
 
-# yellow
-color3  = #ffa463
-color11 = #ffdd74
+# neutral_blue + bright_blue
+color4 = #458588
+color12 = #83a598
 
-# blue
-color4  = #02a4fc
-color12 = #34b0fd
+# neutral_purple + bright_purple
+color5 = #b16286
+color13 = #d3869b
 
-# magenta
-color5  = #c00eef
-color13 = #ed5aea
+# neutral_aqua + faded_aqua
+color6 = #689d6a
+color14 = #8ec07c
 
-# cyan
-color6  = #26c5ff
-color14 = #26c5ff
+# light4 + light1
+color7 = #a89984
+color15 = #ebdbb2
 
-# white
-color7  = #aab5c6
-color15 = #a5b8d0
-
-vim: ft=dosini cms=#%s
+# vim: ft=dosini cms=#%s
