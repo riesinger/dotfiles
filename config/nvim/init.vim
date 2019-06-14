@@ -23,6 +23,9 @@ set cmdheight=1
 set ignorecase
 set smartcase
 set incsearch
+" Hide the -- INSERT -- etc. line
+set noshowmode
+set noruler
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -137,6 +140,11 @@ nnoremap <leader>tt :Tab/\|<cr>
 nnoremap <leader>t= :Tab/=<cr>
 nnoremap <leader>t: :Tab/:<cr>
 nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
+nnoremap <leader>r <Plug>(coc-rename)
+" Code action for current line
+nnoremap <leader>ac <Plug>(coc-codeaction)
+" Autofix for current line
+nnoremap <leader>aq <Plug>(coc-fix-current)
 
 " Plugin Keymaps
 nnoremap <c-p> :FZF<cr>
@@ -223,10 +231,6 @@ autocmd BufReadPost *
 
 autocmd BufEnter text,markdown,tex setlocal spell
 
-" Hide the -- INSERT -- etc. line
-set noshowmode
-set noruler
-
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
     if &ft == "markdown"
@@ -253,6 +257,9 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
+
+" Format the current buffer with coc.nvim
+command! -nargs=0 Format :call CocAction('format')
 
 " }}}
 

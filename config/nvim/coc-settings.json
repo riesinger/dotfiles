@@ -1,6 +1,4 @@
 {
-	"coc.preferences.diagnostic.errorSign": "!!",
-	"coc.preferences.diagnostic.infoSign": "~~",
 	"typescript.validate.enable": true,
 	"tsserver.implicitProjectConfig.experimentalDecorators": true
 }
