@@ -23,5 +23,5 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-
+dbus-update-activation-environment DISPLAY XAUTHORITY
 i3
