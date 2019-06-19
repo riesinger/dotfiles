@@ -131,6 +131,23 @@ let test#strategy = "dispatch"
 " Don't open the quickfix window automatically
 let g:vimtex_quickfix_mode = 0
 
+" Coc.nvim
+let g:coc_global_extensions = [
+	\ 'coc-angular',
+	\ 'coc-css',
+	\ 'coc-emmet',
+	\ 'coc-emoji',
+	\ 'coc-git',
+	\ 'coc-highlight',
+	\ 'coc-html',
+	\ 'coc-json',
+	\ 'coc-lists',
+	\ 'coc-python',
+	\ 'coc-snippets',
+	\ 'coc-yaml',
+  \ 'coc-tsserver',
+	\]
+
 " }}}
 
 " {{{ --- Keymaps ---

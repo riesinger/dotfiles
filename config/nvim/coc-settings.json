@@ -1,4 +1,5 @@
 {
 	"typescript.validate.enable": true,
-	"tsserver.implicitProjectConfig.experimentalDecorators": true
+	"tsserver.implicitProjectConfig.experimentalDecorators": true,
+	"suggest.snippetIndicator": "ͻ"
 }

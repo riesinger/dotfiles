@@ -6,12 +6,12 @@ set $mod Mod4
 
 # {{{ --- Starting External Scripts
 
+exec --no-startup-id skb
 # Since we autologin on a TTY, we'll want to lock the screen when starting i3
 exec --no-startup-id locker.sh -l
 exec --no-startup-id dunst
 exec --no-startup-id compton
 exec --no-startup-id locker.sh -w
-exec --no-startup-id xmodmap .Xmodmap
 exec --no-startup-id unclutter
 exec --no-startup-id redshift -l geoclue2
 # }}}

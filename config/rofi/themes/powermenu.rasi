@@ -1,13 +1,13 @@
 * {
-    main-color:       #61afef;
-    background:       #282c34;
-    background-alt:   #2d313a;
-    background-light: #353a44;
-    foreground:       #828997;
+    main-color:       #458588;
+    background:       #202020;
+    background-alt:   #282828;
+    background-light: #282828;
+    foreground:       #ebdbb2;
     /* Base values for all */
     background-color: @background;
     text-color:       @foreground;
-		font: "MaterialRounded 30";
+		font: "FontAwesome 30em";
 }
 window {
 }
@@ -15,10 +15,15 @@ window {
 inputbar {
     children: [];
 }
+
+listview {
+	spacing: 10px;
+	padding: 10px;
+}
+
 /* List of entries top right bottom left */
 element {
-    padding: 1.5em 1em 1.5em 0.65em;
-    margin: 10px;
+    padding: 1.5em 1em 1.5em 0.75em;
     border: 0px 0px 8px 0px;
 }
 element.normal {

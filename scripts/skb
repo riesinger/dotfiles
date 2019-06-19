@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# A simple script to set the keyboard layout and aply the default screen config, if found
+#
+
+[ -f "$HOME/.screenlayout/default.sh" ] && sh "$HOME/.screenlayout/default.sh"
+[ -f "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap" 2>/dev/null

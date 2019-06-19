@@ -3,23 +3,23 @@
  * Rofi version: 1.5.2
  **/
 * {
-    selected-normal-foreground:  rgba ( 171, 178, 191, 100 % );
-    foreground:                  rgba ( 130, 137, 151, 100 % );
+    foreground:                  #ebdbb2;
+    selected-normal-foreground:  @foreground;
     normal-foreground:           @foreground;
-    alternate-normal-background: rgba ( 40, 44, 52, 100 % );
+    alternate-normal-background: @foreground;
     selected-urgent-foreground:  rgba ( 242, 240, 236, 100 % );
-    blue:                        #61afef;
+    blue:                        #458588;
     urgent-foreground:           rgba ( 242, 119, 122, 100 % );
     alternate-urgent-background: rgba ( 40, 44, 52, 100 % );
     active-foreground:           rgba ( 171, 178, 191, 100 % );
     lightbg:                     rgba ( 238, 232, 213, 100 % );
     selected-active-foreground:  rgba ( 242, 240, 236, 100 % );
     alternate-active-background: rgba ( 40, 44, 52, 100 % );
-    background:                  #282c34;
+    background:                  #202020; /* darker shade of background color, to make it visible above windows */
     alternate-normal-foreground: @foreground;
-    normal-background:           rgba ( 40, 44, 52, 100 % );
-    lighter-background:          #2d313a;
-		selected-background:      	 #353a44;
+    normal-background:           #282828;
+    lighter-background:          #282828;
+		selected-background:      	 #303030;
 		border-radius: 3px;
     lightfg:                     rgba ( 88, 104, 117, 100 % );
     selected-normal-background:  rgba ( 40, 44, 52, 100 % );
