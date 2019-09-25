@@ -1,6 +1,5 @@
 " {{{ --- Base config ---
 
-syntax on
 set wrap                        " Visually wrap long lines
 set textwidth=100               " Wrap lines after 100 chars
 set tabstop=2                   " Tabs 2 spaces wide, tabs are spaces
@@ -98,6 +97,9 @@ endif
 call plug#end()
 " }}}
 
+
+syntax on
+
 "{{{ --- Plugin config ---
 
 " Ultisnips
@@ -130,6 +132,39 @@ let test#strategy = "dispatch"
 
 " Don't open the quickfix window automatically
 let g:vimtex_quickfix_mode = 0
+" let g:vimtex_compiler_latexmk = {
+"         \ 'backend' : 'nvim',
+"         \ 'background' : 1,
+"         \ 'build_dir' : '',
+"         \ 'callback' : 1,
+"         \ 'continuous' : 1,
+"         \ 'executable' : 'latexmk',
+"         \ 'hooks' : [],
+"         \ 'options' : [
+"         \   '-verbose',
+" 				\   '-pdflatex=lualatex',
+" 				\   '-lualatex',
+"         \   '-file-line-error',
+"         \   '-synctex=1',
+"         \   '-interaction=nonstopmode',
+"         \ ],
+" 				\ }
+"
+let g:vimtex_compiler_latexmk = {
+        \ 'backend' : 'nvim',
+        \ 'background' : 1,
+        \ 'build_dir' : '',
+        \ 'callback' : 1,
+        \ 'continuous' : 1,
+        \ 'executable' : 'latexmk',
+        \ 'hooks' : [],
+        \ 'options' : [
+        \   '-verbose',
+        \   '-file-line-error',
+        \   '-synctex=1',
+        \   '-interaction=nonstopmode',
+        \ ],
+				\ }
 
 " Coc.nvim
 let g:coc_global_extensions = [

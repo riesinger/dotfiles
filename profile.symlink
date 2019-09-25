@@ -6,7 +6,7 @@ export SCRIPTS="$HOME/.scripts"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # General
-export LC_ALL=en_US.UTF-8
+export LC_ALL=en_AU.UTF-8
 export LC_TYPE=UTF-8
 export NODE_ENV='development'
 

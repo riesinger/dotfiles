@@ -1,7 +1,15 @@
 #!/bin/sh
 #
-# A simple script to set the keyboard layout and aply the default screen config, if found
+# A simple script to set the keyboard layout and apply the default screen config if found
+# This is executed on Xorg startup and when waking up from sleep
 #
 
-[ -f "$HOME/.screenlayout/default.sh" ] && sh "$HOME/.screenlayout/default.sh"
-[ -f "$HOME/.Xmodmap" ] && xmodmap "$HOME/.Xmodmap" 2>/dev/null
+if [ -f "$HOME/.screenlayout/active.sh" ]; then
+	sh "$HOME/.screenlayout/active.sh"
+else
+	[ -f "$HOME/.screenlayout/default.sh" ] && sh "$HOME/.screenlayout/default.sh"
+fi
+
+swaymsg input '*' xkb_layout "us(altgr-intl)"
+swaymsg input '*' xkb_options "caps:escape"
+

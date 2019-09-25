@@ -24,7 +24,7 @@ function link_file {
 	fi
 }
 
-function link_dir {
+function link_config_dir {
 	d=$1
 	dBase=$(basename $d)
 	destName=".config/$dBase"
@@ -42,11 +42,30 @@ function link_dir {
 		rm -r $dest 2> /dev/null
 		ln -s "$d" "$dest"
 	fi
+}
 
+function link_scripts_dir {
+	d="$dotdir/scripts"
+	dest="$HOME/.scripts"
+	overwrite="y"
+	if [ -d "$dest" ]; then
+		printf "> %s already exists, do you want to overwrite it? [Y,n] " $dest;\
+		read -k overwrite;\
+	fi
+	if [ "$overwrite" = "n" ]; then
+		printf " Skipped scripts directory \n"
+	else
+		printf "\nLinking %s -> %s\n" $d $dest
+		# cannot harm to delete the old file
+		rm -r $dest 2> /dev/null
+		ln -s "$d" "$dest"
+	fi
 }
 
 # Collect all .symlink files, which will be directly linked to $HOME
 find $dotdir -type f -iname '*.symlink' | while read file; do link_file "$file"; done
 
 # Collect all folders in config/ which will be directly linked to $HOME/.config/
-find $dotdir/config/* -maxdepth 0 -type d | while read folder; do link_dir "$folder"; done
+find $dotdir/config/* -maxdepth 0 -type d | while read folder; do link_config_dir "$folder"; done
+
+link_scripts_dir

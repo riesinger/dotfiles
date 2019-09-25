@@ -1,6 +1,7 @@
 [options]
 font = Inconsolata 13
 cursor_shape = underline
+dynamic_title = true
 
 [colors]
 # hard contrast: background = #1d2021
