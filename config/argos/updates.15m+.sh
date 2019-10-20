@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-updates="$(checkupdates | awk '{ print $1 }')"
-numUpdates=$(echo -n "$updates" | wc -l)
+file="/tmp/updates_available"
+
+checkupdates | sed -e 's/->/→/g' | column -t > $file
+numUpdates=$(wc -l $file | awk '{ print $1 }')
 if (( numUpdates > 0 )); then
 	if [[ $numUpdates == 1 ]]; then
 		echo "$numUpdates update available | iconName=software-update-available-symbolic"
@@ -9,9 +11,8 @@ if (( numUpdates > 0 )); then
 		echo "$numUpdates updates available | iconName=software-update-available-symbolic"
 	fi
 	echo '---'
-	for pkg in $updates; do
-		echo $pkg
-	done
+	updates="$(cat $file | awk 1 ORS="\\\\n")"
+	echo "$updates | font=monospace"
 else
 	echo 'No updates | iconName=checkbox-checked-symbolic'
 	echo '---'
