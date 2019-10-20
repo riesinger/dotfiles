@@ -13,7 +13,7 @@ export NODE_ENV='development'
 # Programs
 export EDITOR='nvim'
 export VISUAL="$EDITOR"
-export BROWSER='brave'
+export BROWSER='firefox-beta'
 export TERMINAL='termite'
 export READER='zathura'
 export FILE='ranger'
