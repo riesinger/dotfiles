@@ -47,9 +47,10 @@ alias tns="tmux new-session -s"
 #
 autoload zkbd
 function zkbd_file() {
-	[[ -f ~/.zkbd/${TERM}-${VENDOR}-${OSTYPE} ]] && printf '%s' ~/".zkbd/${TERM}-${VENDOR}-${OSTYPE}" && return 0
+	[[ -f "${HOME}/.zkbd/${TERM}" ]] && printf '%s' ~/".zkbd/${TERM}" && return 0
 	return 1
 }
+
 
 [[ ! -d ~/.zkbd ]] && mkdir -p ~/.zkbd
 keyfile=$(zkbd_file)
@@ -117,7 +118,7 @@ source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
 [ -f ~/.dircolors ] && has_executable 'dircolors' && eval $(dircolors ~/.dircolors) || :
 [ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "fzf is not installed"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "~/fzf.zsh does not exist, is fzf installed?"
 
 #
 # Functions
@@ -125,46 +126,7 @@ source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 
-#
 # Prompt
-#
-
-autoload -Uz colors && colors
-autoload -Uz promptinit && promptinit
-
-function check_branch() {
-    local branch="$(git branch 2>/dev/null | grep '^*' | colrm 1 2)"
-		if [[ ! -z "$branch" ]]; then
-				gitstatus=$(git status --porcelain --branch 2>/dev/null)
-				if [[ "$(echo $gitstatus | sed -e '/^.*ahead.*$/d')" == '' ]]; then
-					print -n "%{%F{yellow}%}$branch"
-				else
-					if [[ "$(echo $gitstatus | sed -e '/^##/d')" == '' ]]; then
-						print -n "%{%F{green}%}$branch"
-					else
-						print -n "%{%F{red}%}$branch"
-					fi
-				fi
-		fi
-}
-
-build_prompt() {
-    RETVAL=$?
-		[[ $RETVAL -eq 0 ]] && print -n "%{%F{green}%}" || print -n "%{%F{red}%}" # base color
-    [[ "$SSH_TTY" == "" ]] || print -n "$USER@%m:" # show which machine we're on
-		print -n "%1~ " # and the directory (or ~)
-		[[ $UID -eq 0 ]] && print -n "%{%F{yellow}%}⚡"|| \
-			([[ $RETVAL -eq 0 ]] && print -n "%{%F{green}%}›" || print -n "%{%F{red}%}›") # Show a flash when root, otherwise show the caret
-    print -n "%f" # Reset the colors
-}
-
-build_rprompt() {
-    check_branch
-}
-
-PROMPT='$(build_prompt) '
-RPROMPT=' $(build_rprompt)'
-
 setopt prompt_subst
+eval "$(starship init zsh)"
 
-[ -f /Users/d070402/.travis/travis.sh ] && source /Users/d070402/.travis/travis.sh || :

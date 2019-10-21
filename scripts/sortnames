@@ -1,5 +1,5 @@
 #!/bin/sh
 
 sorted="$(echo "$1" | tr ',' '\n' | sort)"
-echo -e $sorted
+echo -e $sorted | sed -e 's/ /, /g'
 #| paste -sd ',' - | sed -e 's/,/, /g' | xsel -bo
