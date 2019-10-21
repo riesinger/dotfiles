@@ -1,0 +1,16 @@
+add_newline = false
+
+[character]
+symbol = "›"
+
+[cmd_duration]
+min_time = 5
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[golang]
+disabled = true

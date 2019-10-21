@@ -66,6 +66,6 @@ function link_scripts_dir {
 find $dotdir -type f -iname '*.symlink' | while read file; do link_file "$file"; done
 
 # Collect all folders in config/ which will be directly linked to $HOME/.config/
-find $dotdir/config/* -maxdepth 0 -type d | while read folder; do link_config_dir "$folder"; done
+find $dotdir/config/* -maxdepth 0 | while read folder; do link_config_dir "$folder"; done
 
 link_scripts_dir
