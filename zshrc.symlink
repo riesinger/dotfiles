@@ -47,7 +47,13 @@ alias tns="tmux new-session -s"
 #
 autoload zkbd
 function zkbd_file() {
-	[[ -f "${HOME}/.zkbd/${TERM}" ]] && printf '%s' ~/".zkbd/${TERM}" && return 0
+	if [[ -f "${HOME}/.zkbd/${TERM}" ]]; then
+		printf '%s' ~/".zkbd/${TERM}"
+		return 0
+	elif [[ -f "${HOME}/.zkbd/${TERM}-${DISPLAY}" ]]; then
+		printf '%s' ~/".zkbd/${TERM}-${DISPLAY}"
+		return 0
+	fi
 	return 1
 }
 
