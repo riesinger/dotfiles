@@ -57,7 +57,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
 Plug 'mileszs/ack.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -67,25 +67,12 @@ Plug 'tpope/vim-surround'
 Plug 'metakirby5/codi.vim'
 
 " Languages
-Plug 'cespare/vim-toml', { 'for': 'toml' }
-Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
+Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'herringtondarkholme/yats.vim'
 Plug 'jodosha/vim-godebug', { 'for': 'go' }
 Plug 'lervag/vimtex'
-Plug 'mustache/vim-mustache-handlebars', { 'for': 'mustache' }
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'posva/vim-vue', { 'for': 'vue'}
-Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-Plug 'uarun/vim-protobuf', { 'for': 'protobuf' }
 
 " Visuals
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'ayu-theme/ayu-vim-airline'
-" Plug 'vim-airline/vim-airline'
-" Plug 'arcticicestudio/nord-vim'
-Plug 'ayu-theme/ayu-vim'
-Plug 'jeffkreeftmeijer/vim-dim'
 Plug 'morhetz/gruvbox'
 " Plug 'Yggdroot/indentLine'
 
@@ -96,7 +83,6 @@ endif
 
 call plug#end()
 " }}}
-
 
 syntax on
 
@@ -262,7 +248,6 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 
 " {{{ --- Misc config ---
 set termguicolors
-let ayucolor="dark"
 colorscheme gruvbox
 set guicursor=n:hor100
 highlight SignColumn ctermbg=0 ctermfg=8
