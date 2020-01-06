@@ -1,0 +1,8 @@
+[alias]
+	s = status
+	a = add --all
+	cm = commit -S -m
+	cs = commit -S
+[user]
+	name = riesinger
+	email = mail@pascal-riesinger.de
