@@ -2,7 +2,7 @@
 
 # Locations
 export DOTFILES="$HOME/.dotfiles"
-export SCRIPTS="$HOME/.scripts"
+export SCRIPTS="$DOTFILES/scripts"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # General
