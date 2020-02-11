@@ -1,0 +1,62 @@
+#!/bin/sh
+
+# Collection of scripts for the network tutoriate
+
+new_protocol() {
+	protodir="$(fd 00-Protokolle $HOME)"
+	if [ -z "${protodir}" ]; then
+		echo "Could not determine where protocols are located"
+		exit 1
+	fi
+
+	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
+
+	newproto="${protodir}/Protokoll-$(date +%Y-%m-%d).odt"
+	cp "${protodir}/${lastproto}" "${newproto}"
+
+	edit_protocol "${newproto}"
+}
+
+edit_protocol() {
+	if [ -z "$1" ]; then
+		echo "No protocol to edit passed"
+		exit 1
+	fi
+	libreoffice "$1"
+}
+
+edit_last_protocol() {
+	protodir="$(fd 00-Protokolle $HOME)"
+	if [ -z "${protodir}" ]; then
+		echo "Could not determine where protocols are located"
+		exit 1
+	fi
+
+	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
+	edit_protocol "${protodir}/${lastproto}"
+}
+
+usage() {
+	cat << EOF
+usage: $(basename $0) <command>
+
+commands:
+	np             creates a new protocol and opens it for editing
+	ep <protocol>  edits the given <protocol> if none is given, edit the lastest protocol
+EOF
+
+	exit $1
+}
+
+case $1 in
+	"np")
+		new_protocol
+		;;
+	"ep")
+		[ -z "$2" ] && edit_last_protocol || edit_protocol $2
+		;;
+	*)
+		usage 1
+		;;
+esac
+
