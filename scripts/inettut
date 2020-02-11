@@ -36,6 +36,17 @@ edit_last_protocol() {
 	edit_protocol "${protodir}/${lastproto}"
 }
 
+render_last_protocol() {
+	protodir="$(fd 00-Protokolle $HOME)"
+	if [ -z "${protodir}" ]; then
+		echo "Could not determine where protocols are located"
+		exit 1
+	fi
+
+	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
+	libreoffice --convert-to pdf "${protodir}/${lastproto}" --outdir "${protodir}"
+}
+
 usage() {
 	cat << EOF
 usage: $(basename $0) <command>
@@ -43,6 +54,7 @@ usage: $(basename $0) <command>
 commands:
 	np             creates a new protocol and opens it for editing
 	ep <protocol>  edits the given <protocol> if none is given, edit the lastest protocol
+	rlp            renders the last protocol to a PDF file
 EOF
 
 	exit $1
@@ -54,6 +66,9 @@ case $1 in
 		;;
 	"ep")
 		[ -z "$2" ] && edit_last_protocol || edit_protocol $2
+		;;
+	"rlp")
+		render_last_protocol
 		;;
 	*)
 		usage 1
