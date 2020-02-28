@@ -11,7 +11,7 @@ bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
 bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
 bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
 bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
-bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+bind-key -n C-\\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
 
 # Fix vim escape pause
 set -s escape-time 0
@@ -27,14 +27,17 @@ set -ag message-style "fg=colour7"
 set -g status-left "#[fg=colour7] #S: "
 set -g status-left-length "80"
 setw -g window-status-format "#[fg=colour7,bg=colour0] #I · #W  "
-setw -g window-status-current-format "#[fg=colour7,bg=colour0,bold] #I · #W  "
+setw -g window-status-current-format "#[fg=colour15,bg=colour0,bold] #I · #W  "
 set -g status-right "#[fg=colour7] contiuum: #{continuum_status} · %a %d %b %H:%M · #h"
+
+set-option -g mode-keys vi
+bind -T copy-mode-vi v send -X begin-selection
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xsel -i --clipboard"
 
 # Plugins
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-resurrect'
 set -g @plugin 'tmux-plugins/tmux-continuum'
-
 
 # Plugin config
 set -g @resurrect-strategy-nvim 'session'
