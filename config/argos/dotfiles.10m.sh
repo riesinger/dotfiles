@@ -4,8 +4,12 @@
 # changed
 
 if [ -z "$DOTFILES" ]; then
-	echo "$DOTFILES does not exist"
-	exit 1
+	if [ -d "$HOME/.dotfiles" ]; then
+		DOTFILES="$HOME/.dotfiles"
+	else
+		echo "\$DOTFILES does not exist"
+		exit 1
+	fi
 fi
 
 cd "$DOTFILES"
