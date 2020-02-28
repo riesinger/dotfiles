@@ -3,6 +3,7 @@
 	a = add --all
 	cm = commit -S -m
 	cs = commit -S
+	pushhead = push -u origin HEAD
 [user]
 	name = riesinger
 	email = mail@pascal-riesinger.de
