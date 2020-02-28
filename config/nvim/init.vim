@@ -25,6 +25,8 @@ set incsearch
 " Hide the -- INSERT -- etc. line
 set noshowmode
 set noruler
+set listchars=tab:→\ ,nbsp:␣,trail:•,precedes:«,extends:»
+set list
 
 " Make splits more natural
 nnoremap <C-J> <C-W><C-J>
@@ -49,13 +51,17 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-runner'
 Plug 'danro/rename.vim'                     " To rename files on the fly
+Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'                    " For markdown table alignment
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'janko/vim-test'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-emoji'
+Plug 'metakirby5/codi.vim'
 Plug 'mileszs/ack.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'tpope/vim-commentary'
@@ -64,7 +70,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'metakirby5/codi.vim'
 
 " Languages
 Plug 'sheerun/vim-polyglot'
@@ -74,6 +79,7 @@ Plug 'lervag/vimtex'
 
 " Visuals
 Plug 'morhetz/gruvbox'
+Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 " Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
@@ -103,7 +109,74 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 let g:ackprg = 'rg --vimgrep'
 
 " FZF
+let g:fzf_layout = { 'window': 'CreateCenteredFloatingWindow()' }
+let $FZF_DEFAULT_OPTS="--reverse"
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
+
+function! CreateCenteredFloatingWindow()
+  let width = min([&columns - 4, max([80, &columns - 20])])
+  let height = min([&lines - 4, max([20, &lines, 10])])
+  let top = ((&lines - height) / 2) - 1
+  let left = (&columns - width) / 2
+  let opts = { 'relative': 'editor', 'row': top, 'col': left , 'width': width, 'height': height, 'style': 'minimal' }
+
+  let top = "╭" . repeat("─", width - 2) . "╮"
+  let mid = "│" . repeat(" ", width - 2) . "│"
+  let bot = "╰" . repeat("─", width - 2) . "╯"
+  let lines = [top] + repeat([mid], height - 2) + [bot]
+  let s:buf = nvim_create_buf(v:false, v:true)
+  call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
+  call nvim_open_win(s:buf, v:true, opts)
+  set winhl=Normal:Floating
+  let opts.row += 1
+  let opts.height -= 2
+  let opts.col += 2
+  let opts.width -= 4
+  call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
+  au BufWipeout <buffer> exe 'bw '.s:buf
+endfunction
+
+
+" Files + devicons + floating fzf
+function! Fzf_dev()
+  let l:fzf_files_options = '--preview "bat --line-range :'.&lines.' --theme=ansi-dark --style=numbers,changes --color always {}" --expect=ctrl-v,ctrl-x,ctrl-t'
+  function! s:files()
+    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
+    return l:files
+  endfunction
+
+  function! s:prepend_icon(candidates)
+    let l:result = []
+    for l:candidate in a:candidates
+      let l:filename = fnamemodify(l:candidate, ':p:t')
+      call add(l:result, printf('%s', l:candidate))
+    endfor
+
+    return l:result
+  endfunction
+
+  function! s:edit_file(lines)
+      if len(a:lines) < 2 | return | endif
+
+      let l:cmd = get({'ctrl-x': 'split',
+                       \ 'ctrl-v': 'vertical split',
+                       \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+
+      for l:item in a:lines[1:]
+          let l:pos = stridx(l:item, ' ')
+          let l:file_path = l:item[pos+1:-1]
+          execute 'silent '. l:cmd . ' ' . l:file_path
+      endfor
+  endfunction
+
+  call fzf#run({
+      \ 'source': <sid>files(),
+      \ 'sink*':   function('s:edit_file'),
+      \ 'options': '-m --reverse ' . l:fzf_files_options,
+      \ 'down':    '40%',
+      \ 'window': 'call CreateCenteredFloatingWindow()'})
+
+endfunction
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -159,6 +232,7 @@ let g:coc_global_extensions = [
 	\ 'coc-emmet',
 	\ 'coc-emoji',
 	\ 'coc-git',
+	\ 'coc-go',
 	\ 'coc-highlight',
 	\ 'coc-html',
 	\ 'coc-json',
@@ -169,9 +243,15 @@ let g:coc_global_extensions = [
   \ 'coc-tsserver',
 	\]
 
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
 " }}}
 
 " {{{ --- Keymaps ---
+
+nnoremap <F5> :VtrSendCommandToRunner! make<cr>
+nnoremap <F6> :VtrSendCommandToRunner! make run<cr>
+
 "  Leaders
 let mapleader = ","
 nnoremap <leader>] :Ack!<space>
@@ -186,7 +266,7 @@ nnoremap <leader>ac <Plug>(coc-codeaction)
 nnoremap <leader>aq <Plug>(coc-fix-current)
 
 " Plugin Keymaps
-nnoremap <c-p> :FZF<cr>
+nnoremap <c-p> :call Fzf_dev()<cr>
 nnoremap <F2> :Tags<cr>
 nnoremap <F3> :BTags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
@@ -239,7 +319,6 @@ endfunction
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-
 " Disable this
 nnoremap Q <nop>
 " To clear the highlighting from searches
@@ -252,9 +331,7 @@ colorscheme gruvbox
 set guicursor=n:hor100
 highlight SignColumn ctermbg=0 ctermfg=8
 highlight CursorLineNr ctermbg=0 ctermfg=5
-highlight CocErrorSign ctermbg=0 ctermfg=1
-highlight CocInfoSign ctermbg=0 ctermfg=2
-highlight CocWarningSign ctermbg=0 ctermfg=3
+highlight CocUnderline cterm=undercurl term=undercurl gui=undercurl
 
 " Remove light border between splits
 " hi VertSplit ctermbg=bg ctermfg=bg
@@ -295,6 +372,7 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
+" autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 
 " Format the current buffer with coc.nvim
 command! -nargs=0 Format :call CocAction('format')
@@ -318,14 +396,14 @@ let g:currentmode={
       \ 'n'  : ' NORMAL ',
       \ 'no' : ' NORMAL_',
       \ 'v'  : ' VISUAL ',
-      \ 'V'  : ' V·LINE ',
-      \ '' : ' V·BLOK ',
+      \ 'V'  : ' VLINE ',
+      \ '' : ' VBLOCK ',
       \ 's'  : ' SELECT ',
       \ 'S'  : ' S·LINE ',
       \ '' : ' S·BLOK ',
       \ 'i'  : ' INSERT ',
       \ 'R'  : ' REPLAC ',
-      \ 'Rv' : ' V·RPLC ',
+      \ 'Rv' : ' VRPLC ',
       \ 'c'  : ' CMD   ',
       \ 'cv' : ' VIM EX ',
       \ 'ce' : ' EX    ',
@@ -351,10 +429,10 @@ endfunction
 function! GetObsessionStatus()
 	let status = ""
 	if exists("*ObsessionStatus")
-		let status = ObsessionStatus('0.0', '-.-')
+		let status = ObsessionStatus('O.O', '-.-')
 	endif
 	if status != ''
-		return '  '.status.' '
+		return '  '.status.'  '
 	endif
 	return '  -.- '
 endfunction
