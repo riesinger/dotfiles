@@ -2,15 +2,21 @@ add_newline = false
 
 [character]
 symbol = "›"
+errpr_symbol = "✖"
+vicmd_symbol = "‹"
+use_symbol_for_status = true
 
 [cmd_duration]
-min_time = 5
+min_time = 5_000
+
+[git_state]
+cherry_pick = "🍒 PICKING"
 
 [nodejs]
-disabled = true
+disabled = false
 
 [package]
-disabled = true
+disabled = false
 
 [golang]
-disabled = true
+disabled = false

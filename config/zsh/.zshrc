@@ -13,7 +13,7 @@ local pluginbase=$DOTFILES/zsh-plugins
 
 HISTSIZE=3000
 SAVEHIST=3000
-HISTFILE=~/.zsh_history
+HISTFILE="$XDG_DATA_HOME/zsh/history"
 
 has_executable 'rg' && export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
 
@@ -38,6 +38,7 @@ alias ll='ls -lh'
 alias la='ls -lAh'
 
 # Tmux
+alias tmux="tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf"
 alias tls="tmux ls"
 alias tat="tmux attach -t"
 alias tns="tmux new-session -s"
@@ -45,20 +46,21 @@ alias tns="tmux new-session -s"
 #
 # Keyboard configuration
 #
+local zkbd_base_dir="$XDG_CONFIG_HOME/zsh/.zkbd"
 autoload zkbd
 function zkbd_file() {
-	if [[ -f "${HOME}/.zkbd/${TERM}" ]]; then
-		printf '%s' ~/".zkbd/${TERM}"
+	if [[ -f "${zkbd_base_dir}/${TERM}" ]]; then
+		printf '%s' "${zkbd_base_dir}/${TERM}"
 		return 0
-	elif [[ -f "${HOME}/.zkbd/${TERM}-${DISPLAY}" ]]; then
-		printf '%s' ~/".zkbd/${TERM}-${DISPLAY}"
+	elif [[ -f "${zkbd_base_dir}/${TERM}-${DISPLAY}" ]]; then
+		printf '%s' "${zkbd_base_dir}/${TERM}-${DISPLAY}"
 		return 0
 	fi
 	return 1
 }
 
 
-[[ ! -d ~/.zkbd ]] && mkdir -p ~/.zkbd
+[[ -d zkbd_base_dir ]] || mkdir -p "$zkbd_base_dir"
 keyfile=$(zkbd_file)
 ret=$?
 if [[ ${ret} -ne 0 ]]; then
@@ -71,7 +73,7 @@ if [[ ${ret} -eq 0 ]] ; then
 else
 	printf 'Failed to setup keys using zkbd.\n'
 fi
-unfunction zkbd_file; unset keyfile ret
+unfunction zkbd_file; unset keyfile ret zkbd_base_dir
 
 [[ -n "$key[Home]" ]] && bindkey -- "$key[Home]" beginning-of-line
 [[ -n "$key[End]" ]] && bindkey -- "$key[End]" end-of-line
@@ -95,7 +97,9 @@ setopt pushd_ignore_dups
 setopt pushdminus # cd - produces a directory stack entry
 setopt auto_cd # Move with .. or simple dir names
 
-autoload -Uz compinit && compinit
+local zcompdumpdir="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+[ -d zcompdumpdir ] || mkdir -p zcompdumpdir
+autoload -Uz compinit && compinit -d "$zcompdumpdir"
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate

@@ -4,6 +4,8 @@
 export DOTFILES="$HOME/.dotfiles"
 export SCRIPTS="$DOTFILES/scripts"
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
 
 # General
 export LC_ALL=en_AU.UTF-8
@@ -24,3 +26,13 @@ export SUDO_ASKPASS="$SCRIPTS/rofipass"
 export LESS=-R
 
 export PATH="$HOME/.bin:$SCRIPTS:/usr/local/sbin:/usr/local/bin:$PATH"
+
+# ~/ Cleanup
+export ANDROID_SDK_HOME="$XDG_CONFIG_HOME/android"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+export DOCKER_CONFIG="$XDG_CONFIG_HOME/docker"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export GRADLE_USER_HOME="$XDG_DATA_HOME/gradle"
+export LESSHISTFILE=-
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"

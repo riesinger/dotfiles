@@ -71,3 +71,5 @@ tramp
 
 **/__pycache__/*
 *.pyc
+config/zsh/.zkbd/xterm-256color-:0
+config/tmux/plugins/tmux*

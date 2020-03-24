@@ -49,6 +49,7 @@ call plug#begin()
 " Functionality
 Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
+Plug 'Shougo/neomru.vim' " For FZFPreview plugin
 Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'christoomey/vim-tmux-runner'
@@ -60,6 +61,7 @@ Plug 'janko/vim-test'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-emoji'
 Plug 'metakirby5/codi.vim'
 Plug 'mileszs/ack.vim'
@@ -70,6 +72,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
+Plug 'yuki-ycino/fzf-preview.vim'
 
 " Languages
 Plug 'sheerun/vim-polyglot'
@@ -109,74 +112,9 @@ let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
 let g:ackprg = 'rg --vimgrep'
 
 " FZF
-let g:fzf_layout = { 'window': 'CreateCenteredFloatingWindow()' }
 let $FZF_DEFAULT_OPTS="--reverse"
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
-
-function! CreateCenteredFloatingWindow()
-  let width = min([&columns - 4, max([80, &columns - 20])])
-  let height = min([&lines - 4, max([20, &lines, 10])])
-  let top = ((&lines - height) / 2) - 1
-  let left = (&columns - width) / 2
-  let opts = { 'relative': 'editor', 'row': top, 'col': left , 'width': width, 'height': height, 'style': 'minimal' }
-
-  let top = "╭" . repeat("─", width - 2) . "╮"
-  let mid = "│" . repeat(" ", width - 2) . "│"
-  let bot = "╰" . repeat("─", width - 2) . "╯"
-  let lines = [top] + repeat([mid], height - 2) + [bot]
-  let s:buf = nvim_create_buf(v:false, v:true)
-  call nvim_buf_set_lines(s:buf, 0, -1, v:true, lines)
-  call nvim_open_win(s:buf, v:true, opts)
-  set winhl=Normal:Floating
-  let opts.row += 1
-  let opts.height -= 2
-  let opts.col += 2
-  let opts.width -= 4
-  call nvim_open_win(nvim_create_buf(v:false, v:true), v:true, opts)
-  au BufWipeout <buffer> exe 'bw '.s:buf
-endfunction
-
-
-" Files + devicons + floating fzf
-function! Fzf_dev()
-  let l:fzf_files_options = '--preview "bat --line-range :'.&lines.' --theme=ansi-dark --style=numbers,changes --color always {}" --expect=ctrl-v,ctrl-x,ctrl-t'
-  function! s:files()
-    let l:files = split(system($FZF_DEFAULT_COMMAND), '\n')
-    return l:files
-  endfunction
-
-  function! s:prepend_icon(candidates)
-    let l:result = []
-    for l:candidate in a:candidates
-      let l:filename = fnamemodify(l:candidate, ':p:t')
-      call add(l:result, printf('%s', l:candidate))
-    endfor
-
-    return l:result
-  endfunction
-
-  function! s:edit_file(lines)
-      if len(a:lines) < 2 | return | endif
-
-      let l:cmd = get({'ctrl-x': 'split',
-                       \ 'ctrl-v': 'vertical split',
-                       \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-
-      for l:item in a:lines[1:]
-          let l:pos = stridx(l:item, ' ')
-          let l:file_path = l:item[pos+1:-1]
-          execute 'silent '. l:cmd . ' ' . l:file_path
-      endfor
-  endfunction
-
-  call fzf#run({
-      \ 'source': <sid>files(),
-      \ 'sink*':   function('s:edit_file'),
-      \ 'options': '-m --reverse ' . l:fzf_files_options,
-      \ 'down':    '40%',
-      \ 'window': 'call CreateCenteredFloatingWindow()'})
-
-endfunction
+let g:fzf_preview_floating_window_winblend = 0
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -231,7 +169,9 @@ let g:coc_global_extensions = [
 	\ 'coc-css',
 	\ 'coc-emmet',
 	\ 'coc-emoji',
+  \ 'coc-eslint',
 	\ 'coc-git',
+  \ 'coc-github',
 	\ 'coc-go',
 	\ 'coc-highlight',
 	\ 'coc-html',
@@ -245,7 +185,11 @@ let g:coc_global_extensions = [
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
-" }}}
+" Goyo
+let g:goyo_width = 120
+let g:goyo_height = 90
+
+"}}}
 
 " {{{ --- Keymaps ---
 
@@ -264,9 +208,10 @@ nnoremap <leader>r <Plug>(coc-rename)
 nnoremap <leader>ac <Plug>(coc-codeaction)
 " Autofix for current line
 nnoremap <leader>aq <Plug>(coc-fix-current)
+nnoremap <leader>rg :<C-u>FzfPreviewProjectGrep<space>
 
 " Plugin Keymaps
-nnoremap <c-p> :call Fzf_dev()<cr>
+nnoremap <silent> <C-p> :<C-u>FzfPreviewFromResources project_mru git<cr>
 nnoremap <F2> :Tags<cr>
 nnoremap <F3> :BTags<cr>
 nnoremap <leader>k :Ag<space><c-r><c-w><cr>
