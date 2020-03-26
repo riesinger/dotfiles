@@ -272,6 +272,7 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 
 " {{{ --- Misc config ---
 set termguicolors
+let g:gruvbox_italic=1
 colorscheme gruvbox
 set guicursor=n:hor100
 highlight SignColumn ctermbg=0 ctermfg=8
