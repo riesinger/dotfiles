@@ -97,9 +97,9 @@ setopt pushd_ignore_dups
 setopt pushdminus # cd - produces a directory stack entry
 setopt auto_cd # Move with .. or simple dir names
 
-local zcompdumpdir="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
-[ -d zcompdumpdir ] || mkdir -p zcompdumpdir
-autoload -Uz compinit && compinit -d "$zcompdumpdir"
+local zcompdump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
+[ -f "$zcompdump" ] || mkdir -p "$zcompdump"
+autoload -Uz compinit && compinit -d "$zcompdump"
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
