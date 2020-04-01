@@ -15,10 +15,10 @@ export NODE_ENV='development'
 # Programs
 export EDITOR='nvim'
 export VISUAL="$EDITOR"
-export BROWSER='brave'
-export TERMINAL='termite'
-export READER='zathura'
-export FILE='ranger'
+export BROWSER='firefox'
+export TERMINAL='gnome-terminal'
+export READER='evince'
+export FILE='nautilus'
 
 export SUDO_ASKPASS="$SCRIPTS/rofipass"
 
