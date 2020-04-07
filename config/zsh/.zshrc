@@ -8,7 +8,6 @@
 [ -z "$DOTFILES" ] && source $HOME/.profile
 
 export TERM=xterm-256color
-export PATH="/usr/local/lib/cocktail:$PATH"
 local pluginbase=$DOTFILES/zsh-plugins
 
 HISTSIZE=3000
