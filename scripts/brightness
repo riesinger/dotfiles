@@ -1,12 +1,9 @@
 #!/bin/sh
 
 # Script to increment/decrement backlight brightness
-# This script assumes that the current user can write to the according files in
-# /sys/class/backlight/*
-# Note that this probably only works with 1 dimmable screen, however it _should_ work with GPU's of
-# every manufacturer (Intel/AMD/Nvidia)
+# It currently uses brightnessctl to do so
 
-BRIGHTNESS_STEPS='10'
+DEFAULT_STEP=10
 
 usage() {
 	cat << EOH
@@ -24,38 +21,25 @@ EOH
 }
 
 get_brightness() {
-	local max curr
-	max=$(cat /sys/class/backlight/*/max_brightness)
-	curr=$(cat /sys/class/backlight/*/brightness)
-	echo $(bc <<< "scale=2; (100 / $max) * $curr" | cut -d '.' -f 1)
+	brightnessctl info -m | tr ',' "\t" | awk '{ print $4 }'
 }
 
 update_brightness() {
-	local delta max_brightness current step_size new
 	delta=$1
-	max_brightness=$(cat /sys/class/backlight/*/max_brightness | head -n1)
-	step_size=$((max_brightness / BRIGHTNESS_STEPS))
-	curr=$(cat /sys/class/backlight/*/brightness | head -n1)
-	new=$((curr + delta))
-	for f in /sys/class/backlight/*/brightness; do
-		if $((new > max_brightness)); then
-			echo $max_brightness > $f
-		else
-			echo $((new)) > $f
-		fi
-	done
-	notifyd_running && notify-send -a 'Brightness' \
-		"Brightness: $(get_brightness)%"
+	brightnessctl set "$delta" > /dev/null
+	logger -t BRIGHTNESS "Modifying brightness by $delta"
 }
 
 case $1 in
 	i*)
 		val=$2
-		update_brightness $val
+		[ -z $val ] && val="$DEFAULT_STEP"
+		update_brightness "$val%+"
 		;;
 	d*)
 		val=$2
-		update_brightness "-$val"
+		[ -z $val ] && val="$DEFAULT_STEP"
+		update_brightness "$val%-"
 		;;
 	g*)
 		get_brightness

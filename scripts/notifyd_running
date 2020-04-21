@@ -5,4 +5,4 @@
 # Currently, this only checks for dunst, since this is what I'm using, but it can be
 # expanded/modified easily.
 
-pgrep -x dunst >/dev/null
+pgrep -x dunst >/dev/null || pgrep -x mako >/dev/null
