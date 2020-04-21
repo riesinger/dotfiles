@@ -7,3 +7,5 @@
 [user]
 	name = riesinger
 	email = mail@pascal-riesinger.de
+[gpg]
+	program = /usr/bin/gpg
