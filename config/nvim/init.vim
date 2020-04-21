@@ -39,6 +39,10 @@ set splitright
 " }}}
 
 "{{{ --- Plugins ---
+
+" Since vimtex is incompatible with LaTeX-Box, disable latex from polyglot
+let g:polyglot_disabled = ['latex']
+
 function! DoRemote(arg)
     UpdateRemotePlugins
 endfunction
@@ -47,7 +51,6 @@ endfunction
 call plug#begin()
 
 " Functionality
-Plug 'Chiel92/vim-autoformat'
 Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
 Plug 'Shougo/neomru.vim' " For FZFPreview plugin
 Plug 'SirVer/ultisnips'
@@ -63,7 +66,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/vim-emoji'
-Plug 'metakirby5/codi.vim'
 Plug 'mileszs/ack.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'tpope/vim-commentary'
@@ -82,7 +84,6 @@ Plug 'lervag/vimtex'
 
 " Visuals
 Plug 'morhetz/gruvbox'
-Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
 " Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
@@ -115,6 +116,7 @@ let g:ackprg = 'rg --vimgrep'
 let $FZF_DEFAULT_OPTS="--reverse"
 let g:fzf_tags_command = 'ctags --exclude=vendor -R'
 let g:fzf_preview_floating_window_winblend = 0
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8, 'highlight': 'Todo', 'border': 'rounded' } }
 
 " Indent Line
 let g:indentLine_char = '│'
@@ -169,9 +171,9 @@ let g:coc_global_extensions = [
 	\ 'coc-css',
 	\ 'coc-emmet',
 	\ 'coc-emoji',
-  \ 'coc-eslint',
+	\ 'coc-eslint',
 	\ 'coc-git',
-  \ 'coc-github',
+	\ 'coc-github',
 	\ 'coc-go',
 	\ 'coc-highlight',
 	\ 'coc-html',
@@ -179,8 +181,9 @@ let g:coc_global_extensions = [
 	\ 'coc-lists',
 	\ 'coc-python',
 	\ 'coc-snippets',
+	\ 'coc-tsserver',
+	\ 'coc-vimtex',
 	\ 'coc-yaml',
-  \ 'coc-tsserver',
 	\]
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
@@ -188,6 +191,17 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " Goyo
 let g:goyo_width = 120
 let g:goyo_height = 90
+
+" Better Ripgrep (RG) implementation, which updates rg instead of filtering lines with FZF
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 "}}}
 
@@ -208,13 +222,12 @@ nnoremap <leader>r <Plug>(coc-rename)
 nnoremap <leader>ac <Plug>(coc-codeaction)
 " Autofix for current line
 nnoremap <leader>aq <Plug>(coc-fix-current)
-nnoremap <leader>rg :<C-u>FzfPreviewProjectGrep<space>
-
+nnoremap <leader>rg :Rg<cr>
+nnoremap <leader>p :RG<cr>
 " Plugin Keymaps
-nnoremap <silent> <C-p> :<C-u>FzfPreviewFromResources project_mru git<cr>
+nnoremap <silent> <C-p> :Files<cr>
 nnoremap <F2> :Tags<cr>
 nnoremap <F3> :BTags<cr>
-nnoremap <leader>k :Ag<space><c-r><c-w><cr>
 nnoremap <leader>t :TestFile<cr>
 nnoremap <leader>ts :TestSuite<cr>
 
