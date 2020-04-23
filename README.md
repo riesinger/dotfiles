@@ -1,6 +1,6 @@
 # Dotfiles
 
-These are the dotfiles for all my machines. 
+These are the dotfiles for all my machines.
 Many scripts are heavily inspired by [Luke Smith](https://lukesmith.xyz).
 
 I deploy my dotfiles on new machines using [PARIS](https://github.com/riesinger/paris), which will
@@ -9,12 +9,11 @@ work).
 
 ## Workflow
 
-I only use Arch or Arch-based distros on my machines, since the AUR and rolling upgrades are
-_awesome_.
+I mostly use Arch (or Arch-based distros) on my machines, since I just cannot live without the AUR
+anymore. On servers however, I mostly use Debian.
 
-i3 (i3-gaps) is my window manager of choice, paired with i3blocks as a status bar.
-I use neovim to do 99% percent of my editing (Java development is done in IntelliJ IDEA with the
-IdeaVim plugin).
+sway is my window manager of choice, paired with waybar as a status bar.
+I use neovim to do 99% percent of my editing.
 
 For most projects, I keep tmux sessions running.
 
