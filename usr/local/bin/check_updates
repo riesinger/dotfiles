@@ -1,0 +1,5 @@
+#!/bin/sh
+
+checkupdates > /tmp/available_updates
+
+pkill -RTMIN+8 "${STATUSBAR:-waybar}"
