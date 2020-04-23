@@ -5,7 +5,7 @@
 #
 
 # If the profile hasn't been sourced yet, do it. For some reason, this happens in TMUX sessions
-[ -z "$DOTFILES" ] && source $HOME/.profile
+[ -z "$PROFILE_SOURCED" ] && source $HOME/.profile
 
 export TERM=xterm-256color
 local pluginbase=$DOTFILES/zsh-plugins
@@ -125,7 +125,6 @@ zle -N down-line-or-beginning-search
 #
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -f ~/.dircolors ] && has_executable 'dircolors' && eval $(dircolors ~/.dircolors) || :
 [ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "~/fzf.zsh does not exist, is fzf installed?"
 

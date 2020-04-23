@@ -4,4 +4,5 @@ configuration {
 	modi: "drun";
 	// font: "SF Pro Display 13";
 	cycle: true;
+	theme: "themes/gruvbox-dark";
 }
