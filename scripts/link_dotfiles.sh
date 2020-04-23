@@ -70,3 +70,7 @@ find $dotdir/config/* -maxdepth 0 -type f | while read file; do link "$file" "$H
 
 # All custom binaries inside /usr/local/bin
 find $dotdir/usr/local/bin/* -maxdepth 0 -type f | while read bin; do link "$bin" "/usr/local/bin"; done
+
+# All global configs inside /etc
+# TODO: Handle subdirectories
+find $dotdir/etc/* -maxdepth 0 -type f | while read bin; do link "$bin" "/etc"; done
