@@ -50,6 +50,9 @@ esac
 # import environment from login manager
 systemctl --user import-environment
 
+export XDG_SESSION_TYPE=wayland
+unset DISPLAY
+
 # Start sway
 exec systemctl --wait --user start sway.service
 
