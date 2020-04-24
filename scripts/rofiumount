@@ -4,7 +4,7 @@
 # Drives mounted at /, /boot and /home will not be options to unmount.
 # Small modifications from Luke Smith's script
 
-rofi="rofi -dmenu -i -theme themes/drun"
+rofi="rofi -dmenu -i"
 
 unmountusb() {
 	[ -z "$drives" ] && exit

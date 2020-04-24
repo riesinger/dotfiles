@@ -1,8 +1,0 @@
-#!/bin/sh
-
-# Small utility to check if a notification deamon is running.
-# Will exit with 0 if one is, otherwise will exit with >0.
-# Currently, this only checks for dunst, since this is what I'm using, but it can be
-# expanded/modified easily.
-
-pgrep -x dunst >/dev/null || pgrep -x mako >/dev/null

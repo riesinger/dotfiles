@@ -5,7 +5,7 @@
 # If you input a novel directory, it will prompt you to create that directory.
 # This is a modified version of Luke Smith's dmenumount script
 
-rofi="rofi -dmenu -i -theme themes/drun"
+rofi="rofi -dmenu -i"
 
 getmount() { \
 	[ -z "$chosen" ] && exit 1

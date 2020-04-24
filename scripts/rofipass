@@ -2,5 +2,4 @@
 # Simple script to grab the user's password (or any text really) and put it to STDOUT.
 # This is used as my $SUDO_ASKPASS programm
 
-# Since dmenu cannot really hide the input, we use the BG color as FG
-rofi -dmenu -theme themes/askpass -p "$1"
+rofi -dmenu -password -lines 0 -p "$1"
