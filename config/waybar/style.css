@@ -32,15 +32,21 @@ window#waybar {
 
 #clock {
     padding-right: 16px;
+    border-right: none;
 }
 
 #pulseaudio, #backlight, #battery, #cpu, #memory, #idle_inhibitor, #network, #tray, #custom-updates {
     padding-left: 6px;
-    margin-right: 12px;
+    padding-right: 6px;
+    margin-right: 6px;
 }
 
-#clock {
-    border-right: none;
+#memory.warning, #battery.warning {
+    background: #d79921;
+}
+
+#memory.critical, #battery.critical {
+    background: #cc241d;
 }
 
 #mode {
@@ -48,10 +54,3 @@ window#waybar {
     background: #cc241d;
 }
 
-#battery.warning {
-    background: #d79921;
-}
-
-#battery.critical {
-    background: #cc241d;
-}

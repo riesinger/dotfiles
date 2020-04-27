@@ -42,7 +42,12 @@
         "format-alt": "{:%Y-%m-%d}"
     },
     "memory": {
-        "format": " {}%"
+        "format": " {}%",
+        "on-click": "gotop",
+        "states": {
+          "warning": 75,
+          "critical": 90
+        }
     },
     "backlight": {
         // "device": "acpi_video1",
@@ -101,11 +106,11 @@
         },
         "on-click": "pavucontrol"
     },
-		"custom/updates": {
-			"exec": "$HOME/.config/waybar/scripts/updates.sh",
-			"format": " {}",
-			"interval": 900,
-			"signal": 8,
-			"on-click": "popupgrade"
-		}
+    "custom/updates": {
+      "exec": "$HOME/.config/waybar/scripts/updates.sh",
+      "format": " {}",
+      "interval": 900,
+      "signal": 8,
+      "on-click": "alacritty -e popupgrade"
+    }
 }
