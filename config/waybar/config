@@ -5,7 +5,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode"],
     "modules-center": ["sway/window"],
-    "modules-right": ["tray", "idle_inhibitor", "custom/updates", "pulseaudio", "network", "memory", "backlight", "battery", "battery#bat1", "clock"],
+    "modules-right": ["tray", "idle_inhibitor", "custom/updates", "pulseaudio", "network", "memory", "backlight", "custom/battery", "clock"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -54,15 +54,15 @@
         "format": "{icon} {percent}%",
         "format-icons": ["", ""]
     },
-    "battery": {
+    "custom/battery": {
+        "exec": "$HOME/.config/waybar/scripts/battery.sh",
+        "return-type": "json",
+        "interval": 15,
+        "format": "{icon} {percentage}% ",
         "states": {
-            "warning": 30,
+            "warning": 25,
             "critical": 15
         },
-        "format": "{icon} {capacity}%",
-        "format-charging": " {capacity}% ",
-        "format-plugged": " {capacity}%",
-        "format-alt": "{icon} {time}",
         "format-icons": ["", "", "", "", ""]
     },
     "battery#bat1": {

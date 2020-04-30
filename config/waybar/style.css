@@ -35,17 +35,17 @@ window#waybar {
     border-right: none;
 }
 
-#pulseaudio, #backlight, #battery, #cpu, #memory, #idle_inhibitor, #network, #tray, #custom-updates {
+#pulseaudio, #backlight, #battery, #cpu, #memory, #idle_inhibitor, #network, #tray, #custom-updates, #custom-battery {
     padding-left: 6px;
     padding-right: 6px;
     margin-right: 6px;
 }
 
-#memory.warning, #battery.warning {
+#memory.warning, #custom-battery.warning {
     background: #d79921;
 }
 
-#memory.critical, #battery.critical {
+#memory.critical, #custom-battery.critical {
     background: #cc241d;
 }
 
