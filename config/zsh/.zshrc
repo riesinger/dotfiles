@@ -10,6 +10,8 @@
 export TERM=xterm-256color
 local pluginbase=$DOTFILES/zsh-plugins
 
+export PASSWORD_STORE_GENERATED_LENGTH=25
+
 HISTSIZE=3000
 SAVEHIST=3000
 HISTFILE="$XDG_DATA_HOME/zsh/history"
