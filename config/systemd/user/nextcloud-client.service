@@ -1,0 +1,11 @@
+[Unit]
+Description=File synchronisation destop utility
+Documentation=man:nextcloud(1)
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/nextcloud
+
+[Install]
+WantedBy=sway-session.target

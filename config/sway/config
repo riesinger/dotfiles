@@ -43,8 +43,6 @@ set $lock swaylock
 
 # TODO: This could be replaced with 'dex', once the autostart is sufficiently cleaned
 # Alternatively, I might use Systemd units
-exec mako
-exec xsettingsd
 exec_always kanshi
 
 
@@ -242,7 +240,6 @@ bindsym $mod+x exec $lock
 #            #
 bar {
     position top
-    swaybar_command waybar
 }
 
 #      #
