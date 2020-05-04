@@ -38,15 +38,5 @@ export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export FASD_DATA="$XDG_CACHE_HOME/fasd"
 
-# We want to use Wayland!
-export CLUTTER_BACKEND=wayland      # Clutter
-export SDL_VIDEODRIVER=wayland      # Everything using SDL
-export MOZ_ENABLE_WAYLAND=1         # Firefox
-export MOZ_WEBRENDER=1              # Firefox
-export MOZ_ACCELERATED=1            # Firefox
-export SAL_USE_VCLPLUGIN=gtk3       # Libreoffice
-export _JAVA_AW_WM_NONREPARENTING=1 # Java UIs are horrible
-export AWT_TOOLKIT=MToolkit         # Java UIs are horrible
-
 # Indicate that the profile was sourced
 export PROFILE_SOURCED=1
