@@ -106,7 +106,7 @@ input "2:7:SynPS/2_Synaptics_TouchPad" {
 
 # Applications
 bindsym $mod+Return exec $TERMINAL
-bindsym $mod+n exec networkmanager_dmenu
+bindsym $mod+n exec networkmanager_dmenu | xargs swaymsg exec --
 bindsym $mod+b exec $BROWSER | xargs swaymsg exec --
 bindsym $mod+e exec $TERMINAL -e $FILE | xargs swaymsg exec --
 bindsym $mod+a exec $TERMINAL -e pulsemixer | xargs swaymsg exec --
@@ -252,6 +252,7 @@ gaps outer 10
 gaps inner 10
 smart_gaps on
 smart_borders on
+seat * hide_cursor 5000
 
 include /etc/sway/config.d/*
 exec "systemctl --user import-environment; systemctl --user start sway-session.target"
