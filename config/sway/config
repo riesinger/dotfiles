@@ -239,7 +239,6 @@ bindsym $mod+x exec $lock
 # Status Bar #
 #            #
 bar {
-    position top
 }
 
 #      #
