@@ -1,50 +1,58 @@
-#!/bin/sh
+#!/usr/bin/env zsh
+#
+# A collection of useful scripts for the network tutoriate.
+#
+# For usage, run 'inettut --help'
+#
+# For generating protocols, it will need 'fd', 'pandoc' and 'envsubst' to be installed
+# It will also expect you to have the D7 nextcloud directory synced to somewhere in your $HOME
+#
 
-# Collection of scripts for the network tutoriate
+protocol_dir_name='00-Protokolle der Treffen'
+template_dir_name='01-Vorlagen'
+template_name='Protokoll-Template.md'
 
 new_protocol() {
-	protodir="$(fd 00-Protokolle $HOME)"
-	if [ -z "${protodir}" ]; then
-		echo "Could not determine where protocols are located"
-		exit 1
-	fi
+	templatedir="$(fd "${template_dir_name}" ${HOME})"
+	[ -z "${templatedir}" ] && { echo "Could not find template directory"; exit 1; }
+	[ -f "${templatedir}/${template_name}" ] || { echo "Could not find template file"; exit 2; }
+	protocoldir="$(fd "${protocol_dir_name}" ${HOME})"
+	[ -z "${protocoldir}" ] && { echo "Could not find protocol directory"; exit 1; }
+	newproto="${protocoldir}/Protokoll-$(date -Idate).md"
+	[ -f "${newproto}" ] && { echo "The protocol '$(basename "${newproto}")' already exists"; exit 3; }
 
-	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
+	export D7IT_AUTHOR="$(echo "${USER}" | sed -e "s/\b\(.\)/\u\1/g")"
+	export D7IT_DATE="$(date -Idate)"
 
-	newproto="${protodir}/Protokoll-$(date +%Y-%m-%d).odt"
-	cp "${protodir}/${lastproto}" "${newproto}"
+	envsubst < "${templatedir}/${template_name}" > "${newproto}"
+
+	unset D7IT_AUTHOR
+	unset D7IT_DATE
 
 	edit_protocol "${newproto}"
-}
+ }
 
 edit_protocol() {
-	if [ -z "$1" ]; then
-		echo "No protocol to edit passed"
-		exit 1
-	fi
-	libreoffice "$1"
+	[ -z "${1}" ] && { echo "No protocol to edit passed"; exit 1; }
+	[ -z "${VISUAL}" ] && [ -z "${EDITOR}" ] && { echo 'Neither $VISUAL nor $EDITOR given'; exit 2; }
+	${VISUAL} "${1}"
 }
 
 edit_last_protocol() {
-	protodir="$(fd 00-Protokolle $HOME)"
-	if [ -z "${protodir}" ]; then
-		echo "Could not determine where protocols are located"
-		exit 1
-	fi
+	protocoldir="$(fd ${protocol_dir_name} ${HOME})"
+	[ -z "${protocoldir}" ] && { echo "Could not determine where protocols are located"; exit 1; }
 
-	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
-	edit_protocol "${protodir}/${lastproto}"
+	lastproto="$(ls "${protocoldir}" | grep 'Protokoll.*.md' | sort -r | head -n1)"
+	edit_protocol "${protocoldir}/${lastproto}"
 }
 
 render_last_protocol() {
-	protodir="$(fd 00-Protokolle $HOME)"
-	if [ -z "${protodir}" ]; then
-		echo "Could not determine where protocols are located"
-		exit 1
-	fi
+	protocoldir="$(fd ${protocol_dir_name} ${HOME})"
+	[ -z "${protocoldir}" ] && { echo "Could not determine where protocols are located"; exit 1; }
 
-	lastproto="$(ls "${protodir}" | grep 'Protokoll.*.odt' | sort -r | head -n1)"
-	libreoffice --convert-to pdf "${protodir}/${lastproto}" --outdir "${protodir}"
+	lastproto="$(ls "${protocoldir}" | grep 'Protokoll.*.md' | sort -r | head -n1)"
+	outfilename="$(echo "${lastproto}" | sed -e "s/\.md/\.pdf/")"
+	pandoc -f markdown -t pdf "${protocoldir}/${lastproto}" -o "${protocoldir}/${outfilename}"
 }
 
 usage() {
@@ -69,6 +77,9 @@ case $1 in
 		;;
 	"rlp")
 		render_last_protocol
+		;;
+	"--help")
+		usage 0
 		;;
 	*)
 		usage 1
