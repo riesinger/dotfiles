@@ -67,8 +67,11 @@ case "$extension" in
         try acat "$path" && { dump | trim; exit 3; }
         try bsdtar -lf "$path" && { dump | trim; exit 0; }
         exit 1;;
+    zstd)
+        try tar --list -f "${path}" && { dump | trim; exit 0; }
+        exit 1;;
     csv)
-	sed "s/\(.*\".*\),\(.*\".*\)/\1~\2/;s/,/\t/g;s/~/,/g;s/\t\"/\t/g;s/\"\t/\t/g" "$path" && { dump| trim; exit 0; } || exit 1;;
+        sed "s/\(.*\".*\),\(.*\".*\)/\1~\2/;s/,/\t/g;s/~/,/g;s/\t\"/\t/g;s/\"\t/\t/g" "$path" && { dump| trim; exit 0; } || exit 1;;
     rar)
         # avoid password prompt by providing empty password
         try unrar -p- lt "$path" && { dump | trim; exit 0; } || exit 1;;
@@ -85,7 +88,7 @@ case "$extension" in
     # ODT Files
     odt|ods|odp|sxw)
         try odt2txt "$path" && { dump | trim; exit 5; } || exit 1;;
-		doc|docx)
+    doc|docx)
         try docx2txt "$path" - && { dump | trim; exit 5; } || exit 1;;
     # HTML Pages:
     htm|html|xhtml)
@@ -110,7 +113,7 @@ case "$mimetype" in
         exit 2;;
     # Ascii-previews of images:
     image/*)
-        img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
+        COLORTERM=false viu -w "$width" "$path" && exit 4 || exit 1;;
     # Display information about media files:
     video/* | audio/*)
         exiftool "$path" && exit 5
