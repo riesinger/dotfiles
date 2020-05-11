@@ -1,6 +1,0 @@
-#!/bin/sh
-# Simple script to grab the user's password (or any text really) and put it to STDOUT.
-# This is used as my $SUDO_ASKPASS programm
-
-# Since dmenu cannot really hide the input, we use the BG color as FG
-dmenu -nf '#000000' -nb '#000000' -p "$1" <&- && echo
