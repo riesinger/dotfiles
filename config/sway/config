@@ -222,18 +222,19 @@ bindsym Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.fo
 
 set $Pause  [L]ock, loc[K]toblack, [E]xit, [S]uspend, [R]eboot, [END] Shutdown
 mode "$Pause" {
-    bindsym e       exec --no-startup-id $wmexit,               mode "default"
-    bindsym s       exec --no-startup-id systemctl suspend,     mode "default"
-    bindsym r       exec --no-startup-id systemctl reboot,      mode "default"
-    bindsym End     exec --no-startup-id systemctl poweroff -i, mode "default"
-    bindsym l       exec --no-startup-id $lock,                 mode "default"
-    bindsym k       exec --no-startup-id $locksoff,             mode "default"
+    bindsym e       exec $wmexit,               mode "default"
+    bindsym s       exec systemctl suspend,     mode "default"
+    bindsym r       exec systemctl reboot,      mode "default"
+    bindsym End     exec systemctl poweroff -i, mode "default"
+    bindsym l       exec $lock,                 mode "default"
+    bindsym k       exec $locksoff,             mode "default"
 
     bindsym Return  mode "default"
     bindsym Escape  mode "default"
 }
 bindsym $mod+Shift+x mode "$Pause"
 bindsym $mod+x exec $lock
+bindsym $mod+period exec rofiunicode | xargs swaymsg exec --
 
 #            #
 # Status Bar #
