@@ -129,6 +129,7 @@ source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
 [ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "~/fzf.zsh does not exist, is fzf installed?"
+[ -f "${ZDOTDIR}/gruvbox_256palette.sh" ] && source "${ZDOTDIR}/gruvbox_256palette.sh"
 
 #
 # Functions
