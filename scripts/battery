@@ -5,9 +5,6 @@
 # Dependencies:
 # 	- bc
 
-# FIXME: This script does not consider a batteries maximum charge -> small batteries make up the
-# same percentage as large ones
-
 detailed_stats() {
 	for battery in /sys/class/power_supply/BAT*; do
 		capacity=$(cat "${battery}/capacity") || exit
@@ -33,14 +30,14 @@ for battery in /sys/class/power_supply/BAT*; do
 	battery_energy=$(cat "${battery}/energy_full") || exit 1
 
 	total_maximum_energy=$(( total_maximum_energy + battery_energy ))
-	current_energy=$(echo "(${current_capacity} / 100) * ${battery_energy};scale=0" | bc)
+	current_energy=$(echo "scale=1; (${current_capacity} / 100) * ${battery_energy}" | bc)
 	total_current_energy=$(( total_current_energy + current_energy ))
 
 	[[ "${battery_status}" == "Charging" ]] && one_battery_is_charging=true
 	[[ "${battery_status}" == "Full" ]] && one_battery_is_full=true
 done
 
-capacity_average=$(echo "(${total_current_energy} / ${total_maximum_energy} ) * 100;scale=1" | bc)
+capacity_average=$(echo "scale=1; (${total_current_energy} / ${total_maximum_energy} ) * 100" | bc | cut -d '.' -f 1)
 
 [[ one_battery_is_charging == true ]] && total_status_text="Charging" || [[ one_battery_is_full ]] && total_status_text="Full" || total_status_text="Discharging"
 
