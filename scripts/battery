@@ -1,0 +1,48 @@
+#!/usr/bin/env zsh
+
+# Script that averages all available battery's charges and outputs simple stats
+#
+# Dependencies:
+# 	- bc
+
+# FIXME: This script does not consider a batteries maximum charge -> small batteries make up the
+# same percentage as large ones
+
+detailed_stats() {
+	for battery in /sys/class/power_supply/BAT*; do
+		capacity=$(cat "${battery}/capacity") || exit
+		batstatus=$(cat "${battery}/status")
+
+		echo "$(basename ${battery}): ${capacity}%, ${batstatus}"
+	done
+}
+
+num_bats=$(ls /sys/class/power_supply | grep 'BAT' | wc -l)
+# if we don't have batteries, we don't display anything
+[[ $num_bats -lt 1 ]] && exit 0
+
+total_maximum_energy=0
+total_current_energy=0
+one_battery_is_charging=false
+one_battery_is_full=false
+
+for battery in /sys/class/power_supply/BAT*; do
+
+	current_capacity=$(cat "${battery}/capacity") || exit 1
+	battery_status=$(cat "${battery}/status") || exit 1
+	battery_energy=$(cat "${battery}/energy_full") || exit 1
+
+	total_maximum_energy=$(( total_maximum_energy + battery_energy ))
+	current_energy=$(echo "(${current_capacity} / 100) * ${battery_energy};scale=0" | bc)
+	total_current_energy=$(( total_current_energy + current_energy ))
+
+	[[ "${battery_status}" == "Charging" ]] && one_battery_is_charging=true
+	[[ "${battery_status}" == "Full" ]] && one_battery_is_full=true
+done
+
+capacity_average=$(echo "(${total_current_energy} / ${total_maximum_energy} ) * 100;scale=1" | bc)
+
+[[ one_battery_is_charging == true ]] && total_status_text="Charging" || [[ one_battery_is_full ]] && total_status_text="Full" || total_status_text="Discharging"
+
+echo "Total: ${capacity_average}%, ${total_status_text}"
+detailed_stats

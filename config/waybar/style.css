@@ -4,8 +4,8 @@
 }
 
 window#waybar {
-    font-family: Noto Sans;
-    font-size: 14px;
+    font-family: 'DejaVu Sans';
+    font-size: 13px;
     color: #fbf1c7;
     background: #282828;
 }
@@ -30,12 +30,16 @@ window#waybar {
     border-bottom: 3px solid #fbf1c7;
 }
 
+#window {
+    margin-left: 16px;
+}
+
 #clock {
-    padding-right: 16px;
+    margin-right: 16px;
     border-right: none;
 }
 
-#pulseaudio, #backlight, #battery, #cpu, #memory, #idle_inhibitor, #network, #tray, #custom-updates, #custom-battery {
+#pulseaudio, #backlight, #battery, #cpu, #memory, #idle_inhibitor, #network, #tray, #custom-updates, #custom-battery, #custom-mail {
     padding-left: 6px;
     padding-right: 6px;
     margin-right: 6px;
@@ -47,6 +51,10 @@ window#waybar {
 
 #memory.critical, #custom-battery.critical {
     background: #cc241d;
+}
+
+#custom-battery.charging {
+		background: #98971a;
 }
 
 #mode {

@@ -3,58 +3,27 @@
 #
 # Dependencies:
 # 	- jq
-
-# FIXME: This script does not consider a batteries maximum charge -> small batteries make up the
-# same percentage as large ones
-
-detailed_stats() {
-	local text=""
-	for bat in /sys/class/power_supply/BAT*; do
-		cap=$(cat "${bat}/capacity") || exit
-		batstatus=$(cat "${bat}/status")
-
-		total_cap=$(( total_cap + cap ))
-		text="${text}\\n $(basename ${bat}): ${cap}% - ${batstatus}"
-	done
-	echo -n "${text}" | tr '\n' ', ' | cut -d ',' -f 2-
-}
-
-num_bats=$(ls /sys/class/power_supply | grep 'BAT' | wc -l)
-# if we don't have batteries, we don't display anything
-[[ $num_bats -lt 1 ]] && exit 0
-
-total_cap=0
-charging=false
-for bat in /sys/class/power_supply/BAT*; do
-
-	cap=$(cat "${bat}/capacity") || exit
-	batstatus=$(cat "${bat}/status")
-
-	total_cap=$(( total_cap + cap ))
-
-	# If any one of the batteries is charging, we want to indicate the charging status
-	[[ $batstatus == "Charging" ]] && charging=true
-done
-
-avg_cap=$(( total_cap / num_bats ))
+# 	- battery (script from dotfiles)
 
 get_classes() {
-	[[ ${charging} == true ]] && { echo "charging"; return }
-	[[ ${avg_cap} -lt 25 ]] && { echo "discharging warning"; return }
-	[[ ${avg_cap} -lt 15 ]] && { echo "discharging critical"; return }
+	echo "${1}" | grep 'Charging' && { echo 'charging'; return }
+	[[ ${2} -lt 25 ]] && { echo 'warning'; return }
+	[[ ${2} -lt 15 ]] && { echo 'critical'; return }
 	echo 'discharging'
 }
 
 # Output
 
-tooltip="$( detailed_stats )"
-classes="$( get_classes )"
+total="$(battery | grep 'Total')"
+total_capacity=$(echo "${total}" | awk '{ print $2 }' | cut -d '%' -f 1)
+classes="$( get_classes "${total}" ${total_capacity} )"
+tooltip="$( battery | grep -v 'Total' | awk 1 ORS='\\n')"
 
 jq --unbuffered --compact-output <<EOD
 {
-	"text": "${avg_cap}",
+	"text": "${total_capacity}",
 	"tooltip": "${tooltip}",
 	"class": "${classes}",
-	"percentage": ${avg_cap}
+	"percentage": ${total_capacity}
 }
 EOD
