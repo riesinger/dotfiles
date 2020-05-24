@@ -1,0 +1,6 @@
+[Timer]
+OnBootSec=60min
+OnUnitActiveSec=60min
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,7 @@
+[Unit]
+Description="Mail syncing script"
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/syncmail
+

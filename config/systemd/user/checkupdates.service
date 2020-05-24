@@ -1,0 +1,10 @@
+[Unit]
+Description=checkupdates - Checks for updates periodically
+Documentation=man:checkupdates
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/check_updates
+
+[Install]
+WantedBy=default.target
