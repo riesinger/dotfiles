@@ -1,0 +1,12 @@
+#!/usr/bin/env zsh
+
+# Lists new mail in the running user's inbox(es). All mail accounts are taken into consideration
+# 
+# Optionally, a file can be passed. If it is given, only mail files newer than the given file are considered
+
+than="${1}"
+
+setopt extendedglob
+
+# Use case-insensitive globbing to find mail directories
+[ -z "${than}" ] && find ${HOME}/.local/share/mail/*/(#i)(inbox)*/new -type f || find ${HOME}/.local/share/mail/*/(#i)(inbox)*/new -type f -newer "${than}"
