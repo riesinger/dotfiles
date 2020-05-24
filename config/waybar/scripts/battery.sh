@@ -6,10 +6,10 @@
 # 	- battery (script from dotfiles)
 
 get_classes() {
-	echo "${1}" | grep 'Charging' && { echo 'charging'; return }
-	[[ ${2} -lt 25 ]] && { echo 'warning'; return }
-	[[ ${2} -lt 15 ]] && { echo 'critical'; return }
-	echo 'discharging'
+	[ ! -z "$(grep 'Charging' <<< "${1}")" ] && { echo -n 'charging'; return }
+	[[ ${2} -lt 15 ]] && { echo -n 'critical'; return }
+	[[ ${2} -lt 25 ]] && { echo -n 'warning'; return }
+	echo -n 'discharging'
 }
 
 # Output
