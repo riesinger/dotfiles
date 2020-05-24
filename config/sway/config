@@ -111,6 +111,8 @@ bindsym $mod+b exec $BROWSER | xargs swaymsg exec --
 bindsym $mod+e exec $TERMINAL -e $FILE | xargs swaymsg exec --
 bindsym $mod+a exec $TERMINAL -e pulsemixer | xargs swaymsg exec --
 bindsym $mod+m exec $TERMINAL -e neomutt | xargs swaymsg exec --
+bindsym $mod+$altmod+m exec rofimount | xargs swaymsg exec --
+bindsym $mod+$altmod+Shift+m exec rofiumount | xargs swaymsg exec --
 
 # Kill focused window
 bindsym $mod+q kill
@@ -216,9 +218,9 @@ bindsym --locked XF86AudioPrev exec playerctl previous
 
 set $screenshotpath ~/Pictures/"Screenshot vom $(date +%Y-%m-%d_%H-%M-%S)".png
 
-bindsym $mod+Print exec grim $screenshotpath
-bindsym Print exec grim -g "$(slurp)" $screenshotpath
-bindsym Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" $screenshotpath
+bindsym $mod+Print exec grim - | tee $screenshotpath | wl-copy --type image/png
+bindsym Print exec grim -g "$(slurp)" - | tee $screenshotpath | wl-copy --type image/png
+bindsym Shift+Print exec grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | tee $screenshotpath | wl-copy --type image/png
 
 set $Pause  [L]ock, loc[K]toblack, [E]xit, [S]uspend, [R]eboot, [END] Shutdown
 mode "$Pause" {
