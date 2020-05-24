@@ -30,16 +30,16 @@ for battery in /sys/class/power_supply/BAT*; do
 	battery_energy=$(cat "${battery}/energy_full") || exit 1
 
 	total_maximum_energy=$(( total_maximum_energy + battery_energy ))
-	current_energy=$(echo "scale=1; (${current_capacity} / 100) * ${battery_energy}" | bc)
+	current_energy=$(echo "scale=4; (${current_capacity} / 100) * ${battery_energy}" | bc)
 	total_current_energy=$(( total_current_energy + current_energy ))
 
 	[[ "${battery_status}" == "Charging" ]] && one_battery_is_charging=true
 	[[ "${battery_status}" == "Full" ]] && one_battery_is_full=true
 done
 
-capacity_average=$(echo "scale=1; (${total_current_energy} / ${total_maximum_energy} ) * 100" | bc | cut -d '.' -f 1)
+capacity_average=$(echo "scale=4; (${total_current_energy} / ${total_maximum_energy} ) * 100" | bc | cut -d '.' -f 1)
 
-[[ one_battery_is_charging == true ]] && total_status_text="Charging" || [[ one_battery_is_full ]] && total_status_text="Full" || total_status_text="Discharging"
+[[ ${one_battery_is_charging} == true ]] && total_status_text="Charging" || { [[ ${one_battery_is_full} == true ]] && total_status_text="Full" || total_status_text="Discharging" }
 
 echo "Total: ${capacity_average}%, ${total_status_text}"
 detailed_stats
