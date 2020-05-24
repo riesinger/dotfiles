@@ -94,7 +94,7 @@
         "on-click": "pavucontrol"
     },
     "custom/updates": {
-      "exec-if": "test $(wc -l /tmp/available_updates | awk '{ print $1 }') -gt 0",
+      "exec-if": "test $(wc -l < /tmp/available_updates) -gt 0",
       "exec": "$HOME/.config/waybar/scripts/updates.sh",
       "format": " {}",
       "interval": 900,
