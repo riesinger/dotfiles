@@ -21,7 +21,8 @@ fi
 [ "$archive" = "" ] && printf "Give archive to extract as argument.\\n" && exit
 
 if [ -f "$archive" ] ; then
-	case "$archive" in
+	lowername="$(echo "$archive" | tr '[:upper:]' '[:lower:]')"
+	case "$lowername" in
 		*.tar.bz2|*.tbz2) tar xvjf "$archive" ;;
 		*.tar.gz|*.tgz) tar xvzf "$archive" ;;
 		*.tar.zstd|*.zstd) tar xvf "$archive" ;;
