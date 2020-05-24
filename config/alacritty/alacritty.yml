@@ -28,3 +28,21 @@ colors:
     magenta: '#d3869b'
     cyan:    '#8ec07c'
     white:   '#ebdbb2'
+
+
+font:
+  normal:
+    family: 'Meslo LG S'
+    style: Regular
+
+  bold:
+    family: 'Meslo LG S'
+    style: Bold
+
+  italic:
+    family: 'Meslo LG S'
+    style: Italic
+
+  bold_italic:
+    family: 'Meslo LG S'
+    style: Bold Italic
