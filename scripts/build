@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# This is a wrapper around various build tools to simplfy invocation from an editor.
+# It currently supports the following project types:
+#   - Makefile-based
+#   - NPM (JavaScript/TypeScript)
+#
+
+# The project has a Makefile. Pass all arguments
+[ -f "${CWD}/Makefile" ] && { make "${@}"; exit ${?}; }
+# This is an NPM project.
+[ -f "${CWD}/package.json" ] && { npm start; exit ${?} }
