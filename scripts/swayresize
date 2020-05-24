@@ -1,7 +1,7 @@
 #!/bin/sh
 
 [ -z "$1" ] && echo "No direction provided" && exit 1
-distanceStr="2 px or 2 ppt"
+distanceStr="4 px or 4 ppt"
 
 moveChoice() {
   swaymsg resize "$1" "$2" "$distanceStr" || swaymsg resize "$3" "$4" "$distanceStr"
