@@ -6,11 +6,13 @@ export SCRIPTS="$DOTFILES/scripts"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_DATA_HOME="$HOME/.local/share"
+export GOPATH="$XDG_DATA_HOME/go"
+export GOBIN="${GOPATH}/bin"
 
-export PATH="$XDG_DATA_HOME/bin:$XDG_DATA_HOME/cargo/.bin:/usr/lib/passff:$SCRIPTS:/usr/local/sbin:/usr/local/bin:$PATH"
+export PATH="${XDG_DATA_HOME}/bin:${GOBIN}:${XDG_DATA_HOME}/cargo/.bin:/usr/lib/passff:${SCRIPTS}:/usr/local/sbin:/usr/local/bin:${PATH}"
 
 # General
-export LC_ALL=en_AU.UTF-8
+export LC_ALL=en_US.UTF-8
 export LC_TYPE=UTF-8
 export NODE_ENV='development'
 
