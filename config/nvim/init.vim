@@ -41,6 +41,7 @@ set splitright
 "{{{ --- Plugins ---
 
 " Since vimtex is incompatible with LaTeX-Box, disable latex from polyglot
+" We want to use vimtex, since it integrates with coc.nvim
 let g:polyglot_disabled = ['latex']
 
 function! DoRemote(arg)
@@ -51,40 +52,37 @@ endfunction
 call plug#begin()
 
 " Functionality
-Plug 'Konfekt/vim-guesslang', { 'for': 'markdown' }
-Plug 'Shougo/neomru.vim' " For FZFPreview plugin
+Plug 'Konfekt/vim-detectspelllang', { 'for': ['markdown', 'text', 'mail', 'pandoc'] }
 Plug 'SirVer/ultisnips'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'christoomey/vim-tmux-runner'
+Plug 'christoomey/vim-tmux-navigator'       " Integration with TMUX
+Plug 'christoomey/vim-tmux-runner'          " Run make in a TMUX pane
 Plug 'danro/rename.vim'                     " To rename files on the fly
-Plug 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim'        " To auto-adjust the indentation settings
 Plug 'godlygeek/tabular'                    " For markdown table alignment
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'janko/vim-test'
-Plug 'jiangmiao/auto-pairs'
+Plug 'jiangmiao/auto-pairs'                 " Insert matching {}, [], ...
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/vim-emoji'
-Plug 'mileszs/ack.vim'
+Plug 'junegunn/goyo.vim'                    " A clean slate for writing
+Plug 'junegunn/vim-emoji'                   " replace :emoji: codes with Unicode symbols
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'                 " For easy commenting
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'yuki-ycino/fzf-preview.vim'
 
 " Languages
+Plug 'lervag/vimtex'
 Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'jodosha/vim-godebug', { 'for': 'go' }
-Plug 'lervag/vimtex'
+Plug 'jodosha/vim-godebug', { 'for': 'go' } " TODO: Replace with the Debug Server Protocol
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " Visuals
 Plug 'morhetz/gruvbox'
-" Plug 'Yggdroot/indentLine'
 
 if !has('nvim')
   Plug 'roxma/nvim-yarp'
@@ -107,7 +105,8 @@ let g:go_fmt_command = "goimports"
 let g:go_addtags_transform = "camelcase"
 let g:go_auto_type_info = 1
 
-let g:guesslang_langs = [ 'en_US', 'de_DE', 'en', 'de' ]
+let g:detectspelllang_langs = {}
+let g:detectspelllang_langs.aspell = [ 'en_US', 'de_DE', 'en', 'de' ]
 
 " Ack
 let g:ackprg = 'rg --vimgrep'
@@ -131,39 +130,6 @@ let test#strategy = "dispatch"
 
 " Don't open the quickfix window automatically
 let g:vimtex_quickfix_mode = 0
-" let g:vimtex_compiler_latexmk = {
-"         \ 'backend' : 'nvim',
-"         \ 'background' : 1,
-"         \ 'build_dir' : '',
-"         \ 'callback' : 1,
-"         \ 'continuous' : 1,
-"         \ 'executable' : 'latexmk',
-"         \ 'hooks' : [],
-"         \ 'options' : [
-"         \   '-verbose',
-" 				\   '-pdflatex=lualatex',
-" 				\   '-lualatex',
-"         \   '-file-line-error',
-"         \   '-synctex=1',
-"         \   '-interaction=nonstopmode',
-"         \ ],
-" 				\ }
-"
-let g:vimtex_compiler_latexmk = {
-        \ 'backend' : 'nvim',
-        \ 'background' : 1,
-        \ 'build_dir' : '',
-        \ 'callback' : 1,
-        \ 'continuous' : 1,
-        \ 'executable' : 'latexmk',
-        \ 'hooks' : [],
-        \ 'options' : [
-        \   '-verbose',
-        \   '-file-line-error',
-        \   '-synctex=1',
-        \   '-interaction=nonstopmode',
-        \ ],
-				\ }
 
 " Coc.nvim
 let g:coc_global_extensions = [
@@ -203,33 +169,42 @@ endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
+" Pandoc
+let g:pandoc#modules#disabled = ["folding", "spell"]
+let g:pandoc#formatting#mode = 'hA'
+
+
 "}}}
 
 " {{{ --- Keymaps ---
 
-nnoremap <F5> :VtrSendCommandToRunner! make<cr>
-nnoremap <F6> :VtrSendCommandToRunner! make run<cr>
-
 "  Leaders
-let mapleader = ","
-nnoremap <leader>] :Ack!<space>
-nnoremap <leader>tt :Tab/\|<cr>
-nnoremap <leader>t= :Tab/=<cr>
-nnoremap <leader>t: :Tab/:<cr>
-nnoremap <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
+let mapleader = " "
+" Focus
+nnoremap <silent> <leader>f :Goyo<cr>
+" Alignment
+nnoremap <leader>aa :Tab/\|<cr>
+nnoremap <leader>a= :Tab/=<cr>
+nnoremap <leader>a: :Tab/:<cr>
+nnoremap <silent> <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
 nnoremap <leader>r <Plug>(coc-rename)
 " Code action for current line
 nnoremap <leader>ac <Plug>(coc-codeaction)
 " Autofix for current line
 nnoremap <leader>aq <Plug>(coc-fix-current)
-nnoremap <leader>rg :Rg<cr>
-nnoremap <leader>p :RG<cr>
+nnoremap <silent> <leader>rg :Rg<cr>
+nnoremap <silent> <leader>p :RG<cr>
 " Plugin Keymaps
 nnoremap <silent> <C-p> :Files<cr>
 nnoremap <F2> :Tags<cr>
 nnoremap <F3> :BTags<cr>
 nnoremap <leader>t :TestFile<cr>
 nnoremap <leader>ts :TestSuite<cr>
+nnoremap <silent> <F5> :VtrSendCommandToRunner! make<cr>
+nnoremap <silent> <F6> :VtrSendCommandToRunner! make run<cr>
+nnoremap <silent> <F7> :VtrFocusRunner!<cr>
+
+autocmd FileType pandoc map <buffer><silent> <leader>t :TOC<cr>
 
 " Neovim keybindings
 if has('nvim')
@@ -241,10 +216,6 @@ aug fzf_setup
 aug END
 
 endif
-
-" Compiling things
-autocmd FileType go nmap <leader>c <Plug>(go-build)
-autocmd FileType tex nmap <leader>c <Plug>(vimtex-compile)
 
 " COC.nvim
 inoremap <silent><expr> <TAB>
@@ -303,7 +274,7 @@ autocmd BufReadPost *
               \   exe "normal! g'\"" |
               \ endif
 
-autocmd BufEnter text,markdown,tex setlocal spell
+autocmd BufEnter text,markdown,mail,pandoc setlocal spell
 
 " Remove trailing whitespace
 function! StripTrailingWhitespaces()
@@ -388,12 +359,12 @@ endfunction
 function! GetObsessionStatus()
 	let status = ""
 	if exists("*ObsessionStatus")
-		let status = ObsessionStatus('O.O', '-.-')
+		let status = ObsessionStatus('', '')
 	endif
 	if status != ''
-		return '  '.status.'  '
+		return ' '.status.'  '
 	endif
-	return '  -.- '
+	return '   '
 endfunction
 
 set statusline=
