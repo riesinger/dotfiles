@@ -4,8 +4,7 @@
 #
 # For usage, run 'inettut --help'
 #
-# For generating protocols, it will need 'fd', 'pandoc' and 'envsubst' to be installed
-# It will also expect you to have the D7 nextcloud directory synced to somewhere in your $HOME
+# For generating protocols, it will need 'fd', 'pandoc' and 'envsubst' to be installed It will also expect you to have the D7 nextcloud directory synced to somewhere in your $HOME
 #
 
 protocol_dir_name='00-Protokolle der Treffen'
@@ -13,11 +12,9 @@ template_dir_name='01-Vorlagen'
 template_name='Protokoll-Template.md'
 
 new_protocol() {
-	templatedir="$(fd "${template_dir_name}" ${HOME})"
+	templatedir="$(fd "${template_dir_name}" "${HOME}")"
 	[ -z "${templatedir}" ] && { echo "Could not find template directory"; exit 1; }
 	[ -f "${templatedir}/${template_name}" ] || { echo "Could not find template file"; exit 2; }
-	protocoldir="$(fd "${protocol_dir_name}" ${HOME})"
-	[ -z "${protocoldir}" ] && { echo "Could not find protocol directory"; exit 1; }
 	newproto="${protocoldir}/Protokoll-$(date -Idate).md"
 	[ -f "${newproto}" ] && { echo "The protocol '$(basename "${newproto}")' already exists"; exit 3; }
 
@@ -30,29 +27,60 @@ new_protocol() {
 	unset D7IT_DATE
 
 	edit_protocol "${newproto}"
- }
+}
+
+get_latest_protocol() {
+	ext=$1
+	protocoldir="$(fd ${protocol_dir_name} ${HOME})"
+	[ -z "${protocoldir}" ] && { echo "Could not determine where protocols are located"; exit 1; }
+
+	lastproto="$(ls "${protocoldir}" | grep 'Protokoll.*.'${ext} | sort -r | head -n1)"
+	echo -n "${lastproto}"
+}
+
+get_protocol_dir() {
+	protocoldir="$(fd "${protocol_dir_name}" "${HOME}")"
+	[ -z "${protocoldir}" ] && { echo "Could not find protocol directory"; exit 1; }
+	echo -n "${protocoldir}"
+}
+
+get_absolute_protocol_path() {
+	protocol_name="${1}"
+	ext="${2}" # Needed when passing a date only
+	# If these don't match, the path is assumed to be absolute
+	if [ ! "$(basename "${protocol_name}")" = "${protocol_name}" ]; then
+		echo -n "${protocol_name}"
+	elif [[ "${protocol_name}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+		echo -n "$(get_protocol_dir)/Protokoll-${protocol_name}.${ext}"
+	else
+		echo -n "$(get_protocol_dir)/Protokoll-${protocol_name}"
+	fi
+}
 
 edit_protocol() {
 	[ -z "${1}" ] && { echo "No protocol to edit passed"; exit 1; }
-	[ -z "${VISUAL}" ] && [ -z "${EDITOR}" ] && { echo 'Neither $VISUAL nor $EDITOR given'; exit 2; }
-	${VISUAL} "${1}"
+	protocol="$(get_absolute_protocol_path "${1}" md)"
+
+	[ ! -z "${VISUAL}" ] && ${VISUAL} "${protocol}" || {
+		[ ! -z "${EDITOR}" ] && ${EDITOR} "${protocol}" || {
+			echo 'Neither $VISUAL nor $EDITOR given'
+			exit 2
+		}
+	}
 }
 
-edit_last_protocol() {
-	protocoldir="$(fd ${protocol_dir_name} ${HOME})"
-	[ -z "${protocoldir}" ] && { echo "Could not determine where protocols are located"; exit 1; }
+open_protocol() {
+	[ -z "${1}" ] && { echo "No protocol to open passed"; exit 1; }
 
-	lastproto="$(ls "${protocoldir}" | grep 'Protokoll.*.md' | sort -r | head -n1)"
-	edit_protocol "${protocoldir}/${lastproto}"
+	setsid -f xdg-open "$(get_absolute_protocol_path "${1}" pdf)" > /dev/null
 }
 
-render_last_protocol() {
-	protocoldir="$(fd ${protocol_dir_name} ${HOME})"
-	[ -z "${protocoldir}" ] && { echo "Could not determine where protocols are located"; exit 1; }
+render_protocol() {
+	[ -z "${1}" ] && { echo "No protocol to render passed"; exit 1; }
+	protocol=${get_absolute_protocol_path "${1}" md}
 
-	lastproto="$(ls "${protocoldir}" | grep 'Protokoll.*.md' | sort -r | head -n1)"
-	outfilename="$(echo "${lastproto}" | sed -e "s/\.md/\.pdf/")"
-	pandoc -f markdown -t pdf "${protocoldir}/${lastproto}" -o "${protocoldir}/${outfilename}"
+	outputfile="$(echo "${protocol}" | sed -e "s/\.md/\.pdf/")"
+	pandoc -f markdown -t pdf "${protocol}" -o "${outputfile}"
 }
 
 usage() {
@@ -60,23 +88,39 @@ usage() {
 usage: $(basename $0) <command>
 
 commands:
-	np             creates a new protocol and opens it for editing
-	ep <protocol>  edits the given <protocol> if none is given, edit the lastest protocol
-	rlp            renders the last protocol to a PDF file
+	new               creates a new protocol and opens it for editing
+	edit [protocol]   edits the given [protocol], or the latest one if none was given
+	render [protocol] renders the given [protocol], or the latest one if none was given
+	open [protocol]   opens the given [protocol]s PDF, or the latest one if none was given
+
+	[protocol] can either be an absolute file path or just a date in the format of yyyy-MM-dd
+
+examples:
+	$(basename $0) open
+		opens the last protocol's PDF
+	$(basename $0) edit 2020-03-12
+		opens the source of the 2020-03-12 protocol with your editor
+	$(basename $0) render Protokoll-2020-01-01.md
+		renders the file Protokoll-2020-01-01.md in you protocol folder to PDF
+	$(basename $0) open /home/you/Protokoll-123.pdf
+		opens the given file for viewing
 EOF
 
 	exit $1
 }
 
 case $1 in
-	"np")
+	"new")
 		new_protocol
 		;;
-	"ep")
-		[ -z "$2" ] && edit_last_protocol || edit_protocol $2
+	"edit")
+		[ -z "$2" ] && edit_protocol "$(get_latest_protocol md)" || edit_protocol $2
 		;;
-	"rlp")
-		render_last_protocol
+	"render")
+		[ -z "$2" ] && render_protocol "$(get_latest_protocol md)" || render_protocol $2
+		;;
+	"open")
+		[ -z "$2" ] && open_protocol "$(get_latest_protocol pdf)" || open_protocol $2
 		;;
 	"--help")
 		usage 0
