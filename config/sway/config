@@ -53,9 +53,10 @@ exec_always kanshi
 # Wallpapers
 output eDP-1 bg ~/Pictures/Wallpapers/.wallpaper fill
 output DP-4 bg ~/Pictures/Wallpapers/.wallpaper fill
-output DP-7 bg ~/Pictures/Wallpapers/.wallpaper_portrait fill
+output DP-7 bg ~/Pictures/Wallpapers/.wallpaper fill
 output DP-5 bg ~/Pictures/Wallpapers/.wallpaper fill
-output DP-9 bg ~/Pictures/Wallpapers/.wallpaper_portrait fill
+output DP-8 bg ~/Pictures/Wallpapers/.wallpaper fill
+output DP-9 bg ~/Pictures/Wallpapers/.wallpaper fill
 # Monitor positions
 # output eDP-1 pos 0 0 res 1920x1080
 # output DP-4 pos 1920 0 res 2560x1440
@@ -175,6 +176,9 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+# Move workspaces between outputs
+bindsym $mod+Shift+comma move workspace to output left
+bindsym $mod+Shift+period move workspace to output right
 
 ### Layout:
 
