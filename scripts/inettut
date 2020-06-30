@@ -15,7 +15,7 @@ new_protocol() {
 	templatedir="$(fd "${template_dir_name}" "${HOME}")"
 	[ -z "${templatedir}" ] && { echo "Could not find template directory"; exit 1; }
 	[ -f "${templatedir}/${template_name}" ] || { echo "Could not find template file"; exit 2; }
-	newproto="${protocoldir}/Protokoll-$(date -Idate).md"
+	newproto="$(get_protocol_dir)/Protokoll-$(date -Idate).md"
 	[ -f "${newproto}" ] && { echo "The protocol '$(basename "${newproto}")' already exists"; exit 3; }
 
 	export D7IT_AUTHOR="$(echo "${USER}" | sed -e "s/\b\(.\)/\u\1/g")"
@@ -53,7 +53,7 @@ get_absolute_protocol_path() {
 	elif [[ "${protocol_name}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
 		echo -n "$(get_protocol_dir)/Protokoll-${protocol_name}.${ext}"
 	else
-		echo -n "$(get_protocol_dir)/Protokoll-${protocol_name}"
+		echo -n "$(get_protocol_dir)/${protocol_name}"
 	fi
 }
 
@@ -77,7 +77,7 @@ open_protocol() {
 
 render_protocol() {
 	[ -z "${1}" ] && { echo "No protocol to render passed"; exit 1; }
-	protocol=${get_absolute_protocol_path "${1}" md}
+	protocol="$(get_absolute_protocol_path "${1}" md)"
 
 	outputfile="$(echo "${protocol}" | sed -e "s/\.md/\.pdf/")"
 	pandoc -f markdown -t pdf "${protocol}" -o "${outputfile}"
