@@ -1,5 +1,6 @@
 #!/bin/sh
 
-sorted="$(echo "$1" | tr ',' '\n' | sort)"
-echo -e $sorted | sed -e 's/ /, /g'
+input="${1}"
+[ -z "${input}" ] && read input
 
+echo "${input}" | sed -e 's/ //g' | tr ',' '\n' | sort | paste -d ',' -s - | sed -e 's/,/, /g'

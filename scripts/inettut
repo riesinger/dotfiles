@@ -92,6 +92,7 @@ commands:
 	edit [protocol]   edits the given [protocol], or the latest one if none was given
 	render [protocol] renders the given [protocol], or the latest one if none was given
 	open [protocol]   opens the given [protocol]s PDF, or the latest one if none was given
+	mail <recipient>  creates a mail with neomutt and attaches the latest protocol
 
 	[protocol] can either be an absolute file path or just a date in the format of yyyy-MM-dd
 
@@ -121,6 +122,14 @@ case $1 in
 		;;
 	"open")
 		[ -z "$2" ] && open_protocol "$(get_latest_protocol pdf)" || open_protocol $2
+		;;
+	"latest")
+		get_absolute_protocol_path $(get_latest_protocol)
+		;;
+	"mail")
+		body="$(mktemp)"
+		echo 'siehe Anhang' > "${body}"
+		neomutt "${2}" -s "Protokoll vom $(date -Idate)" -a "$(inettut latest)" -i "${body}" -e "source $XDG_CONFIG_HOME/mutt/accounts/2-d7.muttrc"
 		;;
 	"--help")
 		usage 0
