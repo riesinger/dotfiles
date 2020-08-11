@@ -1,6 +1,6 @@
 ignore-empty-password
 daemonize
-indicator
+indicator-idle-visible
 clock
 timestr=%T
 datestr=
@@ -8,7 +8,6 @@ image="$HOME/Pictures/Wallpapers/.wallpaper"
 color=1d2021
 font='Noto Sans'
 text-color=ebdbb2
-inside-color=282828
 ring-color=d79921
 ring-clear-color=98971a
 line-ver-color=ebdbb2
@@ -16,4 +15,9 @@ key-hl-color=fabd2f
 separator-color=00000000
 line-uses-ring
 scaling=fill
-effect-blur=8x2
+effect-blur=4x6
+grace=3
+fade-in=0.1
+indicator-x-position=128
+indicator-y-position=110
+indicator-radius=80
