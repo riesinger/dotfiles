@@ -119,17 +119,11 @@ let g:fzf_tags_command = 'ctags --exclude=vendor -R'
 let g:fzf_preview_floating_window_winblend = 0
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8, 'highlight': 'Todo', 'border': 'rounded' } }
 
-" Indent Line
-let g:indentLine_char = '│'
-let g:indentLine_first_char = '│'
-let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_setColors = 0
-
 " Vim Test
 let test#strategy = "dispatch"
 
 " Vimtex
-
+let g:tex_flavor = "latex"
 " Don't open the quickfix window automatically
 let g:vimtex_quickfix_mode = 0
 
@@ -148,6 +142,7 @@ let g:coc_global_extensions = [
 	\ 'coc-json',
 	\ 'coc-lists',
 	\ 'coc-python',
+	\ 'coc-rls',
 	\ 'coc-snippets',
 	\ 'coc-tsserver',
 	\ 'coc-vimtex',
@@ -261,12 +256,11 @@ set termguicolors
 let g:gruvbox_italic=1
 colorscheme gruvbox
 set guicursor=n:hor100
-highlight SignColumn ctermbg=0 ctermfg=8
+highlight link GitGutterChange GruvboxAqua
+highlight SignColumn ctermbg=0 ctermfg=7 guifg=#ebdbb2 guibg=#282828
 highlight CursorLineNr ctermbg=0 ctermfg=5
 highlight CocUnderline cterm=undercurl term=undercurl gui=undercurl
-
-" Remove light border between splits
-" hi VertSplit ctermbg=bg ctermfg=bg
+highlight VertSplit ctermbg=fg ctermfg=bg guibg=#32302f
 
 " --- Custom commands ---
 
@@ -314,8 +308,8 @@ command! -nargs=0 Format :call CocAction('format')
 "{{{ --- Statusline
 
 " Colors
-highlight StatusLineNC ctermbg=8 ctermfg=15 cterm=NONE
-highlight StatusLine ctermbg=7 ctermfg=0 cterm=NONE
+highlight StatusLineNC ctermbg=0 ctermfg=15 cterm=NONE guibg=#32302f guifg=#a89984 gui=NONE
+highlight StatusLine ctermbg=7 ctermfg=0 cterm=NONE guibg=#3c3836 guifg=#ebdbb2 gui=bold
 highlight User1 ctermbg=2 ctermfg=0
 
 " Make the left and right block blue in insert mode
@@ -325,25 +319,25 @@ au InsertLeave * hi User1 ctermbg=2 ctermfg=0
 let g:statusline_seperator='  '
 
 let g:currentmode={
-      \ 'n'  : ' NORMAL ',
-      \ 'no' : ' NORMAL_',
-      \ 'v'  : ' VISUAL ',
-      \ 'V'  : ' VLINE ',
-      \ '' : ' VBLOCK ',
-      \ 's'  : ' SELECT ',
-      \ 'S'  : ' S·LINE ',
-      \ '' : ' S·BLOK ',
-      \ 'i'  : ' INSERT ',
-      \ 'R'  : ' REPLAC ',
-      \ 'Rv' : ' VRPLC ',
-      \ 'c'  : ' CMD   ',
-      \ 'cv' : ' VIM EX ',
-      \ 'ce' : ' EX    ',
-      \ 'r'  : ' PROMPT ',
-      \ 'rm' : ' MORE  ',
-      \ 'r?' : ' CNFRM ',
-      \ '!'  : ' SHELL ',
-      \ 't'  : ' TERM '
+      \ 'n'  : ' N ',
+      \ 'no' : ' NOR_ ',
+      \ 'v'  : ' V ',
+      \ 'V'  : ' L ',
+      \ '' : ' B ',
+      \ 's'  : ' SLCT ',
+      \ 'S'  : ' SLIN ',
+      \ '' : ' SBLK ',
+      \ 'i'  : ' I ',
+      \ 'R'  : ' R ',
+      \ 'Rv' : ' r ',
+      \ 'c'  : ' C ',
+      \ 'cv' : ' X ',
+      \ 'ce' : ' x ',
+      \ 'r'  : ' ! ',
+      \ 'rm' : ' … ',
+      \ 'r?' : ' ? ',
+      \ '!'  : ' $ ',
+      \ 't'  : ' T '
       \}
 
 function! GitBranch()
@@ -361,16 +355,16 @@ endfunction
 function! GetObsessionStatus()
 	let status = ""
 	if exists("*ObsessionStatus")
-		let status = ObsessionStatus('', '')
+		let status = ObsessionStatus('🐵', '🙈')
 	endif
 	if status != ''
 		return ' '.status.'  '
 	endif
-	return '   '
+	return '🙈'
 endfunction
 
 set statusline=
-set statusline+=%1*%8{g:currentmode[mode()]}%*
+set statusline+=%1*%3{g:currentmode[mode()]}%*
 set statusline+=%{GitBranch()}
 set statusline+=\ %-.55f%m
 set statusline+=%=

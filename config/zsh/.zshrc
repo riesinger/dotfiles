@@ -144,3 +144,6 @@ function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 setopt prompt_subst
 eval "$(starship init zsh)"
 
+# Work stuff
+[ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local"
+

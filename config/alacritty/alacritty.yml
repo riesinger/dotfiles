@@ -31,6 +31,8 @@ colors:
 
 
 font:
+  size: 14
+
   normal:
     family: 'Cascadia Code PL'
     style: Regular
