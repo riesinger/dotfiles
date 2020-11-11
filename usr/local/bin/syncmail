@@ -14,18 +14,17 @@ ping -q -c 1 1.1.1.1 > /dev/null || { echo "No internet connection detected."; e
 command -v notify-send >/dev/null || echo "Note that \`libnotify\` or \`libnotify-send\` should be installed for pop-up mail notifications with this script."
 
 # Required to display notifications
-DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
+export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u)/bus
 
 # For individual configurations:
 [ -d "$HOME/.local/share/password-store" ] && export PASSWORD_STORE_DIR="$HOME/.local/share/password-store"
 
-swaynotify() {
-    for sock in /run/user/"$(id -u)"/sway-ipc.*.sock; do
-	swaymsg -s "${sock}" exec -- notify-send --app-name="mutt-wizard" $1 $2
-    done
+ntfy() {
+    echo "$$DISPLAY is $DISPLAY"
+    notify-send --app-name="syncmail" $1 $2
 }
 
-notify() { swaynotify "Mail" "📬 $2 new mail(s) in \`$1\` account." ;}
+notify() { ntfy "Mail" "📬 $2 new mail(s) in \`$1\` account." ;}
 
 # Check account for new mail. Notify if there is new content.
 syncandnotify() {
@@ -39,7 +38,7 @@ syncandnotify() {
             # Extract subject and sender from mail.
             from=$(awk '/^From: / && ++n ==1,/^\<.*\>:/' "$file" | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | awk '{ $1=""; if (NF>=3)$NF=""; print $0 }' | sed 's/^[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//')
             subject=$(awk '/^Subject: / && ++n == 1,/^\<.*\>: / && ++i == 2' "$file" | head -n-1 | perl -CS -MEncode -ne 'print decode("MIME-Header", $_)' | sed 's/^Subject: //' | sed 's/^{[[:blank:]]*[\"'\''\<]*//;s/[\"'\''\>]*[[:blank:]]*$//' | tr -d '\n')
-            swaynotify "📧 $from:" "$subject" &
+            ntfy "📧 $from:" "$subject" &
         done
     fi
 }
@@ -54,10 +53,10 @@ else
     accounts=$*
 fi
 
-# Parallelize multiple accounts
+# If syncing fails for one account (dismissed GPG pinentry etc.), exit early
 for account in $accounts
 do
-    syncandnotify &
+    [ syncandnotify ] || exit 2
 done
 
 wait
@@ -67,3 +66,5 @@ notmuch new 2>/dev/null
 
 #Create a file that indicates the time of the last run of mailsync
 touch "$HOME/.config/mutt/.mailsynclastrun"
+
+# vim: set sw=4

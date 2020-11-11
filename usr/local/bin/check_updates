@@ -1,5 +1,10 @@
 #!/bin/sh
 
+touch /tmp/available_updates
+chmod 777 /tmp/available_updates
+
 checkupdates > /tmp/available_updates
 
-pkill -RTMIN+8 "${STATUSBAR:-waybar}"
+pkill -RTMIN+8 "${STATUSBAR:-dwmblocks}" > /dev/null 2>&1
+
+exit 0
