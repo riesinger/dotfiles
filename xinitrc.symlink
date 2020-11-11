@@ -1,0 +1,4 @@
+xrbd $HOME/.Xresources
+autorandr -c&
+wallpaper > /tmp/xwallpaper.log 2>&1
+/usr/local/bin/dwm-service.sh
