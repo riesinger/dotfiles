@@ -4,8 +4,11 @@
 	cm = commit -S -m
 	cs = commit -S
 	pushhead = push -u origin HEAD
+	tree = log --oneline --decorate --all --graph
 [user]
 	name = riesinger
 	email = mail@pascal-riesinger.de
 [gpg]
 	program = /usr/bin/gpg
+[pull]
+	ff = only

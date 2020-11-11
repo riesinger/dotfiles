@@ -2,8 +2,8 @@
 
 
 case $BLOCK_BUTTON in
-	1) pgrep -x dunst >/dev/null && notify-send "$(cal --color=always | sed "s/..7m/<b><span color=\"red\">/;s/..27m/<\/span><\/b>/")" ;;
-	2) pgrep -x dunst >/dev/null && notify-send -a 'Calendar Module' \
+	1) notify-send "$(cal --color=always | sed "s/..7m/<b><span color=\"red\">/;s/..27m/<\/span><\/b>/")" ;;
+	2) notify-send -a 'Calendar Module' \
 		"Left click to show the calendar,
 Right click to open calcurse"
 		;;
@@ -11,4 +11,4 @@ Right click to open calcurse"
 esac
 
 # Since the clock widget is the last one on the right, we want some padding
-echo "  $(date '+%a %d %b %H:%M')    "
+echo "📅 $(date '+%a %d %b %H:%M') "

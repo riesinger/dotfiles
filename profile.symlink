@@ -9,7 +9,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export GOPATH="$XDG_DATA_HOME/go"
 export GOBIN="${GOPATH}/bin"
 
-export PATH="${XDG_DATA_HOME}/bin:${GOBIN}:${XDG_DATA_HOME}/cargo/.bin:/usr/lib/passff:${SCRIPTS}:/usr/local/sbin:/usr/local/bin:${PATH}"
+export PATH="${XDG_DATA_HOME}/bin:${GOBIN}:${XDG_DATA_HOME}/cargo/.bin:/usr/lib/passff:${SCRIPTS}:${SCRIPTS}/statusbar:/usr/local/sbin:/usr/local/bin:${PATH}"
 
 # General
 export LC_ALL=en_US.UTF-8
@@ -26,7 +26,7 @@ export FILE='ranger'
 
 export SUDO_ASKPASS="rofipass"
 
-export STATUSBAR=waybar
+#export STATUSBAR=waybar
 export LESS=-R
 
 # ~/ Cleanup
@@ -40,7 +40,7 @@ export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export FASD_DATA="$XDG_CACHE_HOME/fasd"
 
-export GTK_THEME=Adwaita:dark # To make firefox also use dark theme
+export GTK_THEME=Adwaita:dark
 
 # Indicate that the profile was sourced
 export PROFILE_SOURCED=1

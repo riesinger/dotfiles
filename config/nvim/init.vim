@@ -74,10 +74,12 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 
 " Languages
-Plug 'lervag/vimtex'
-Plug 'sheerun/vim-polyglot'
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'jodosha/vim-godebug', { 'for': 'go' } " TODO: Replace with the Debug Server Protocol
+Plug 'lervag/vimtex'
+Plug 'saltstack/salt-vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 

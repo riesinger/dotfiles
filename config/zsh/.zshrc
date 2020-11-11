@@ -56,6 +56,9 @@ function zkbd_file() {
 	elif [[ -f "${zkbd_base_dir}/${TERM}-${DISPLAY}" ]]; then
 		printf '%s' "${zkbd_base_dir}/${TERM}-${DISPLAY}"
 		return 0
+	elif [[ -f "${zkbd_base_dir}/${TERM}-${VENDOR}-${OSTYPE}" ]]; then
+		printf '%s' "${zkbd_base_dir}/${TERM}-${VENDOR}-${OSTYPE}"
+		return 0
 	fi
 	return 1
 }

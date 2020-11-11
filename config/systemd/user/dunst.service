@@ -1,0 +1,11 @@
+[Unit]
+Description=A customizable and lightweight notification-daemon
+Documentation=man:dunst(1)
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/dunst
+
+[Install]
+WantedBy=dwm-session.target

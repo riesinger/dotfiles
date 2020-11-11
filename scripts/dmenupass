@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+pass show -c $(find $PASSWORD_STORE_DIR -type f | sed -e "s|$PASSWORD_STORE_DIR/||g;s|.gpg||g" | sort | dmenu -i)

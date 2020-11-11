@@ -12,6 +12,8 @@ usage: brightness <command>, where <command> is one of:
 
 increment [value]    increments the brightness by [value] steps
 decrement [value]    decrements the brightness by [value] steps
+up [value]           increments the brightness by [value] steps
+down [value]         decrements the brightness by [value] steps
 get                  returns the current brightness in percent
 help                 print this help text
 
@@ -31,12 +33,12 @@ update_brightness() {
 }
 
 case $1 in
-	i*)
+	inc*|up)
 		val=$2
 		[ -z $val ] && val="$DEFAULT_STEP"
 		update_brightness "$val%+"
 		;;
-	d*)
+	dec*|down)
 		val=$2
 		[ -z $val ] && val="$DEFAULT_STEP"
 		update_brightness "$val%-"
