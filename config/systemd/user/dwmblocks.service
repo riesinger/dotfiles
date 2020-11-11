@@ -1,0 +1,10 @@
+[Unit]
+Description=A customizable status bar for dwm
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/dwmblocks
+
+[Install]
+WantedBy=dwm-session.target

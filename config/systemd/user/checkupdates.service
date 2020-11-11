@@ -4,7 +4,7 @@ Documentation=man:checkupdates
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/check_updates
+ExecStart=/usr/bin/packman -Sy
 
 [Install]
 WantedBy=default.target
