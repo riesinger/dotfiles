@@ -15,6 +15,7 @@ export PATH="${XDG_DATA_HOME}/bin:${GOBIN}:${XDG_DATA_HOME}/cargo/bin:/usr/lib/p
 export LC_ALL=en_US.UTF-8
 export LC_TYPE=UTF-8
 export NODE_ENV='development'
+export BAT_THEME='gruvbox'
 
 # Programs
 export EDITOR='nvim'
