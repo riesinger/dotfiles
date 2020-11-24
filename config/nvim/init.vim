@@ -52,6 +52,7 @@ endfunction
 call plug#begin()
 
 " Functionality
+
 Plug 'Konfekt/vim-detectspelllang', { 'for': ['markdown', 'text', 'mail', 'pandoc'] }
 Plug 'SirVer/ultisnips'
 Plug 'christoomey/vim-tmux-navigator'       " Integration with TMUX
@@ -60,12 +61,13 @@ Plug 'danro/rename.vim'                     " To rename files on the fly
 Plug 'editorconfig/editorconfig-vim'        " To auto-adjust the indentation settings
 Plug 'godlygeek/tabular'                    " For markdown table alignment
 Plug 'janko/vim-test'
-Plug 'jiangmiao/auto-pairs'                 " Insert matching {}, [], ...
+" Plug 'jiangmiao/auto-pairs'                 " Insert matching {}, [], ...
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'                    " A clean slate for writing
-Plug 'junegunn/vim-emoji'                   " replace :emoji: codes with Unicode symbols
+" Plug 'junegunn/vim-emoji'                   " replace :emoji: codes with Unicode symbols
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'tpope/vim-commentary'                 " For easy commenting
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -75,13 +77,13 @@ Plug 'tpope/vim-surround'
 
 " Languages
 Plug 'fatih/vim-go', { 'for': 'go' }
-Plug 'jodosha/vim-godebug', { 'for': 'go' } " TODO: Replace with the Debug Server Protocol
+" Plug 'jodosha/vim-godebug', { 'for': 'go' } " TODO: Replace with the Debug Server Protocol
 Plug 'lervag/vimtex'
 Plug 'saltstack/salt-vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+" Plug 'vim-pandoc/vim-pandoc'
+" Plug 'vim-pandoc/vim-pandoc-syntax'
 
 " Visuals
 Plug 'morhetz/gruvbox'
@@ -141,6 +143,7 @@ let g:coc_global_extensions = [
 	\ 'coc-html',
 	\ 'coc-json',
 	\ 'coc-lists',
+	\ 'coc-marketplace',
 	\ 'coc-python',
 	\ 'coc-rls',
 	\ 'coc-snippets',
@@ -298,10 +301,14 @@ augroup BWCCreateDir
 augroup END
 
 autocmd BufWritePre * :call StripTrailingWhitespaces()
-" autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufWritePre go :call CocAction('runCommand', 'editor.action.organizeImport')
+autocmd BufWritePost sh !chmod +x %
+autocmd BufWritePost zsh !chmod +x %
+autocmd BufWritePost bash !chmod +x %
 
 " Format the current buffer with coc.nvim
-command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Fmt :call CocAction('format')
+command! -nargs=0 C edit ~/.config/nvim/init.vim
 
 " }}}
 
