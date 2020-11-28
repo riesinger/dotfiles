@@ -74,3 +74,4 @@ tramp
 config/zsh/.zkbd/xterm-256color-:0
 config/tmux/plugins/tmux*
 config/zsh/.zkbd/
+config/zsh/.zcompdump

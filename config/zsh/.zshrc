@@ -146,4 +146,3 @@ eval "$(starship init zsh)"
 
 # Work stuff
 [ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local"
-
