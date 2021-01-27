@@ -51,4 +51,4 @@ font:
     y: 4
 
 env:
-  WINIT_X11_SCALE_FACTOR: "1.0"
+  WINIT_X11_SCALE_FACTOR: "0.85"

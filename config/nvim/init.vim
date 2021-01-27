@@ -96,6 +96,7 @@ Plug 'pedrohdz/vim-yaml-folds'
 
 " Visuals
 Plug 'morhetz/gruvbox'
+Plug 'cormacrelf/vim-colors-github'
 
 if !has('nvim')
   Plug 'roxma/nvim-yarp'
@@ -135,8 +136,7 @@ let test#strategy = "dispatch"
 
 " Vimtex
 let g:tex_flavor = "latex"
-" Don't open the quickfix window automatically
-let g:vimtex_quickfix_mode = 0
+let g:vimtex_quickfix_mode = 0 " Don't open the quickfix window automatically
 
 " Coc.nvim
 let g:coc_global_extensions = [
@@ -335,6 +335,7 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 
 " {{{ --- Misc config ---
 set termguicolors
+set bg=dark
 let g:gruvbox_italic=1
 colorscheme gruvbox
 set guicursor=n:hor100

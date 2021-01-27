@@ -33,3 +33,5 @@ dwm.normfgcolor: #ebdbb2
 dwm.selbordercolor: #fb4934
 dwm.selbgcolor: #282828
 dwm.selfgcolor: #ebdbb2
+
+*.dpi: 96
