@@ -1,9 +1,9 @@
 add_newline = false
 
 [character]
-symbol = "›"
-errpr_symbol = "✖"
-vicmd_symbol = "‹"
+success_symbol = "[❯](bold green)"
+error_symbol = "[✖](bold red)"
+vicmd_symbol = "[❯](bold yellow)"
 use_symbol_for_status = true
 
 [cmd_duration]
@@ -13,10 +13,13 @@ min_time = 5_000
 cherry_pick = "🍒 PICKING"
 
 [nodejs]
-disabled = false
+disabled = true
 
 [package]
-disabled = false
+disabled = true
+
+[aws]
+disabled = true
 
 [golang]
 disabled = false
