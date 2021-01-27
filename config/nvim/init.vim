@@ -56,6 +56,7 @@ call plug#begin(stdpath('data') . './plugged')
 
 Plug 'Konfekt/vim-detectspelllang', { 'for': ['markdown', 'vimwiki', 'text', 'mail', 'pandoc'] }
 Plug 'SirVer/ultisnips'
+Plug 'alvan/vim-closetag'
 Plug 'christoomey/vim-tmux-navigator'       " Integration with TMUX
 Plug 'christoomey/vim-tmux-runner'          " Run make in a TMUX pane
 Plug 'danro/rename.vim'                     " To rename files on the fly
@@ -66,7 +67,6 @@ Plug 'janko/vim-test'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'                    " A clean slate for writing
-Plug 'junegunn/vim-emoji'                   " replace :emoji: codes with Unicode symbols
 Plug 'liuchengxu/vista.vim'                 " Symbol tree based on coc.nvim
 Plug 'mattn/calendar-vim'
 Plug 'nathanaelkane/vim-indent-guides'
@@ -83,8 +83,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'                 " More useful mappings
 Plug 'vimwiki/vimwiki'
 
-
-
 " Languages
 Plug 'fatih/vim-go', { 'for': 'go' }
 Plug 'lervag/vimtex'
@@ -99,8 +97,8 @@ Plug 'morhetz/gruvbox'
 Plug 'cormacrelf/vim-colors-github'
 
 if !has('nvim')
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
 call plug#end()
@@ -140,26 +138,24 @@ let g:vimtex_quickfix_mode = 0 " Don't open the quickfix window automatically
 
 " Coc.nvim
 let g:coc_global_extensions = [
-	\ 'coc-angular',
-	\ 'coc-css',
-	\ 'coc-emmet',
-	\ 'coc-emoji',
-	\ 'coc-eslint',
-	\ 'coc-git',
-	\ 'coc-github',
-	\ 'coc-go',
-	\ 'coc-highlight',
-	\ 'coc-html',
-	\ 'coc-json',
-	\ 'coc-lists',
-	\ 'coc-marketplace',
-	\ 'coc-python',
-	\ 'coc-rls',
-	\ 'coc-snippets',
-	\ 'coc-tsserver',
-	\ 'coc-vimtex',
-	\ 'coc-yaml',
-	\]
+\ 'coc-angular',
+\ 'coc-css',
+\ 'coc-emmet',
+\ 'coc-emoji',
+\ 'coc-eslint',
+\ 'coc-go',
+\ 'coc-highlight',
+\ 'coc-html',
+\ 'coc-json',
+\ 'coc-lists',
+\ 'coc-marketplace',
+\ 'coc-python',
+\ 'coc-rls',
+\ 'coc-snippets',
+\ 'coc-tsserver',
+\ 'coc-vimtex',
+\ 'coc-yaml',
+\]
 
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
@@ -169,11 +165,11 @@ let g:goyo_height = 90
 
 " Better Ripgrep (RG) implementation, which updates rg instead of filtering lines with FZF
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+let initial_command = printf(command_fmt, shellescape(a:query))
+let reload_command = printf(command_fmt, '{q}')
+let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
@@ -247,6 +243,23 @@ let g:vimwiki_diary_months = {
 let g:vimwiki_hl_cb_checked = 1
 let g:vimwiki_listsyms = '○◐●✓'
 let g:vimwiki_listsym_rejected = '✗'
+
+
+" CloseTags
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.jsx,*.tsx'
+" This will make the list of non-closing tags self-closing in the specified files.
+let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.tsx'
+" These are the file types where this plugin is enabled.
+let g:closetag_filetypes = 'html,xhtml,phtml,javascriptreact,typescriptreact'
+" This will make the list of non-closing tags self-closing in the specified files.
+let g:closetag_xhtml_filetypes = 'xhtml,jsx,javascriptreact,tsx,typescriptreact'
+" This will make the list of non-closing tags case-sensitive (e.g. `<Link>` will be closed while `<link>` won't.)
+let g:closetag_emptyTags_caseSensitive = 1
+" Disables auto-close if not in a "valid" region (based on filetype)
+let g:closetag_regions = {
+    \ 'typescript.tsx': 'jsxRegion,tsxRegion',
+    \ 'javascript.jsx': 'jsxRegion',
+    \ }
 
 "}}}
 
