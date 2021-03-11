@@ -1,3 +1,4 @@
+zmodload zsh/zprof
 # This is my ZSH config
 
 #
@@ -102,7 +103,7 @@ setopt pushdminus # cd - produces a directory stack entry
 setopt auto_cd # Move with .. or simple dir names
 
 local zcompdump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
-[ -f "$zcompdump" ] || mkdir -p "$zcompdump"
+[ -f "$zcompdump" ] || mkdir -p "$XDG_CACHE_HOME/zsh"
 autoload -Uz compinit && compinit -d "$zcompdump"
 
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -139,6 +140,7 @@ source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
 #
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
+function exportEnvFile { export $(egrep -v '^#' .env | xargs) }
 
 # Prompt
 setopt prompt_subst

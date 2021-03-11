@@ -25,8 +25,6 @@ export TERMINAL='alacritty'
 export READER='zathura'
 export FILE='ranger'
 
-export SUDO_ASKPASS="rofipass"
-
 #export STATUSBAR=waybar
 export LESS=-R
 
@@ -41,7 +39,8 @@ export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
 export FASD_DATA="$XDG_CACHE_HOME/fasd"
-export NVM_DIR=~/.local/share/nvm
 
 # Indicate that the profile was sourced
 export PROFILE_SOURCED=1
+export PATH=$PATH:~/.local/bin
+export AWS_PROFILE=prod

@@ -19,6 +19,7 @@
   "diagnostic.warningSign": "⚠",
   "diagnostic.errorSign": "⨯",
   "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
   "yaml.customTags": [
     "!Equals",
     "!ImportValue",
@@ -29,7 +30,9 @@
     "!GetAtt"
   ],
   "list.previewSplitRight": true,
-  "emmet.includeLanguages": { "svelte": "html" },
+  "emmet.includeLanguages": {
+    "svelte": "html"
+  },
   "tailwindCSS.jsLanguages": [
     "javascript",
     "javascriptreact",
