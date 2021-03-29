@@ -23,3 +23,7 @@ disabled = true
 
 [golang]
 disabled = false
+
+[battery]
+charging_symbol = '⚡'
+discharging_symbol = '🔋'

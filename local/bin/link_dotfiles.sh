@@ -68,6 +68,9 @@ find $dotdir/config/* -maxdepth 0 -type d | while read folder; do link "$folder"
 # Collect all files in config/ which will be linked to $HOME/.config/<filename>
 find $dotdir/config/* -maxdepth 0 -type f | while read file; do link "$file" "$HOME/.config"; done
 
+# Collect all files in local/bin which will be linked to $HOME/.local/bin/<filename>
+find $dotdir/local/bin/* -maxdepth 0 -type f | while read file; do link "$file" "$HOME/.local/bin"; done
+
 # All custom binaries inside /usr/local/bin
 find $dotdir/usr/local/bin/* -maxdepth 0 -type f | while read bin; do link "$bin" "/usr/local/bin"; done
 

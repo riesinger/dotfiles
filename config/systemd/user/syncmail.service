@@ -3,7 +3,7 @@ Description="Mail syncing script"
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/syncmail
+ExecStart=/usr/bin/mailsync
 User=pascal
 Group=pascal
 Environment=DISPLAY=:0

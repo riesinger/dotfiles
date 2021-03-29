@@ -1,0 +1,17 @@
+max-visible=3
+anchor=top-right
+font=SF Pro Text
+width=500
+height=350
+actions=1
+icons=1
+markup=1
+padding=12
+progress-color=#689d6a
+background-color=#fcfcfc
+text-color=#1d2021
+border-color=#1d2021
+border-size=3
+border-radius=2
+default-timeout=4000
+

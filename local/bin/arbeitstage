@@ -1,0 +1,6 @@
+#!/usr/bin/env zsh
+
+local year="${1}"
+local url="https://www.arbeitstage.org/baden-wuerttemberg/arbeitstage-${year}-baden-wuerttemberg/"
+
+curl "${url}" | sed -n 's/.*hat\s*\([0-9]{3}\)\s*Arbeitstage.*/\1/p'

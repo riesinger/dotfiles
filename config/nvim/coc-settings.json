@@ -38,5 +38,6 @@
     "javascriptreact",
     "reason",
     "typescriptreact"
-  ]
+  ],
+  "coc.preferences.formatOnSaveFiletypes": ["typescriptreact", "typescript", "javascript", "javascriptreact"]
 }

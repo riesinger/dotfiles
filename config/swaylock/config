@@ -1,0 +1,22 @@
+ignore-empty-password
+daemonize
+indicator-idle-visible
+clock
+timestr=%T
+datestr=
+image="$HOME/.config/wallpaper"
+color=1d2021
+font='SF Pro Text'
+text-color=ebdbb2
+ring-color=00000000
+ring-clear-color=98971a
+line-ver-color=ebdbb2
+key-hl-color=fabd2f
+separator-color=00000000
+line-uses-ring
+scaling=fill
+grace=3
+fade-in=0.1
+indicator-x-position=128
+indicator-y-position=110
+indicator-radius=80

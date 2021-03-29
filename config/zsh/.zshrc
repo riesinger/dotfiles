@@ -7,6 +7,7 @@ zmodload zsh/zprof
 
 # If the profile hasn't been sourced yet, do it. For some reason, this happens in TMUX sessions
 [ -z "$PROFILE_SOURCED" ] && source $HOME/.profile
+source $HOME/.profile
 
 export TERM=xterm-256color
 local pluginbase=$DOTFILES/zsh-plugins
@@ -147,4 +148,4 @@ setopt prompt_subst
 eval "$(starship init zsh)"
 
 # Work stuff
-[ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local"
+[ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local" || :

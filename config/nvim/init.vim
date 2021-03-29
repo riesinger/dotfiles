@@ -260,21 +260,24 @@ let g:closetag_regions = {
 
 "  Leaders
 let mapleader = " "
-" Focus
-nnoremap <silent> <leader>f :Goyo<cr>
+" Zen mode
+nnoremap <silent> <leader>z :Goyo<cr>
 " Alignment
-nnoremap <leader>aa :Tab/\|<cr>
+nnoremap <leader>at :Tab/\|<cr>
 nnoremap <leader>a= :Tab/=<cr>
 nnoremap <leader>a: :Tab/:<cr>
 nnoremap <silent> <leader>e :%s/:\([^:]\+\):/\=emoji#for(submatch(1), submatch(0))/g<cr><Esc><Esc>
 nnoremap <leader>r <Plug>(coc-rename)
 " Code action for current line
-nnoremap <leader>aa <Plug>(coc-codeaction)
+" nnoremap <leader>aa <Plug>(coc-codeaction)
+nnoremap <leader>aa :CocAction<cr>
 " Autofix for current line
 nnoremap <leader>af <Plug>(coc-fix-current)
 nnoremap <silent> <leader>rg :Rg<cr>
 nnoremap <silent> <leader>p :RG<cr>
 nnoremap <silent> <leader>o :Vista!!<cr>
+" Format the current file
+nnoremap <silent> <leader>f :CocCommand prettier.formatFile<cr>
 " Plugin Keymaps
 nnoremap <silent> <C-p> :Files<cr>
 nnoremap <leader>m :Marks<cr>

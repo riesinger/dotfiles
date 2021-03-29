@@ -1,0 +1,115 @@
+{
+    "layer": "bottom", // Waybar at top layer
+    "position": "top",
+    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
+    "modules-center": [],
+    "modules-right": ["tray", "idle_inhibitor", "custom/mail", "pulseaudio", "network", "memory", "backlight", "battery", "clock"],
+    // Modules configuration
+    // "sway/workspaces": {
+    //     "disable-scroll": true,
+    //     "all-outputs": true,
+    //     "format": "{name}: {icon}",
+    //     "format-icons": {
+    //         "1": "",
+    //         "2": "",
+    //         "3": "",
+    //         "4": "",
+    //         "5": "",
+    //         "urgent": "",
+    //         "focused": "",
+    //         "default": ""
+    //     }
+    // },
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "deactivated": "💤",
+            "activated": "☕"
+        }
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "clock": {
+        "format": "📅 {:%a %e. %b 🕛 %H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}"
+    },
+    "memory": {
+        "format": "🧠 {}%",
+        "on-click": "ytop",
+        "states": {
+          "warning": 75,
+          "critical": 90
+        }
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["🌑", "🌒", "🌓", "🌔", "🌕"]
+    },
+    "battery": {
+      "format": "🔋 {capacity}%",
+      "format-plugged": "🔌 {capacity}%",
+      "format-charging": "⚡ {capacity}%"
+    },
+    "custom/battery": {
+        "exec": "$HOME/.config/waybar/scripts/battery.sh",
+        "return-type": "json",
+        "interval": 15,
+        "format": "{icon} {percentage}% ",
+        "states": {
+            "warning": 25,
+            "critical": 15
+        },
+        "format-icons": ["", "", "", "", ""]
+    },
+   "network": {
+        // "interface": "wlp2*", // (Optional) To force the use of this interface
+        "format-wifi": "📶 {essid}",
+        "format-ethernet": "🔌",
+        "format-linked": "🌐(No IP)",
+        "format-disconnected": "📡",
+        "format-alt": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "networkmanager_dmenu"
+    },
+    "pulseaudio": {
+        "format": "{format_source}{icon} {volume}%",
+        "format-bluetooth": "{format_source}{icon} {volume}%",
+        "format-bluetooth-muted": "{format_source}{icon}",
+        "format-muted": "{format_source}🔇",
+        "format-source": "🎤 ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "🎧",
+            "hands-free": "🎧",
+            "headset": "🎧",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["🔈", "🔉", "🔊"]
+        },
+        "on-click": "pavucontrol"
+    },
+    "custom/updates": {
+      "exec-if": "test $(wc -l < /tmp/available_updates) -gt 0",
+      "exec": "$HOME/.config/waybar/scripts/updates.sh",
+      "format": " {}",
+      "interval": 900,
+      "signal": 8,
+      "on-click": "alacritty -e popupgrade"
+    },
+    "custom/mail": {
+      "exec-if": "test $(newmail | wc -l) -gt 0",
+      "exec": "newmail | wc -l",
+      "format": "📧 {}",
+      "interval": 120,
+      "signal": 9,
+      "on-click": "alacritty -e neomutt"
+    }
+
+   // vim: set ft=jsonc:
+}

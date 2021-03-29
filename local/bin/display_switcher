@@ -1,0 +1,22 @@
+#!/bin/sh
+
+autorandr_configs="$(find "${XDG_CONFIG_HOME}/autorandr/" -type d)"
+configs="Mirror\nExtend\n"
+for c in ${autorandr_configs}; do
+	config_name="$(basename "${c}")"
+	[ "${config_name}" == 'autorandr' ] || configs="${configs}${config_name}\n"
+done
+
+selection="$(echo -e "${configs}" | dmenu)"
+[ -z "${selection}" ] && exit 0
+case "${selection}"; in
+	Mirror )
+		autorandr -l common
+		;;
+	Extend )
+		autorandr -l horizontal
+		;;
+	* )
+		autorandr -l "${selection}"
+		;;
+esac
