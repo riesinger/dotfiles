@@ -53,7 +53,7 @@ call plug#begin(stdpath('data') . './plugged')
 
 " Functionality
 
-" Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 " Plug 'vimpostor/vim-tpipeline'              " Merge the vim and tmux statuslines
 Plug 'Konfekt/vim-detectspelllang', { 'for': ['markdown', 'vimwiki', 'text', 'mail', 'pandoc'] }
 Plug 'SirVer/ultisnips'
@@ -181,25 +181,7 @@ let g:pandoc#modules#disabled = ["folding", "spell"]
 let g:pandoc#formatting#mode = 'hA'
 
 " Tree-Sitter
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   highlight = {
-"     enable = true,
-"   },
-"   indent = {
-"     enable = true,
-"   },
-"   incremental_selection = {
-"     enable = true,
-"     keymaps = {
-"       init_selection = "gnn",
-"       node_incremental = "grn",
-"       scope_incremental = "grc",
-"       node_decremental = "grm",
-"     },
-"   },
-" }
-" EOF
+lua require('conf/treesitter')
 
 " Vista
 let g:vista_default_executive = 'coc'
