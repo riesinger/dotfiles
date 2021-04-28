@@ -94,6 +94,7 @@ Plug 'pedrohdz/vim-yaml-folds'
 
 " Visuals
 Plug 'morhetz/gruvbox'
+Plug 'yanisdb/primer-dark.vim'
 
 if !has('nvim')
 Plug 'roxma/nvim-yarp'
@@ -346,13 +347,14 @@ nnoremap <silent> <Esc><Esc> :let @/=""<CR>
 set termguicolors
 set bg=dark
 let g:gruvbox_italic=1
-colorscheme gruvbox
+" colorscheme gruvbox
+colorscheme primerdark
 set guicursor=n:hor100
 highlight link GitGutterChange GruvboxAqua
-highlight SignColumn ctermbg=0 ctermfg=7 guifg=#ebdbb2 guibg=#282828
-highlight CursorLineNr ctermbg=0 ctermfg=5 guibg=#282828
-highlight CocUnderline cterm=undercurl term=undercurl gui=undercurl
-highlight VertSplit ctermbg=fg ctermfg=bg guibg=#32302f
+" highlight SignColumn ctermbg=0 ctermfg=7 guifg=#ebdbb2 guibg=#282828
+" highlight CursorLineNr ctermbg=0 ctermfg=5 guibg=#282828
+" highlight CocUnderline cterm=undercurl term=undercurl gui=undercurl
+highlight VertSplit ctermbg=fg ctermfg=bg
 
 " --- Custom commands ---
 
@@ -404,9 +406,9 @@ command! -nargs=0 C edit ~/.config/nvim/init.vim
 "{{{ --- Statusline
 
 " Colors
-highlight StatusLineNC ctermbg=0 ctermfg=15 cterm=NONE guibg=#32302f guifg=#a89984 gui=NONE
-highlight StatusLine ctermbg=7 ctermfg=0 cterm=NONE guibg=#3c3836 guifg=#ebdbb2 gui=bold
-highlight User1 ctermbg=2 ctermfg=0
+" highlight StatusLineNC ctermbg=0 ctermfg=15 cterm=NONE guibg=#32302f guifg=#a89984 gui=NONE
+" highlight StatusLine ctermbg=7 ctermfg=0 cterm=NONE guibg=#3c3836 guifg=#ebdbb2 gui=bold
+" highlight User1 ctermbg=2 ctermfg=0
 
 " Make the left and right block blue in insert mode
 au InsertEnter * hi User1 ctermbg=4 ctermfg=0
