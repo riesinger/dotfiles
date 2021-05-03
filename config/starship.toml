@@ -4,16 +4,22 @@ add_newline = false
 success_symbol = "[❯](bold green)"
 error_symbol = "[✖](bold red)"
 vicmd_symbol = "[❯](bold yellow)"
-use_symbol_for_status = true
 
 [cmd_duration]
 min_time = 5_000
 
 [git_state]
-cherry_pick = "🍒 PICKING"
+cherry_pick = "🍒"
+merge = "🙏"
+rebase = "🔄"
+revert = "↪️ "
+bisect = "🔪"
+
+[git_branch]
+symbol = "🌱 "
 
 [nodejs]
-disabled = true
+disabled = false
 
 [package]
 disabled = true
@@ -27,3 +33,6 @@ disabled = false
 [battery]
 charging_symbol = '⚡'
 discharging_symbol = '🔋'
+
+[jobs]
+symbol = "💼 "
