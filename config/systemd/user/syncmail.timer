@@ -1,9 +1,0 @@
-[Unit]
-Description=Run syncmail every five minutes
-
-[Timer]
-OnBootSec=5min
-OnUnitActiveSec=5min
-
-[Install]
-WantedBy=sway-session.target

@@ -15,3 +15,5 @@
 	ff = only
 [commit]
 	gpgsign = true
+[init]
+	branch = main

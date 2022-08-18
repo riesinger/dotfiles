@@ -1,6 +1,15 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env python3
 
-local year="${1}"
-local url="https://www.arbeitstage.org/baden-wuerttemberg/arbeitstage-${year}-baden-wuerttemberg/"
+import re
+from requests import request
+from bs4 import BeautifulSoup
+import sys
 
-curl "${url}" | sed -n 's/.*hat\s*\([0-9]{3}\)\s*Arbeitstage.*/\1/p'
+if len(sys.argv) < 2:
+    print("usage: arbeitstage <jahr>")
+    sys.exit(1)
+else:
+    response_body = request(method="GET", url=f"https://www.arbeitstage.org/baden-wuerttemberg/arbeitstage-{sys.argv[1]}-baden-wuerttemberg/").text
+    soup = BeautifulSoup(response_body, 'html.parser')
+    line = soup.find(string=re.compile("Baden-Württemberg hat"))
+    print(line)
