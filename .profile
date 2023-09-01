@@ -1,4 +1,3 @@
-#!/bin/sh
 # NOTE: Only the configuration applying to BOTH, zsh and bash should go here.
 
 # Locations

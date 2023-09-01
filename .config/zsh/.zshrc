@@ -9,9 +9,10 @@ local pluginbase=$ZDOTDIR/plugins
 
 HISTSIZE=3000
 SAVEHIST=3000
-HISTFILE="$XDG_DATA_HOME/zsh/history"
+[ ! -d ${XDG_DATA_HOME:-$HOME/.local/share}/zsh ] && mkdir ${XDG_DATA_HOME:-$HOME/.local/share}/zsh 
+HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
 
-has_executable 'rg' && export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
+command rg > /dev/null 2>&1 && export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
 
 # GPG-Agent setup
 export GPG_TTY=$(tty)
@@ -54,15 +55,17 @@ setopt pushd_ignore_dups
 setopt pushdminus # cd - produces a directory stack entry
 setopt auto_cd # Move with .. or simple dir names
 
-local zcompdump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
-[ -f "$zcompdump" ] || mkdir -p "$XDG_CACHE_HOME/zsh"
+local zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-$ZSH_VERSION"
+[ -f "$zcompdump" ] || mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
 autoload -Uz compinit
 compinit -d "$zcompdump"
+autoload bashcompinit
+bashcompinit
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' group-name ''
-has_executable 'dircolors' && zstyle ':completion:*' menu select=2 eval "$(dircolors -b)"
+command dircolors > /dev/null 2>&1 && zstyle ':completion:*' menu select=2 eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
@@ -84,7 +87,7 @@ zle -N down-line-or-beginning-search
 #
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || :
+command fasd > /dev/null 2>&1 && eval "$(fasd --init auto)" || :
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || :
 
 #
