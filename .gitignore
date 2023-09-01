@@ -1,23 +1,10 @@
-# Created by https://www.gitignore.io/api/vim,linux,emacs
-
-### Vim ###
-# swap
-[._]*.s[a-w][a-z]
-[._]s[a-w][a-z]
-# session
-Session.vim
-# temporary
-.netrwhist
-*~
-# auto-generated tag files
-tags
-
+# Created by https://www.toptal.com/developers/gitignore/api/macos,linux,vim,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,linux,vim,visualstudiocode
 
 ### Linux ###
 *~
 
-# temporary files which can be created if a process still has a handle open of
-# a deleted file
+# temporary files which can be created if a process still has a handle open of a deleted file
 .fuse_hidden*
 
 # KDE directory preferences
@@ -26,52 +13,78 @@ tags
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
 
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
 
-### Emacs ###
-# -*- mode: gitignore; -*-
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
-auto-save-list
-tramp
-.\#*
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# Org-mode
-.org-id-locations
-*_archive
+# Icon must end with two \r
+Icon
 
-# flymake-mode
-*_flymake.*
+# Thumbnails
+._*
 
-# eshell files
-/eshell/history
-/eshell/lastdir
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
 
-# elpa packages
-/elpa/
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
 
-# reftex files
-*.rel
+### macOS Patch ###
+# iCloud generated files
+*.icloud
 
-# AUCTeX auto folder
-/auto/
+### Vim ###
+# Swap
+[._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
 
-# cask packages
-.cask/
+# Session
+Session.vim
+Sessionx.vim
 
-# server auth directory
-/server/
+# Temporary
+.netrwhist
+# Auto-generated tag files
+tags
+# Persistent undo
+[._]*.un~
 
-# NeoVim Plugins
-**/plugged/**
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
 
-# Python caches (ranger)
+# Local History for Visual Studio Code
+.history/
 
-**/__pycache__/*
-*.pyc
-config/zsh/.zkbd/xterm-256color-:0
-config/tmux/plugins/tmux*
-config/zsh/.zkbd/
-config/zsh/.zcompdump
+# Built Visual Studio Code Extensions
+*.vsix
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# End of https://www.toptal.com/developers/gitignore/api/macos,linux,vim,visualstudiocode

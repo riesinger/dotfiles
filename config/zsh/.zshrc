@@ -1,18 +1,11 @@
-zmodload zsh/zprof
 # This is my ZSH config
 
 #
 # Variables and exports
 #
 
-# If the profile hasn't been sourced yet, do it. For some reason, this happens in TMUX sessions
-[ -z "$PROFILE_SOURCED" ] && source $HOME/.profile
-source $HOME/.profile
-
 export TERM=xterm-256color
-local pluginbase=$DOTFILES/zsh-plugins
-
-export PASSWORD_STORE_GENERATED_LENGTH=25
+local pluginbase=$ZDOTDIR/plugins
 
 HISTSIZE=3000
 SAVEHIST=3000
@@ -47,51 +40,9 @@ alias tat="tmux attach -t"
 alias tns="tmux new-session -s"
 
 #
-# Keyboard configuration
-#
-local zkbd_base_dir="$XDG_CONFIG_HOME/zsh/.zkbd"
-autoload zkbd
-function zkbd_file() {
-	if [[ -f "${zkbd_base_dir}/${TERM}" ]]; then
-		printf '%s' "${zkbd_base_dir}/${TERM}"
-		return 0
-	elif [[ -f "${zkbd_base_dir}/${TERM}-${DISPLAY}" ]]; then
-		printf '%s' "${zkbd_base_dir}/${TERM}-${DISPLAY}"
-		return 0
-	elif [[ -f "${zkbd_base_dir}/${TERM}-${VENDOR}-${OSTYPE}" ]]; then
-		printf '%s' "${zkbd_base_dir}/${TERM}-${VENDOR}-${OSTYPE}"
-		return 0
-	fi
-	return 1
-}
-
-
-[[ -d zkbd_base_dir ]] || mkdir -p "$zkbd_base_dir"
-keyfile=$(zkbd_file)
-ret=$?
-if [[ ${ret} -ne 0 ]]; then
-	zkbd
-	keyfile=$(zkbd_file)
-	ret=$?
-fi
-if [[ ${ret} -eq 0 ]] ; then
-	source "${keyfile}"
-else
-	printf 'Failed to setup keys using zkbd.\n'
-fi
-unfunction zkbd_file; unset keyfile ret zkbd_base_dir
-
-[[ -n "$key[Home]" ]] && bindkey -- "$key[Home]" beginning-of-line
-[[ -n "$key[End]" ]] && bindkey -- "$key[End]" end-of-line
-[[ -n "$key[Delete]" ]] && bindkey -- "$key[Delete]" delete-char
-[[ -n "$key[Up]" ]] && bindkey -- "$key[Up]" up-line-or-beginning-search
-[[ -n "$key[Down]" ]] && bindkey -- "$key[Down]" down-line-or-beginning-search
-
-#
 # ZSH options
 #
 
-setopt EXTENDED_GLOB
 setopt EXTENDED_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
@@ -105,7 +56,8 @@ setopt auto_cd # Move with .. or simple dir names
 
 local zcompdump="$XDG_CACHE_HOME/zsh/zcompdump-$ZSH_VERSION"
 [ -f "$zcompdump" ] || mkdir -p "$XDG_CACHE_HOME/zsh"
-autoload -Uz compinit && compinit -d "$zcompdump"
+autoload -Uz compinit
+compinit -d "$zcompdump"
 
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
@@ -132,14 +84,12 @@ zle -N down-line-or-beginning-search
 #
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-[ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || echo "fasd is not installed"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || echo "~/fzf.zsh does not exist, is fzf installed?"
-[ -f "${ZDOTDIR}/gruvbox_256palette.sh" ] && source "${ZDOTDIR}/gruvbox_256palette.sh"
+[ -z "$(has_executable 'fasd')" ] && eval "$(fasd --init auto)" || :
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || :
 
 #
 # Functions
 #
-
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 function exportEnvFile { export $(egrep -v '^#' .env | xargs) }
 
@@ -147,5 +97,6 @@ function exportEnvFile { export $(egrep -v '^#' .env | xargs) }
 setopt prompt_subst
 eval "$(starship init zsh)"
 
-# Work stuff
+# Import per-machine config files
 [ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local" || :
+[ -f "${HOME}/.zshrc" ] && source "${HOME}/.zshrc" || :

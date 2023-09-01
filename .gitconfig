@@ -1,0 +1,22 @@
+[alias]
+	a = add --all
+	c = commit
+	ca = commit --amend
+	cm = commit -m
+	ph = push -u origin HEAD
+	s = status
+	tree = log --oneline --decorate --all --graph
+    can = commit --amend --no-edit
+    l = log --oneline
+    pf = push --force-with-lease
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbe = rebase --edit-todo
+    rbi = rebase --interactive
+    ufm = pull --ff-only upstream main
+    urm = pull --rebase upstream main
+[user]
+	name = riesinger
+	email = mail@pascal-riesinger.de
+[core]
+    autocrlf = input

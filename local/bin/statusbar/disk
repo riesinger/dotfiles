@@ -1,3 +1,0 @@
-#!/bin/sh
-
-echo " $(lsblk -o 'name,fsavail,mountpoint' | grep '/$' | awk '{print $2}' )"

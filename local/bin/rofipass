@@ -1,5 +1,0 @@
-#!/bin/sh
-# Simple script to grab the user's password (or any text really) and put it to STDOUT.
-# This is used as my $SUDO_ASKPASS programm
-
-rofi -dmenu -password -lines 0 -p "$1"

@@ -1,3 +1,0 @@
-ZDOTDIR=$HOME/.config/zsh
-WLR_DRM_NO_MODIFIERS=1
-[ -z "$PROFILE_SOURCED" ] && source "$HOME/.profile"

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-curl kernel.org -L 2>/dev/null | grep stable | awk '/v[0-9]+\.[0-9]+\.[0-9]+/ { print $2 }' | head -n1 | sed -r 's/^.*([0-9]+\.[0-9]+\.[0-9]+).*$/\1/'

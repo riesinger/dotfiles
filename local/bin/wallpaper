@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-xwallpaper --zoom $HOME/.config/wallpaper
