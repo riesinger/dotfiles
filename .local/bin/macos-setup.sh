@@ -77,6 +77,17 @@ defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain InitialKeyRepeat -int 20
 defaults write NSGlobalDomain KeyRepeat -int 1
 
+# TODO: use the custom keyboard layout
+# "com.apple.inputsources" =     {
+#     AppleEnabledThirdPartyInputSources =         (
+#                    {
+#            InputSourceKind = "Keyboard Layout";
+#            "KeyboardLayout ID" = "-25794";
+#            "KeyboardLayout Name" = "us-altgr-intl";
+#        }
+#    );
+#};
+
 ###############################################################################
 # Screen                                                                      #
 ###############################################################################
@@ -159,7 +170,7 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 defaults write com.apple.dock autohide -int q
 
 # Set the icon size of Dock items
-defaults write com.apple.dock tilesize -int 30
+defaults write com.apple.dock tilesize -int 40
 
 # Speed up Mission Control animations
 defaults write com.apple.dock expose-animation-duration -float 0.15
