@@ -7,10 +7,17 @@
 export TERM=xterm-256color
 local pluginbase=$ZDOTDIR/plugins
 
-HISTSIZE=3000
-SAVEHIST=3000
-[ ! -d ${XDG_DATA_HOME:-$HOME/.local/share}/zsh ] && mkdir ${XDG_DATA_HOME:-$HOME/.local/share}/zsh 
-HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
+export HISTSIZE=2500 # How many entries to load into memory
+export SAVEHIST=5000 # How many entries to keep
+setopt INC_APPEND_HISTORY # Immediately append to history file instead of on exit
+[ ! -d ${XDG_DATA_HOME:-$HOME/.local/share}/zsh ] && mkdir -p ${XDG_DATA_HOME:-$HOME/.local/share}/zsh
+export HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history"
+setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+
 
 command rg > /dev/null 2>&1 && export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
 
@@ -43,12 +50,6 @@ alias tns="tmux new-session -s"
 #
 # ZSH options
 #
-
-setopt EXTENDED_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_REDUCE_BLANKS
 
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -87,8 +88,6 @@ zle -N down-line-or-beginning-search
 #
 source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-command fasd > /dev/null 2>&1 && eval "$(fasd --init auto)" || :
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh || :
 
 #
 # Functions
@@ -99,6 +98,9 @@ function exportEnvFile { export $(egrep -v '^#' .env | xargs) }
 # Prompt
 setopt prompt_subst
 eval "$(starship init zsh)"
+
+# Initialize FNM if it's installed
+command -v fnm > /dev/null 2>&1 && eval "$(fnm env --use-on-cd)" || :
 
 # Import per-machine config files
 [ -f "${HOME}/.profile.local" ] && source "${HOME}/.profile.local" || :
