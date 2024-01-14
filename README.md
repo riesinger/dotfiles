@@ -1,6 +1,17 @@
 # Dotfiles
 
 These are the configuration files I apply to most of my machines.
-I use [Jeff Geerling's Ansible role](https://github.com/geerlingguy/ansible-role-dotfiles/) to apply them.
 
-Nowadays, I try to keep these dotfiles as minimal as possible while still providing a good experience.
+Things that are currently configured:
+
+- Neovim
+- ZSH with Starship prompt
+- Tmux
+
+## Usage
+
+```sh
+git clone --recursive git@github.com:riesinger/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install.zsh
+```

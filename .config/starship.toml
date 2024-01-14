@@ -1,38 +1,62 @@
-add_newline = false
+"$schema" = 'https://starship.rs/config-schema.json'
+
+command_timeout = 750
 
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[✖](bold red)"
-vicmd_symbol = "[❯](bold yellow)"
-
-[cmd_duration]
-min_time = 5_000
-
-[git_state]
-cherry_pick = "🍒"
-merge = "🙏"
-rebase = "🔄"
-revert = "↪️ "
-bisect = "🔪"
-
-[git_branch]
-symbol = "🌱 "
-
-[nodejs]
-disabled = false
-
-[package]
-disabled = true
+success_symbol = '[→](bold green)'
+error_symbol = '[↦](bold red)'
+vimcmd_symbol = '[⌘](bold green)'
+vimcmd_replace_one_symbol = '[↬](bold purple)'
+vimcmd_replace_symbol = '[↬](bold cyan)'
+vimcmd_visual_symbol = '[|](bold yellow)'
 
 [aws]
 disabled = true
 
-[golang]
-disabled = false
+[azure]
+disabled = true
 
-[battery]
-charging_symbol = '⚡'
-discharging_symbol = '🔋'
+[buf]
+disabled = true
 
-[jobs]
-symbol = "💼 "
+[cobol]
+disabled = true
+
+[crystal]
+disabled = true
+
+[dart]
+disabled = true
+
+[deno]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[fossil_branch]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[guix_shell]
+disabled = true
+
+[haxe]
+disabled = true
+
+[julia]
+disabled = true
+
+[hg_branch]
+disabled = true
+
+[nim]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[ocaml]
+disabled = true
