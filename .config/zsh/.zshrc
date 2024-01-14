@@ -49,7 +49,7 @@ setopt HIST_REDUCE_BLANKS
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus # cd - produces a directory stack entry
-setopt auto_cd    # Move with .. or simple dir names
+setopt auto_cd # Move with .. or simple dir names
 
 # Prompt
 setopt prompt_subst
@@ -85,6 +85,6 @@ export SAM_CLI_TELEMETRY=0
 #
 # Load additional per-machine config if it exists
 #
-if [ -e "${HOME}/.profile.local" ]; then
-  source "${HOME}/.profile.local"
+if [ -e "${HOME}/.zshrc.local" ]; then
+  source "${HOME}/.zshrc.local"
 fi
