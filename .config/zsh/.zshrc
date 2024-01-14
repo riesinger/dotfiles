@@ -34,7 +34,7 @@ alias g='git'
 # ZSH Options
 #
 # Completion
-autoload -U +X compinit && compinit
+autoload -U +X compinit && compinit -u
 # History
 HISTSIZE=10000
 SAVEHIST=10000
