@@ -1,5 +1,5 @@
 export PATH="${HOME}/.local/bin:${PATH}"
-local pluginbase="${HOME}/.local/share/zsh-plugins"
+local pluginbase="${HOME}/.config/zsh/plugins"
 
 #
 # Aliases
@@ -62,7 +62,9 @@ if [[ -o interactive ]]; then
   source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
   eval "$(zoxide init zsh)"
   eval "$(starship init zsh)"
-  eval "$(fnm env --use-on-cd)"
+  if which fnm > /dev/null 2>&1; then
+    eval "$(fnm env --use-on-cd)"
+  fi
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
