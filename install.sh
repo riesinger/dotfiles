@@ -1,21 +1,23 @@
 #!/usr/bin/env zsh
 
+local dotfiles_path="$(dirname $(realpath $0))"
+echo "Your dotfiles live in $dotfiles_path"
 local root_config_files=.zshenv
 
 mkdir -p $HOME/.config
 mkdir -p $HOME/.local/bin
 
-for fileOrDirectory in .config/*; do
-	echo "🔗 $(pwd)/.config/$fileOrDirectory -> $HOME/$fileOrDirectory"
-	ln -sf $(pwd)/$fileOrDirectory $HOME/.config
+for fileOrDirectory in "$dotfiles_path/.config/"*; do
+	echo "🔗 $fileOrDirectory -> $HOME/.config/$(basename $fileOrDirectory)"
+	ln -sf $fileOrDirectory $HOME/.config
 done
 
-for script in .local/bin/*; do
-	echo "💾 $(pwd)/$script -> $HOME/$script"
-	cp $(pwd)/$script $HOME/.local/bin
+for script in "$dotfiles_path/.local/bin/"*; do
+	echo "💾 $script -> $HOME/$(basename $script)"
+	cp $script $HOME/.local/bin
 done
 
 for configFile in $root_config_files; do
-	echo "🔗 $(pwd)/$configFile -> $HOME/$configFile"
-	ln -sf $(pwd)/$configFile $HOME
+	echo "🔗 $dotfiles_path/$configFile -> $HOME/$configFile"
+	ln -sf $dotfiles_path/$configFile $HOME
 done
