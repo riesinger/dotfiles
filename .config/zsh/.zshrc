@@ -7,7 +7,15 @@ local pluginbase="${HOME}/.config/zsh/plugins"
 alias c='clear'
 alias e="${EDITOR}"
 alias :q='exit'
-alias cat='bat'
+# Because of the classic Debian way, the bat executable is named batcat on Debian-based distros
+if [[ "$(uname -v)" =~ "Debian" ]]; then
+  alias cat="batcat"
+elif [[ "$(uname -v)" =~ "PMX"]]; then
+  #                        ^ This is Proxmox
+  alias cat="batcat"
+else
+  alias cat='bat'
+fi
 alias ls='exa'
 
 # ls
