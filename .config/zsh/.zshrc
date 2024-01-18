@@ -29,6 +29,7 @@ alias tat='tmux attach -t'
 alias tns='tmux new-session -s'
 
 # go
+alias gob='go build ./...'
 alias got='go test ./...'
 alias gots='go test -short ./...'
 
@@ -37,6 +38,11 @@ alias k='kubectl'
 
 # git
 alias g='git'
+
+# Configs
+alias zshconf="${EDITOR} ${ZDOTDIR}/.zshrc"
+alias tmuxconf="${EDITOR} ${XDG_CONFIG_HOME}/tmux/tmux.conf"
+alias localconf="${EDITOR} ${HOME}/.zshrc.local"
 
 #
 # ZSH Options
