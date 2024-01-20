@@ -100,6 +100,17 @@ export OPEN_SOURCE_CONTRIBUTOR=1
 export RIFF_DISABLE_TELEMETRY=1
 export SAM_CLI_TELEMETRY=0
 
+function brew() {
+  [[ -z "$BREW_USER" ]] && BREW_USER="$(whoami)"
+  if [[ "$(whoami)" == "$BREW_USER" ]]; then
+    command brew "$@"
+  else
+    pushd /
+    command sudo -Hu "$BREW_USER" brew "$@"
+    popd
+  fi
+}
+
 #
 # Load additional per-machine config if it exists
 #
