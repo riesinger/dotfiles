@@ -7,16 +7,18 @@ local pluginbase="${HOME}/.config/zsh/plugins"
 alias c='clear'
 alias e="${EDITOR}"
 alias :q='exit'
+
+# Modern core utils
+alias cat='bat'
 # Because of the classic Debian way, the bat executable is named batcat on Debian-based distros
-if [[ "$(uname -v)" =~ "Debian" ]]; then
+if ! command -v bat > /dev/null 2>&1; then
   alias cat="batcat"
-elif [[ "$(uname -v)" =~ "PMX"]]; then
-  #                        ^ This is Proxmox
-  alias cat="batcat"
-else
-  alias cat='bat'
 fi
 alias ls='exa'
+alias dig='dog'
+if command -v fdfind > /dev/null 2>&1; then
+  alias fd='fdfind'
+fi
 
 # ls
 alias l='ls -lAh'
