@@ -46,6 +46,9 @@ alias zshconf="${EDITOR} ${ZDOTDIR}/.zshrc"
 alias tmuxconf="${EDITOR} ${XDG_CONFIG_HOME}/tmux/tmux.conf"
 alias localconf="${EDITOR} ${HOME}/.zshrc.local"
 
+# ansible
+alias ansi='ansible-playbook'
+
 #
 # ZSH Options
 #
