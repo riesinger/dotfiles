@@ -63,7 +63,7 @@ defaults write NSGlobalDomain NSAutomaticQuoteSubstitutionEnabled -bool false
 defaults write NSGlobalDomain NSAutomaticDashSubstitutionEnabled -bool false
 
 # Set background to dark-grey color
-osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/System/Library/Desktop Pictures/Solid Colors/Stone.png"'
+osascript -e 'tell application "Finder" to set desktop picture to POSIX file "/System/Library/Desktop Pictures/Ventura Graphic.madesktop"'
 
 ###############################################################################
 # Trackpad, mouse, keyboard, Bluetooth accessories, and input                 #
@@ -174,13 +174,13 @@ defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 ###############################################################################
 
 # Hide the Dock automatically
-defaults write com.apple.dock autohide -int q
+defaults write com.apple.dock autohide -int 1
 
 # Set the icon size of Dock items
-defaults write com.apple.dock tilesize -int 40
+defaults write com.apple.dock tilesize -int 48
 
 # Speed up Mission Control animations
-defaults write com.apple.dock expose-animation-duration -float 0.15
+defaults write com.apple.dock expose-animation-duration -float 0.10
 
 # Make Dock icons of hidden applications translucent
 defaults write com.apple.dock showhidden -bool true
@@ -213,6 +213,10 @@ defaults write com.apple.dock wvous-bl-modifier -int 0
 
 # Hide the user switcher
 defaults write com.apple.controlcenter "NSStatusItem Visible UserSwitcher" -int 0
+# Hide spotlight
+defaults write com.apple.Spotlight "NSStatusItem Visible Item-0" -int 0
+# Hide Outlook's schedule peek
+defaults write com.microsoft.Outlook "Show_Peek" -int 0
 # Hide the input menu
 defaults write com.apple.TextInputMenu visible -int 0
 ###############################################################################
