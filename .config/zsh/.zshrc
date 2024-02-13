@@ -1,4 +1,4 @@
-export PATH="${HOME}/.local/bin:${PATH}"
+export PATH="${HOME}/.local/bin:/usr/local:/opt/homebrew/bin:${PATH}"
 local pluginbase="${HOME}/.config/zsh/plugins"
 
 #
