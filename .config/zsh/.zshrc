@@ -53,16 +53,22 @@ alias ansi='ansible-playbook'
 # ZSH Options
 #
 # Completion
-autoload -U +X compinit && compinit -u
+autoload -Uz +X compinit
+for dump in ~/${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
 # History
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE="${ZDOTDIR}/.zsh_history"
+HISTDUP=erase
 setopt EXTENDED_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
+setopt share_history
 
 # cd
 setopt auto_pushd
@@ -81,6 +87,7 @@ if [[ -o interactive ]]; then
   source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
   eval "$(zoxide init zsh)"
   eval "$(starship init zsh)"
+  eval "$(fzf --zsh)"
   if which fnm > /dev/null 2>&1; then
     eval "$(fnm env --use-on-cd)"
   fi

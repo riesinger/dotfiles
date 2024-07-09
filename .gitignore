@@ -53,3 +53,4 @@ tags
 !.vscode/*.code-snippets
 .history/
 
+.zsh_sessions
