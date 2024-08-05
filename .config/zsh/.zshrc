@@ -14,7 +14,7 @@ alias cat='bat'
 if ! command -v bat > /dev/null 2>&1; then
   alias cat="batcat"
 fi
-alias ls='exa'
+alias ls='eza'
 alias dig='dog'
 if command -v fdfind > /dev/null 2>&1; then
   alias fd='fdfind'
@@ -58,6 +58,8 @@ for dump in ~/${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump(N.mh+24); do
   compinit
 done
 compinit -C
+source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+
 # History
 HISTSIZE=10000
 SAVEHIST=10000
