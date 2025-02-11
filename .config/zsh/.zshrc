@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.config/zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 export PATH="${HOME}/.local/bin:/usr/local:/opt/homebrew/bin:${PATH}"
 local pluginbase="${HOME}/.config/zsh/plugins"
 
@@ -14,7 +21,9 @@ alias cat='bat'
 if ! command -v bat > /dev/null 2>&1; then
   alias cat="batcat"
 fi
-alias dig='dog'
+if command -v dog > /dev/null 2>&1; then
+  alias dig='dog'
+fi
 if command -v fdfind > /dev/null 2>&1; then
   alias fd='fdfind'
 fi
@@ -36,9 +45,12 @@ alias gots='go test -short ./...'
 
 # kubectl
 alias k='kubectl'
+alias kc='kubectl ctx'
 
 # git
 alias g='git'
+alias prv="gh pr list | fzf | awk '{print \$1}' | xargs gh pr view"
+alias prc="gh pr list | fzf | awk '{print \$1}' | xargs gh pr checkout"
 
 # Configs
 alias zshconf="${EDITOR} ${ZDOTDIR}/.zshrc"
@@ -46,22 +58,11 @@ alias tmuxconf="${EDITOR} ${XDG_CONFIG_HOME}/tmux/tmux.conf"
 alias localconf="${EDITOR} ${HOME}/.zshrc.local"
 
 # ansible
-alias ansi='ansible-playbook'
-
-#
-# ZSH Options
-#
-# Completion
-autoload -Uz +X compinit
-for dump in ~/${XDG_CACHE_HOME:-$HOME/.cache}/zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
-source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+alias ansi='uv run ansible-playbook'
 
 # History
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=50000
+SAVEHIST=50000
 HISTFILE="${ZDOTDIR}/.zsh_history"
 HISTDUP=erase
 setopt EXTENDED_HISTORY
@@ -84,32 +85,25 @@ setopt prompt_subst
 # Interactive mode additions
 #
 if [[ -o interactive ]]; then
-  source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-  source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
-  eval "$(zoxide init zsh)"
-  eval "$(starship init zsh)"
-  eval "$(fzf --zsh)"
-  if which fnm > /dev/null 2>&1; then
-    eval "$(fnm env --use-on-cd)"
-  fi
-  test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+  source $pluginbase/zsh-defer/zsh-defer.plugin.zsh
+  zsh-defer source $pluginbase/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+  zsh-defer source $pluginbase/zsh-autosuggestions/zsh-autosuggestions.zsh
+  zsh-defer source $pluginbase/fzf-tab/fzf-tab.plugin.zsh
+  zsh-defer eval "$(zoxide init zsh)"
+  source $pluginbase/powerlevel10k/powerlevel10k.zsh-theme
+  # Completion
+  autoload -Uz +X compinit
+  compinit
 fi
 
 #
 # Telemetry
 #
-export ADBLOCK=1
-export AZURE_CORE_COLLECT_TELEMETRY=0
 export DISABLE_OPENCOLLECTIVE=1
 export DO_NOT_TRACK=1
-export DOTNET_CLI_TELEMETRY_OPTOUT=1
-export ET_NO_TELEMETRY=0
-export GATSBY_TELEMETRY_DISABLED=1
 export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_ENV_HINTS=1
 export NEXT_TELEMETRY_DISABLED=1
-export OPEN_SOURCE_CONTRIBUTOR=1
-export RIFF_DISABLE_TELEMETRY=1
-export SAM_CLI_TELEMETRY=0
 
 function brew() {
   [[ -z "$BREW_USER" ]] && BREW_USER="$(whoami)"
@@ -128,3 +122,5 @@ function brew() {
 if [ -e "${HOME}/.zshrc.local" ]; then
   source "${HOME}/.zshrc.local"
 fi
+
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
