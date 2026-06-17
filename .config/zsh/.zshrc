@@ -8,12 +8,21 @@ fi
 export PATH="${HOME}/.local/bin:/usr/local:/opt/homebrew/bin:${PATH}"
 local pluginbase="${HOME}/.config/zsh/plugins"
 
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+bindkey -M vicmd ' ' edit-command-line
+
 #
 # Aliases
 #
 alias c='clear'
 alias e="${EDITOR}"
 alias :q='exit'
+
+function scripts() {
+  cat package.json | jq '.scripts'
+}
 
 # Modern core utils
 alias cat='bat'
@@ -49,8 +58,30 @@ alias kc='kubectl ctx'
 
 # git
 alias g='git'
+alias lg='lazygit'
 alias prv="gh pr list | fzf | awk '{print \$1}' | xargs gh pr view"
-alias prc="gh pr list | fzf | awk '{print \$1}' | xargs gh pr checkout"
+function prc() {
+  set -o pipefail
+  if [ -z "$1" ]; then
+    gh pr list | fzf | awk '{print $1}' | xargs gh pr checkout
+  else
+    gh pr checkout "$1"
+  fi
+}
+
+function p() {
+  if [[ -f bun.lockb ]]; then
+    command bun "$@"
+  elif [[ -f pnpm-lock.yaml ]]; then
+    command pnpm "$@"
+  elif [[ -f yarn.lock ]]; then
+    command yarn "$@"
+  elif [[ -f package-lock.json ]]; then
+    command npm "$@"
+  else
+    command pnpm "$@"
+  fi
+}
 
 # Configs
 alias zshconf="${EDITOR} ${ZDOTDIR}/.zshrc"
@@ -115,6 +146,8 @@ function brew() {
     popd
   fi
 }
+
+source <(fzf --zsh)
 
 #
 # Load additional per-machine config if it exists

@@ -162,36 +162,36 @@ require("lazy").setup({
 				mappings = vim.g.have_nerd_font,
 				-- If you are using a Nerd Font: set icons.keys to an empty table which will use the
 				-- default which-key.nvim defined Nerd Font icons, otherwise define a string table
-				keys = vim.g.have_nerd_font and {} or {
-					Up = "<Up> ",
-					Down = "<Down> ",
-					Left = "<Left> ",
-					Right = "<Right> ",
-					C = "<C-…> ",
-					M = "<M-…> ",
-					D = "<D-…> ",
-					S = "<S-…> ",
-					CR = "<CR> ",
-					Esc = "<Esc> ",
-					ScrollWheelDown = "<ScrollWheelDown> ",
-					ScrollWheelUp = "<ScrollWheelUp> ",
-					NL = "<NL> ",
-					BS = "<BS> ",
-					Space = "<Space> ",
-					Tab = "<Tab> ",
-					F1 = "<F1>",
-					F2 = "<F2>",
-					F3 = "<F3>",
-					F4 = "<F4>",
-					F5 = "<F5>",
-					F6 = "<F6>",
-					F7 = "<F7>",
-					F8 = "<F8>",
-					F9 = "<F9>",
-					F10 = "<F10>",
-					F11 = "<F11>",
-					F12 = "<F12>",
-				},
+				-- keys = vim.g.have_nerd_font and {} or {
+				-- 	Up = "<Up> ",
+				-- 	Down = "<Down> ",
+				-- 	Left = "<Left> ",
+				-- 	Right = "<Right> ",
+				-- 	C = "<C-…> ",
+				-- 	M = "<M-…> ",
+				-- 	D = "<D-…> ",
+				-- 	S = "<S-…> ",
+				-- 	CR = "<CR> ",
+				-- 	Esc = "<Esc> ",
+				-- 	ScrollWheelDown = "<ScrollWheelDown> ",
+				-- 	ScrollWheelUp = "<ScrollWheelUp> ",
+				-- 	NL = "<NL> ",
+				-- 	BS = "<BS> ",
+				-- 	Space = "<Space> ",
+				-- 	Tab = "<Tab> ",
+				-- 	F1 = "<F1>",
+				-- 	F2 = "<F2>",
+				-- 	F3 = "<F3>",
+				-- 	F4 = "<F4>",
+				-- 	F5 = "<F5>",
+				-- 	F6 = "<F6>",
+				-- 	F7 = "<F7>",
+				-- 	F8 = "<F8>",
+				-- 	F9 = "<F9>",
+				-- 	F10 = "<F10>",
+				-- 	F11 = "<F11>",
+				-- 	F12 = "<F12>",
+				-- },
 			},
 
 			-- Document existing key chains
@@ -220,22 +220,17 @@ require("lazy").setup({
 		-- or if using mini.icons/mini.nvim
 		dependencies = { "echasnovski/mini.icons" },
 	},
-	{ -- You can easily change to a different colorscheme.
-		-- Change the name of the colorscheme plugin below, and then
-		-- change the command in the config to whatever the name of that colorscheme is.
-		--
-		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-		"loctvl842/monokai-pro.nvim",
-		priority = 1000, -- Make sure to load this before all the other start plugins.
-		config = function()
-			require("monokai-pro").setup({
-				filter = "ristretto",
-				devicons = false
-			})
-      vim.cmd.colorscheme "monokai-pro-ristretto"
-		end,
-	},
-
+  {
+    "kylechui/nvim-surround",
+    version = "^4.0.0", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    -- Optional: See `:h nvim-surround.configuration` and `:h nvim-surround.setup` for details
+    -- config = function()
+    --     require("nvim-surround").setup({
+    --         -- Put your configuration here
+    --     })
+    -- end
+  },
 	-- Highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
@@ -245,7 +240,7 @@ require("lazy").setup({
 	},
 
 	{ -- Collection of various small independent plugins/modules
-		"echasnovski/mini.nvim",
+		"nvim-mini/mini.nvim",
 		config = function()
 			-- Better Around/Inside textobjects
 			--
